@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev --manual -c \"node --watch-path server.js --watch server.js\"",
+    "dev": "remix dev --manual -c \"nodemon\"",
     "start": "cross-env NODE_ENV=production node ./server.js",
     "typecheck": "tsc"
   },
@@ -34,6 +34,8 @@
     "@types/source-map-support": "^0.5.6",
     "chokidar": "^3.5.3",
     "eslint": "^8.38.0",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.1.6"
   },
   "engines": {

@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.*"],
+  "watch": ["./app/server/"],
+  "exec": "ts-node --esm ./app/server/server.ts"
+}
