@@ -1,3 +1,4 @@
+import emotionStyled from "@emotion/styled";
 import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
@@ -9,7 +10,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+    <Root style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
       <ul>
         <li>
@@ -36,6 +37,10 @@ export default function Index() {
           </a>
         </li>
       </ul>
-    </div>
+    </Root>
   );
 }
+
+const Root = emotionStyled(`div`)({
+  border: `1px solid black`
+})
