@@ -2,10 +2,8 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 
-import type { RequestHandler } from "@remix-run/express";
-import { createRequestHandler } from "@remix-run/express";
-import type { ServerBuild } from "@remix-run/node";
-import { broadcastDevReady, installGlobals } from "@remix-run/node";
+import { createRequestHandler, RequestHandler } from "@remix-run/express";
+import { broadcastDevReady, installGlobals, ServerBuild } from "@remix-run/node";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
