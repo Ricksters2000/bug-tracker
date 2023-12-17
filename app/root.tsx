@@ -8,9 +8,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import {Layout} from "./components/Layout";
+import {Layout} from "./components/layout/Layout";
 import {AppTheme} from "./types/AppTheme";
-import {ThemeProvider} from "@emotion/react";
+import {Global, ThemeProvider} from "@emotion/react";
+import {ThemeProvider as MuiThemeProvider, createTheme} from "@mui/material";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -55,9 +56,17 @@ export default function App() {
       </head>
       <body>
         <ThemeProvider theme={theme}>
-          <Layout/>
+          <MuiThemeProvider theme={createTheme()}>
+            <Global styles={`
+              *, *::before, *::after {
+                box-sizing: border-box;
+              }
+            `}/>
+            <Layout>
+              <Outlet/>
+            </Layout>
+          </MuiThemeProvider>
         </ThemeProvider>
-        <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
