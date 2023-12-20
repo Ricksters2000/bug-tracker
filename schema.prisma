@@ -1,0 +1,68 @@
+datasource db {
+  url = env("")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  role UserRole
+  tickets Ticket[]
+  projects Project[]
+  userToTickets UserToTicket[]
+  userToProjects UserToProject[]
+}
+
+model Ticket {
+  id Int @id @default(autoincrement())
+  title String
+  priority Priority
+  createdAt DateTime
+  content Json
+  history Json[]
+  assignedUsers User[]
+  userToTickets UserToTicket[]
+}
+
+model Project {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  createdAt DateTime
+  assignedUsers User[]
+  userToProjects UserToProject[]
+}
+
+model UserToTicket {
+  userId Int
+  ticketId Int
+  user User @relation(fields: [userId], references: [id])
+  ticket Ticket @relation(fields: [ticketId], references: [id])
+
+  @@id([userId, ticketId])
+}
+
+model UserToProject {
+  userId Int
+  projectId Int @map("ticketId")
+  user User @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@id([userId, projectId])
+}
+
+enum UserRole {
+  admin
+  manager
+  developer
+}
+
+enum Priority {
+  Severe
+  Warning
+  Completed
+}
