@@ -72,7 +72,9 @@ export const Layout: React.FC<React.PropsWithChildren> = (props) => {
         </SideNav>
         <ContentContainer isOpen={sideNavBarIsOpen}>
           <main>
-            {props.children}
+            <ContainerFluid>
+              {props.children}
+            </ContainerFluid>
           </main>
         </ContentContainer>
       </SideNavContainer>
@@ -172,3 +174,9 @@ const SideNavMenuHeading = emotionStyled.div(props => ({
   textTransform: `uppercase`,
   color: props.theme.color.nav.sectionText,
 }))
+
+const ContainerFluid = emotionStyled.div({
+  padding: `0 1.5rem`,
+  margin: `0 auto`,
+  width: `100%`,
+})

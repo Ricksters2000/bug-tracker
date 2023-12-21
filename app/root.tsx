@@ -12,6 +12,7 @@ import {Layout} from "./components/layout/Layout";
 import {AppTheme} from "./types/AppTheme";
 import {Global, ThemeProvider} from "@emotion/react";
 import {ThemeProvider as MuiThemeProvider, createTheme} from "@mui/material";
+import {GlobalStyles} from "./components/GlobalStyles";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -41,8 +42,12 @@ export default function App() {
         secondary: ``,
         info: ``,
         icon: `#000`,
-        border: `rgba(0, 0, 0, 0.175)`,
         footer: `rgba(248, 349, 250, 1)`,
+        card: {
+          border: `rgba(0, 0, 0, 0.175)`,
+          background: `#fff`,
+          capBackground: `rgba(0, 0, 0, 0.03)`,
+        }
       }
     }
   }
@@ -57,11 +62,7 @@ export default function App() {
       <body>
         <ThemeProvider theme={theme}>
           <MuiThemeProvider theme={createTheme()}>
-            <Global styles={`
-              *, *::before, *::after {
-                box-sizing: border-box;
-              }
-            `}/>
+            <GlobalStyles/>
             <Layout>
               <Outlet/>
             </Layout>

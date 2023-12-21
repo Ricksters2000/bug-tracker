@@ -21,8 +21,12 @@ export type AppTheme = {
       success: string;
       info: string;
       footer: string;
-      border: string;
       icon: string;
+      card: {
+        border: string;
+        background: string;
+        capBackground: string;
+      }
     }
   }
 }
