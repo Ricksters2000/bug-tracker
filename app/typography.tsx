@@ -1,12 +1,5 @@
-import {css} from "@emotion/react";
 import emotionStyled from "@emotion/styled";
-
-const headingFont = css({
-  marginTop: 0,
-  marginBottom: `0.5rem`,
-  fontWeight: 500,
-  lineHeight: 1.2,
-})
+import {Link} from "@remix-run/react";
 
 export const NavbarBrandText = emotionStyled.a(props => ({
   fontSize: `1.25rem`,
@@ -57,7 +50,11 @@ export const SmallText = emotionStyled(BodyText)({
 })
 
 export const H1 = emotionStyled.h1(props => ({
-  ...headingFont,
   marginTop: `1.5rem`,
   fontSize: `2.5rem`,
+}))
+
+export const A = emotionStyled(Link)(props => ({
+  color: props.theme.color.content.link,
+  textDecoration: `underline`,
 }))

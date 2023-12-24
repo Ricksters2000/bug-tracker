@@ -43,6 +43,8 @@ export default function App() {
         info: ``,
         icon: `#000`,
         footer: `rgba(248, 349, 250, 1)`,
+        breadcrumb: `#6c757d`,
+        link: `#0d6efd`,
         card: {
           border: `rgba(0, 0, 0, 0.175)`,
           background: `#fff`,

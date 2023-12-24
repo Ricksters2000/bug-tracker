@@ -22,6 +22,8 @@ export type AppTheme = {
       info: string;
       footer: string;
       icon: string;
+      breadcrumb: string;
+      link: string;
       card: {
         border: string;
         background: string;
