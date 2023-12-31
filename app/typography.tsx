@@ -11,7 +11,7 @@ export const NavbarBrandText = emotionStyled.a(props => ({
   width: 225,
 }))
 
-export const NavLink = emotionStyled.a(props => ({
+export const NavLink = emotionStyled(Link)(props => ({
   display: `flex`,
   alignItems: `center`,
   padding: `0.75rem 1rem`,

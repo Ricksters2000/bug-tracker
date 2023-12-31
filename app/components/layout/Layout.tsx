@@ -2,7 +2,6 @@ import React from 'react';
 import emotionStyled from '@emotion/styled';
 import {BodyText, NavLink, NavLinkIcon, NavbarBrandText, SmallText} from '~/typography';
 import {HamburgerIcon} from '~/assets/icons/HamburgerIcon';
-import {Collapse} from '@mui/material';
 import {DashboardIcon} from '~/assets/icons/DashboardIcon';
 import {SideNavCollapse} from './SideNavCollapse';
 
@@ -27,37 +26,40 @@ export const Layout: React.FC<React.PropsWithChildren> = (props) => {
             <SideNavMenu>
               <SideNavContent>
                 <SideNavMenuHeading>Core</SideNavMenuHeading>
-                <NavLink>
+                <NavLink to={`/`}>
                   <NavLinkIcon>
                     <DashboardIcon/>
                   </NavLinkIcon>
                   Dashboard
                 </NavLink>
                 <SideNavCollapse label='Projects' adornment={<DashboardIcon/>}>
-                  <NavLink>
+                  <NavLink to={`/project/create`}>
+                    Create
+                  </NavLink>
+                  <NavLink to={``}>
                     Project 1
                   </NavLink>
-                  <NavLink>
+                  <NavLink to={``}>
                     Project 2
                   </NavLink>
                 </SideNavCollapse>
                 <SideNavCollapse label='Account' adornment={<DashboardIcon/>}>
                   <SideNavCollapse label='Authentication'>
-                    <NavLink>
+                    <NavLink to={``}>
                       Login
                     </NavLink>
-                    <NavLink>
+                    <NavLink to={``}>
                       Register
                     </NavLink>
                   </SideNavCollapse>
                   <SideNavCollapse label='Error'>
-                    <NavLink>
+                    <NavLink to={``}>
                       401 Page
                     </NavLink>
-                    <NavLink>
+                    <NavLink to={``}>
                       404 Page
                     </NavLink>
-                    <NavLink>
+                    <NavLink to={``}>
                       500 Page
                     </NavLink>
                   </SideNavCollapse>

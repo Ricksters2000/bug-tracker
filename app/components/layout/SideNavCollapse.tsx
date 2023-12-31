@@ -13,7 +13,7 @@ export const SideNavCollapse: React.FC<React.PropsWithChildren<Props>> = (props)
   const [menuOpen, setMenuOpen] = React.useState(false);
   return (
     <>
-      <NavLink onClick={() => setMenuOpen(prev => !prev)}>
+      <NavLink to={``} onClick={() => setMenuOpen(prev => !prev)}>
         {props.adornment && (
           <NavLinkIcon>
             {props.adornment}

@@ -1,5 +1,5 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import { LinksFunction } from "@remix-run/node";
+// import { cssBundleHref } from "@remix-run/css-bundle";
+// import { LinksFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -14,9 +14,9 @@ import {Global, ThemeProvider} from "@emotion/react";
 import {ThemeProvider as MuiThemeProvider, createTheme} from "@mui/material";
 import {GlobalStyles} from "./components/GlobalStyles";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+// export const links: LinksFunction = () => [
+//   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+// ];
 
 export default function App() {
   const theme: AppTheme = {
@@ -34,13 +34,14 @@ export default function App() {
       },
       content: {
         background: `#fff`,
+        secondaryBackground: `rgb(244, 246, 248)`,
         text: `#000`,
         primary: `rgba(13, 110, 253, 1)`,
         warning: `rgba(255, 193, 7, 1)`,
         success: `rgba(25, 135, 84, 1)`,
         danger: `rgba(220, 53, 69, 1)`,
         secondary: ``,
-        info: ``,
+        info: `rgb(99, 115, 129)`,
         icon: `#000`,
         footer: `rgba(248, 349, 250, 1)`,
         breadcrumb: `#6c757d`,
