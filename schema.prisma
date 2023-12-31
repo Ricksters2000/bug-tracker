@@ -10,6 +10,7 @@ generator client {
 model User {
   id Int @id @default(autoincrement())
   name String
+  bio String?
   role UserRole
   tickets Ticket[]
   projects Project[]
@@ -19,11 +20,14 @@ model User {
 
 model Ticket {
   id Int @id @default(autoincrement())
+  projectId Int
   title String
   priority Priority
-  createdAt DateTime
-  content Json
+  createdDate DateTime
+  dueDate DateTime?
+  content String?
   history Json[]
+  project Project @relation(fields: [projectId], references: [id])
   assignedUsers User[]
   userToTickets UserToTicket[]
 }
@@ -31,8 +35,11 @@ model Ticket {
 model Project {
   id Int @id @default(autoincrement())
   title String
-  description String
-  createdAt DateTime
+  description String?
+  createdDate DateTime
+  dueDate DateTime?
+  priority Priority
+  tickets Ticket[]
   assignedUsers User[]
   userToProjects UserToProject[]
 }
@@ -55,6 +62,13 @@ model UserToProject {
   @@id([userId, projectId])
 }
 
+model History {
+  id Int @id @default(autoincrement())
+  userId Int
+  changedId Int
+  type HistoryType
+}
+
 enum UserRole {
   admin
   manager
@@ -62,7 +76,12 @@ enum UserRole {
 }
 
 enum Priority {
-  Severe
-  Warning
-  Completed
+  Low
+  Medium
+  High
+}
+
+enum HistoryType {
+  ticket
+  project
 }
