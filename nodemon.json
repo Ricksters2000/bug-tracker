@@ -2,5 +2,5 @@
   "verbose": true,
   "ignore": ["*.test.*"],
   "watch": ["./app/server/"],
-  "exec": "node --loader ts-node/esm ./app/server/server.ts"
+  "exec": "node --loader ts-node/esm --experimental-specifier-resolution=node ./app/server/server.ts"
 }
