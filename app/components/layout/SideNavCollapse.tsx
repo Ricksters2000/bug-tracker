@@ -1,6 +1,6 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
-import {NavLink, NavLinkIcon} from '~/typography';
+import {NavLink, NavLinkIcon, SideNavText} from '~/typography';
 import {DownArrowIcon} from '~/assets/icons/DownArrowIcon';
 import {Collapse} from '@mui/material';
 
@@ -13,7 +13,7 @@ export const SideNavCollapse: React.FC<React.PropsWithChildren<Props>> = (props)
   const [menuOpen, setMenuOpen] = React.useState(false);
   return (
     <>
-      <NavLink to={``} onClick={() => setMenuOpen(prev => !prev)}>
+      <SideNavText onClick={() => setMenuOpen(prev => !prev)}>
         {props.adornment && (
           <NavLinkIcon>
             {props.adornment}
@@ -23,7 +23,7 @@ export const SideNavCollapse: React.FC<React.PropsWithChildren<Props>> = (props)
         <CollapseArrowWrapper menuOpen={menuOpen}>
           <DownArrowIcon/>
         </CollapseArrowWrapper>
-      </NavLink>
+      </SideNavText>
       <Collapse in={menuOpen}>
         <NestedMenu>
           {props.children}

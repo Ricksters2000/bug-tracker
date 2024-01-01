@@ -11,7 +11,7 @@ export const NavbarBrandText = emotionStyled.a(props => ({
   width: 225,
 }))
 
-export const NavLink = emotionStyled(Link)(props => ({
+export const SideNavText = emotionStyled(`span`)(props => ({
   display: `flex`,
   alignItems: `center`,
   padding: `0.75rem 1rem`,
@@ -23,6 +23,10 @@ export const NavLink = emotionStyled(Link)(props => ({
     cursor: `pointer`,
   },
 }))
+
+export const NavLink = emotionStyled(SideNavText)({
+  textDecoration: `none`,
+}).withComponent(Link)
 
 export const NavLinkIcon = emotionStyled.div(props => ({
   marginRight: `0.5rem`,
