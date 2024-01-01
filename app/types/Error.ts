@@ -1,0 +1,1 @@
+export type ErrorFormResponse<K extends string> = Record<K, string>

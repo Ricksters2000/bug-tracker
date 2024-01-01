@@ -1,5 +1,5 @@
 import emotionStyled from "@emotion/styled";
-import {useFetcher} from "@remix-run/react";
+import {Form} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {H1} from "~/typography";
 import {$Enums, Prisma} from "@prisma/client";
@@ -7,38 +7,45 @@ import {ActionFunction, redirect} from "@remix-run/node";
 import {Button, FormControl, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
 import {DatePicker} from "~/components/DatePicker";
 
+const formKeys = {
+  title: `title`,
+  description: `description`,
+  dateCreated: `dateCreated`,
+  dueDate: `dueDate`,
+  users: `users`,
+  priority: `priority`,
+}
+
 export const action: ActionFunction = async ({request}) => {
-  console.log(`w:`, request)
   const formData = await request.formData()
-  console.log(`data:`, formData)
+  console.log(`data:`, formData.append(`w`, JSON.stringify([1])))
   // const project: Prisma.ProjectCreateInput
   // return redirect(`/projects/1`)
+  return null
 }
 
 export default function CreateProject() {
-  const fetcher = useFetcher()
-  
   return (
     <div>
       <H1>Create a new project</H1>
       <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
-      <fetcher.Form method="post" encType='multipart/form-data'>
+      <Form method="post" encType='multipart/form-data'>
         <Stack direction={`column`} spacing={`16px`}>
           <Paper>
             <Stack direction={`column`} spacing={`16px`}>
               <Stack direction={`column`} spacing={`16px`} padding={`24px`}>
-                <TextField required name="title" label='Title'/>
-                <TextField name="description" label='Description' multiline/>
+                <TextField required name={formKeys.title} label='Title'/>
+                <TextField name={formKeys.description} label='Description' multiline/>
               </Stack>
               <ExtraDetailsContainer direction={`row`} spacing={`16px`} padding={`24px`}>
-                <DatePicker fullWidth label='Date Created' defaultValue={new Date()}/>
-                <DatePicker fullWidth label='Due Date'/>
+                <DatePicker name={formKeys.dateCreated} fullWidth label='Date Created' defaultValue={new Date()}/>
+                <DatePicker name={formKeys.dueDate} fullWidth label='Due Date'/>
                 <FormControl fullWidth>
                   <InputLabel id='priority-label'>Priority</InputLabel>
                   <Select
                     labelId="priority-label"
                     label='priority'
-                    name='priority'
+                    name={formKeys.priority}
                     defaultValue={$Enums.Priority.Low}
                   >
                     {Object.keys($Enums.Priority).map(key => {
@@ -55,7 +62,7 @@ export default function CreateProject() {
             <Button type="submit">Create</Button>
           </Stack>
         </Stack>
-      </fetcher.Form>
+      </Form>
     </div>
   )
 }
