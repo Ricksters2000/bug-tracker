@@ -4,9 +4,16 @@ import {BodyText, NavLink, NavLinkIcon, NavbarBrandText, SmallText} from '~/typo
 import {HamburgerIcon} from '~/assets/icons/HamburgerIcon';
 import {DashboardIcon} from '~/assets/icons/DashboardIcon';
 import {SideNavCollapse} from './SideNavCollapse';
+import {UserIcon} from '~/assets/icons/UserIcon';
+import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover} from '@mui/material';
+import {Link, LinkProps} from '@remix-run/react';
+import {useTheme} from '@emotion/react';
 
 export const Layout: React.FC<React.PropsWithChildren> = (props) => {
   const [sideNavBarIsOpen, setSideNavBarIsOpen] = React.useState(true);
+  const [userDropdownIsOpen, setUserDropdownIsOpen] = React.useState(false);
+  const dropdownEl = React.useRef<HTMLAnchorElement>(null)
+  const theme = useTheme().color.nav
 
   const toggleSideNavBar = () => {
     setSideNavBarIsOpen(prev => !prev);
@@ -19,6 +26,43 @@ export const Layout: React.FC<React.PropsWithChildren> = (props) => {
         <SideToggleButton onClick={toggleSideNavBar}>
           <HamburgerIcon/>
         </SideToggleButton>
+        <UserButtonContainer>
+          <UserDropdownButton onClick={() => setUserDropdownIsOpen(prev => !prev)}>
+            <UserIconButton ref={dropdownEl} style={{color: userDropdownIsOpen ? theme.iconHover : ``}} to={`#`}>
+              <UserIcon/>
+            </UserIconButton>
+          </UserDropdownButton>
+          <Popover
+            open={userDropdownIsOpen}
+            anchorEl={dropdownEl.current}
+            onClose={() => setUserDropdownIsOpen(false)}
+            anchorOrigin={{vertical: `bottom`, horizontal: `right`}}
+            transformOrigin={{vertical: `top`, horizontal: `right`}}
+          >
+            <Box minWidth={`10rem`} fontSize={`1rem`}>
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to={`/`}>
+                    <ListItemText primary='Settings'/>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to={`/`}>
+                    <ListItemText primary='Activity Log'/>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+              <Divider/>
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton component={Link} to={`/auth`}>
+                    <ListItemText primary='Logout'/>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Box>
+          </Popover>
+        </UserButtonContainer>
       </TopNav>
       <SideNavContainer>
         <SideNav isOpen={sideNavBarIsOpen}>
@@ -104,6 +148,40 @@ const SideToggleButton = emotionStyled.button({
   background: `transparent`,
   border: 0,
 })
+
+const UserButtonContainer = emotionStyled.ul({
+  marginLeft: `auto`,
+  marginRight: `1.5rem`,
+  marginTop: 0,
+  marginBottom: 0,
+  display: `flex`,
+})
+
+const UserDropdownButton = emotionStyled.li({
+  position: `relative`,
+  listStyle: `none`,
+})
+
+const UserIconButton = emotionStyled(NavLink)(props => ({
+  display: `block`,
+  padding: `0.5rem`,
+
+  ':hover': {
+    color: props.theme.color.nav.iconHover,
+    cursor: `pointer`,
+  },
+
+  '::after': {
+    display: 'inline-block',
+    marginLeft: '0.255em',
+    verticalAlign: '0.255em',
+    content: '""',
+    borderTop: '0.3em solid',
+    borderRight: '0.3em solid transparent',
+    borderBottom: '0',
+    borderLeft: '0.3em solid transparent'
+  }
+}))
 
 const SideNavContainer = emotionStyled.div({
   display: `flex`,
