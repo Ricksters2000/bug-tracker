@@ -1,5 +1,5 @@
 datasource db {
-  url = env("")
+  url = env("DATABASE_URL")
   provider = "postgresql"
 }
 
@@ -9,7 +9,10 @@ generator client {
 
 model User {
   id Int @id @default(autoincrement())
-  name String
+  firstName String
+  lastName String
+  email String
+  password String
   bio String?
   role UserRole
   tickets Ticket[]
