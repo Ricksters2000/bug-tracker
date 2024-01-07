@@ -66,9 +66,7 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <MuiThemeProvider theme={createTheme()}>
             <GlobalStyles/>
-            <Layout>
-              <Outlet/>
-            </Layout>
+            <Outlet/>
           </MuiThemeProvider>
         </ThemeProvider>
         <ScrollRestoration />
