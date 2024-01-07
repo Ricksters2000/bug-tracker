@@ -58,6 +58,10 @@ export const H1 = emotionStyled.h1(props => ({
   fontSize: `2.5rem`,
 }))
 
+export const H3 = emotionStyled.h3(props => ({
+  fontSize: `1.75rem`,
+}))
+
 export const A = emotionStyled(Link)(props => ({
   color: props.theme.color.content.link,
   textDecoration: `underline`,
