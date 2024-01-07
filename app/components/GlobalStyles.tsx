@@ -10,6 +10,7 @@ export const GlobalStyles: React.FC = () => {
 
       body {
         margin: 0;
+        font-family: Metropolis, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
       }
 
       h1, h2, h3, h4, h5, h6 {
