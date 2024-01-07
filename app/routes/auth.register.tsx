@@ -1,7 +1,13 @@
 import emotionStyled from "@emotion/styled";
-import {FormControl, Input, InputLabel, OutlinedInput, Stack, TextField} from "@mui/material";
+import {Button, FormControl, Input, InputLabel, OutlinedInput, Stack, TextField} from "@mui/material";
+import {ActionFunction, redirect} from "@remix-run/node";
 import {Form} from "@remix-run/react";
 import {AuthCard} from "~/components/cards/AuthCard";
+import {PasswordField} from "~/components/input/PasswordField";
+
+export const action: ActionFunction = () => {
+  return redirect(``)
+}
 
 export default function Register() {
   return (
@@ -18,15 +24,10 @@ export default function Register() {
           </Stack>
           <TextField label='Email address'/>
           <Stack flexDirection={`row`} gap={3}>
-            <FormControl fullWidth variant="standard">
-              <InputLabel variant="standard">Password</InputLabel>
-              <Input type='password'/>
-            </FormControl>
-            <FormControl fullWidth>
-              <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
-              <OutlinedInput id="confirm-password" type='password'/>
-            </FormControl>
+            <PasswordField fullWidth label="Password"/>
+            <PasswordField fullWidth label="Confirm Password"/>
           </Stack>
+          <Button type="submit">Create Account</Button>
         </Stack>
       </Form>
     </AuthCard>

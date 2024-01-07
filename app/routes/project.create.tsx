@@ -5,7 +5,7 @@ import {H1} from "~/typography";
 import {$Enums, Prisma} from "@prisma/client";
 import {ActionFunction, redirect} from "@remix-run/node";
 import {Button, FormControl, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
-import {DatePicker} from "~/components/DatePicker";
+import {DatePicker} from "~/components/input/DatePicker";
 
 const formKeys = {
   title: `title`,

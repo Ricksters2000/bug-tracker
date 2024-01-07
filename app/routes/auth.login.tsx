@@ -2,6 +2,7 @@ import emotionStyled from "@emotion/styled";
 import {Button, FormControl, Input, InputLabel, Stack, TextField} from "@mui/material";
 import {Form} from "@remix-run/react";
 import {AuthCard} from "~/components/cards/AuthCard";
+import {PasswordField} from "~/components/input/PasswordField";
 
 const formKeys = {
   email: `email`,
@@ -17,11 +18,8 @@ export default function Login() {
     >
       <Form>
         <Stack spacing={2}>
-          <TextField variant="standard" name={formKeys.email} label='Email address'/>
-          <FormControl variant="standard">
-            <InputLabel variant="standard">Password</InputLabel>
-            <Input type='password' name={formKeys.password}/>
-          </FormControl>
+          <TextField name={formKeys.email} label='Email address'/>
+          <PasswordField name={formKeys.password} label="Password"/>
           <SubmitContainer>
             <Button type="submit" variant="contained">Login</Button>
           </SubmitContainer>
