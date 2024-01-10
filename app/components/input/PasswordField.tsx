@@ -1,18 +1,28 @@
 import React from 'react';
-import {FormControl, FormControlProps, InputLabel, OutlinedInput} from '@mui/material';
+import {FormControl, FormControlProps, FormHelperText, InputLabel, OutlinedInput, OutlinedInputProps} from '@mui/material';
 
 type Props = {
-  name?: string;
   label: string;
-} & Pick<FormControlProps, 'fullWidth'>
+  name?: string;
+  helperText?: string;
+} & Pick<FormControlProps, 'fullWidth' | `error`> & Pick<OutlinedInputProps, `onBlur` | `inputRef` | `required`>
 
 export const PasswordField: React.FC<Props> = (props) => {
-  const {name, label, fullWidth} = props
+  const {name, error, label, helperText, fullWidth, inputRef, required, onBlur} = props
 
   return (
-    <FormControl fullWidth={fullWidth}>
+    <FormControl fullWidth={fullWidth} error={error}>
       <InputLabel>{label}</InputLabel>
-      <OutlinedInput name={name} type='password' label={label}/>
+      <OutlinedInput
+        inputRef={inputRef}
+        onBlur={onBlur}
+        required={required}
+        name={name}
+        type='password'
+        label={label}/>
+      <FormHelperText>
+        {helperText}  
+      </FormHelperText>
     </FormControl>
   )
 }
