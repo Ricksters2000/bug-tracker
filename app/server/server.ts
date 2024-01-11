@@ -8,6 +8,7 @@ import compression from "compression";
 import express from "express";
 import morgan from "morgan";
 import sourceMapSupport from "source-map-support";
+import {db} from "./db";
 
 sourceMapSupport.install();
 installGlobals();
@@ -25,6 +26,7 @@ const createServer = async () => {
           mode: initialBuild.mode,
         });
 
+  await db.$connect();
   const app = express();
 
   app.use(compression());

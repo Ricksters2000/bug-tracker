@@ -1,21 +1,34 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
-import {Paper, Stack} from '@mui/material';
+import {Alert, Paper, Stack} from '@mui/material';
 import {A, H3} from '~/typography';
+import {isEmptyString} from '~/utils/isEmptyString';
 
 type Props = {
   title: string;
   footerText: string;
   footerLink: string;
+  errorMessage?: string;
 }
 
 export const AuthCard: React.FC<React.PropsWithChildren<Props>> = (props) => {
+  const [errorAlertIsOpen, setErrorAlertIsOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    if (props.errorMessage && !isEmptyString(props.errorMessage)) {
+      setErrorAlertIsOpen(true)
+    }
+  }, [props.errorMessage])
+
   return (
     <Paper>
       <Stack>
         <HeaderContainer>
           <HeaderText>{props.title}</HeaderText>
         </HeaderContainer>
+        {errorAlertIsOpen && <Alert severity='error' onClose={() => setErrorAlertIsOpen(false)}>
+          {props.errorMessage}
+        </Alert>}
         <CardBody>
           {props.children}
         </CardBody>

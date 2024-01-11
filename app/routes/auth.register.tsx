@@ -1,11 +1,15 @@
 import React from "react";
 import emotionStyled from "@emotion/styled";
-import {Button, FormControl, Input, InputLabel, OutlinedInput, Stack, TextField} from "@mui/material";
-import {ActionFunction, redirect} from "@remix-run/node";
-import {Form} from "@remix-run/react";
+import {Button, Stack, TextField} from "@mui/material";
+import {ActionFunction, json, redirect} from "@remix-run/node";
+import {Form, useActionData} from "@remix-run/react";
 import {AuthCard} from "~/components/cards/AuthCard";
 import {PasswordField} from "~/components/input/PasswordField";
 import {isEmptyString} from "~/utils/isEmptyString";
+import {db} from "~/server/db";
+import {$Enums} from "@prisma/client";
+import {FormErrors, FormResponse} from "~/types/Response";
+import {formatPrismaError} from "~/utils/formatPrismaError";
 
 const formKeys = {
   firstName: `firstName`,
@@ -15,11 +19,66 @@ const formKeys = {
   confirmPassword: `confirmPassword`,
 }
 
-export const action: ActionFunction = () => {
-  return redirect(``)
+type FormKeys = keyof typeof formKeys
+
+export const action: ActionFunction = async ({request}) => {
+  const data = await request.formData()
+  const firstName = data.get(formKeys.firstName)
+  const lastName = data.get(formKeys.lastName)
+  const email = data.get(formKeys.emailAddress)
+  const password = data.get(formKeys.password)
+
+  const errors: FormErrors<FormKeys> = {
+    firstName: null,
+    lastName: null,
+    emailAddress: null,
+    password: null,
+    confirmPassword: null,
+  }
+
+  if (!firstName || !lastName || !email || !password) {
+    if (!firstName) {
+      errors.firstName = `First name is required to create user.`
+    }
+    if (!lastName) {
+      errors.lastName = `Last name is required to create user.`
+    }
+    if (!email) {
+      errors.emailAddress = `Email is required to create user.`
+    }
+    if (!password) {
+      errors.password = `Password is required to create user.`
+    }
+    const response: FormResponse<FormKeys> = {
+      success: false,
+      errors,
+    }
+    return json(response)
+  }
+
+  try {
+    await db.user.create({
+      data: {
+        firstName: firstName.toString(),
+        lastName: lastName.toString(),
+        email: email.toString(),
+        password: password.toString(),
+        role: $Enums.UserRole.admin,
+      }
+    })
+  } catch (err: any) {
+    const response: FormResponse<FormKeys> = {
+      success: false,
+      errors,
+      errorMessage: formatPrismaError(err, `User with`),
+    }
+    return json(response)
+  }
+  return redirect(`/workspace/dashboard`)
 }
 
 export default function Register() {
+  const actionData = useActionData<FormResponse<FormKeys>>();
   const passwordRef = React.useRef<HTMLInputElement>(null)
   const confirmPasswordRef = React.useRef<HTMLInputElement>(null)
   const [passwordError, setPasswordError] = React.useState<string | null>(null)
@@ -42,19 +101,45 @@ export default function Register() {
     setPasswordError(null)
   }
 
+  let errors: FormErrors<FormKeys> | null = null
+  let errorMessage: string | undefined
+  if (actionData && !actionData.success) {
+    errors = actionData.errors
+    errorMessage = actionData.errorMessage
+  }
+
   return (
     <AuthCard
       title="Create Account"
       footerText="Have an account? Go to login"
       footerLink="../login"
+      errorMessage={errorMessage}
     >
-      <Form>
+      <Form method="post" encType='multipart/form-data'>
         <Stack spacing={2}>
           <Stack flexDirection={`row`} gap={3}>
-            <TextField fullWidth required name={formKeys.firstName} label='First name'/>
-            <TextField fullWidth required name={formKeys.lastName} label='Last name'/>
+            <TextField
+              fullWidth
+              required
+              label='First name'
+              name={formKeys.firstName}
+              error={!!errors?.firstName}
+              helperText={errors?.firstName}/>
+            <TextField
+              fullWidth
+              required
+              label='Last name'
+              name={formKeys.lastName}
+              error={!!errors?.lastName}
+              helperText={errors?.lastName}/>
           </Stack>
-          <TextField required name={formKeys.emailAddress} type="email" label='Email address'/>
+          <TextField
+            required
+            name={formKeys.emailAddress}
+            type="email"
+            label='Email address'
+            error={!!errors?.emailAddress}
+            helperText={errors?.emailAddress}/>
           <Stack flexDirection={`row`} gap={3}>
             <PasswordField
               fullWidth
@@ -62,7 +147,9 @@ export default function Register() {
               inputRef={passwordRef}
               onBlur={onPasswordBlur}
               name={formKeys.password}
-              label="Password"/>
+              label="Password"
+              error={!!errors?.password}
+              helperText={errors?.password ?? undefined}/>
             <PasswordField
               fullWidth
               required
