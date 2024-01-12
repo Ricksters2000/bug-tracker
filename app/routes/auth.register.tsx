@@ -6,7 +6,7 @@ import {Form, useActionData} from "@remix-run/react";
 import {AuthCard} from "~/components/cards/AuthCard";
 import {PasswordField} from "~/components/input/PasswordField";
 import {isEmptyString} from "~/utils/isEmptyString";
-import {db} from "~/server/db";
+import {db} from "~/server/db/db";
 import {$Enums} from "@prisma/client";
 import {FormErrors, FormResponse} from "~/types/Response";
 import {formatPrismaError} from "~/utils/formatPrismaError";
@@ -22,6 +22,7 @@ const formKeys = {
 type FormKeys = keyof typeof formKeys
 
 export const action: ActionFunction = async ({request}) => {
+  let userId: number
   const data = await request.formData()
   const firstName = data.get(formKeys.firstName)
   const lastName = data.get(formKeys.lastName)
@@ -55,17 +56,20 @@ export const action: ActionFunction = async ({request}) => {
     }
     return json(response)
   }
-
   try {
-    await db.user.create({
+    const {id} = await db.user.create({
       data: {
         firstName: firstName.toString(),
         lastName: lastName.toString(),
         email: email.toString(),
         password: password.toString(),
         role: $Enums.UserRole.admin,
+      },
+      select: {
+        id: true,
       }
     })
+    userId = id
   } catch (err: any) {
     const response: FormResponse<FormKeys> = {
       success: false,
@@ -74,7 +78,7 @@ export const action: ActionFunction = async ({request}) => {
     }
     return json(response)
   }
-  return redirect(`/workspace/dashboard`)
+  return redirect(`/workspace/${userId}`)
 }
 
 export default function Register() {

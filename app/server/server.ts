@@ -8,7 +8,7 @@ import compression from "compression";
 import express from "express";
 import morgan from "morgan";
 import sourceMapSupport from "source-map-support";
-import {db} from "./db";
+import {db} from "./db/db";
 
 sourceMapSupport.install();
 installGlobals();

@@ -85,14 +85,15 @@ model History {
 
 enum UserRole {
   admin
-  manager
+  projectManager
   developer
+  submitter
 }
 
 enum Priority {
-  Low
-  Medium
-  High
+  low
+  medium
+  high
 }
 
 enum HistoryType {

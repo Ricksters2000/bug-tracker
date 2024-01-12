@@ -8,8 +8,13 @@ import {UserIcon} from '~/assets/icons/UserIcon';
 import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover} from '@mui/material';
 import {Link, LinkProps} from '@remix-run/react';
 import {useTheme} from '@emotion/react';
+import {UserPublic} from '~/server/db/userDb';
 
-export const Layout: React.FC<React.PropsWithChildren> = (props) => {
+type Props = {
+  user: UserPublic;
+}
+
+export const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const [sideNavBarIsOpen, setSideNavBarIsOpen] = React.useState(true);
   const [userDropdownIsOpen, setUserDropdownIsOpen] = React.useState(false);
   const dropdownEl = React.useRef<HTMLAnchorElement>(null)
