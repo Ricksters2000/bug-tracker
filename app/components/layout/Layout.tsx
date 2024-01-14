@@ -6,7 +6,7 @@ import {DashboardIcon} from '~/assets/icons/DashboardIcon';
 import {SideNavCollapse} from './SideNavCollapse';
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover} from '@mui/material';
-import {Link, LinkProps} from '@remix-run/react';
+import {Link} from '@remix-run/react';
 import {useTheme} from '@emotion/react';
 import {UserPublic} from '~/server/db/userDb';
 
@@ -15,6 +15,7 @@ type Props = {
 }
 
 export const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
+  const {user} = props
   const [sideNavBarIsOpen, setSideNavBarIsOpen] = React.useState(true);
   const [userDropdownIsOpen, setUserDropdownIsOpen] = React.useState(false);
   const dropdownEl = React.useRef<HTMLAnchorElement>(null)
@@ -75,21 +76,29 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
             <SideNavMenu>
               <SideNavContent>
                 <SideNavMenuHeading>Core</SideNavMenuHeading>
-                <NavLink to={`/`}>
+                <NavLink to={`.`}>
                   <NavLinkIcon>
                     <DashboardIcon/>
                   </NavLinkIcon>
                   Dashboard
                 </NavLink>
                 <SideNavCollapse label='Projects' adornment={<DashboardIcon/>}>
-                  <NavLink to={`/project/create`}>
-                    Create
+                  <NavLink to={`./project/create`}>
+                    Create Project
                   </NavLink>
-                  <NavLink to={``}>
-                    Project 1
+                  <NavLink to={`./project`}>
+                    All Projects
                   </NavLink>
-                  <NavLink to={``}>
-                    Project 2
+                  <NavLink to={`./project`}>
+                    Archived Projects
+                  </NavLink>
+                  <NavLink to={`./project`}>
+                    Member Roles
+                  </NavLink>
+                </SideNavCollapse>
+                <SideNavCollapse label='Tickets' adornment={<DashboardIcon/>}>
+                  <NavLink to={`./ticket/create`}>
+                    Create Ticket
                   </NavLink>
                 </SideNavCollapse>
                 <SideNavCollapse label='Account' adornment={<DashboardIcon/>}>
@@ -117,7 +126,7 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
             </SideNavMenu>
             <SideNavFooter>
               <SmallText>Logged in as:</SmallText>
-              <BodyText>Username</BodyText>
+              <BodyText>{user.firstName}</BodyText>
             </SideNavFooter>
           </InnerSideNav>
         </SideNav>
