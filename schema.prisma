@@ -17,8 +17,6 @@ model User {
   role UserRole
   tickets Ticket[]
   projects Project[]
-  userToTickets UserToTicket[]
-  userToProjects UserToProject[]
   comments Comment[]
 }
 
@@ -33,7 +31,6 @@ model Ticket {
   history Json[]
   project Project @relation(fields: [projectId], references: [id])
   assignedUsers User[]
-  userToTickets UserToTicket[]
   comments Comment[]
 }
 
@@ -46,25 +43,6 @@ model Project {
   priority Priority
   tickets Ticket[]
   assignedUsers User[]
-  userToProjects UserToProject[]
-}
-
-model UserToTicket {
-  userId Int
-  ticketId Int
-  user User @relation(fields: [userId], references: [id])
-  ticket Ticket @relation(fields: [ticketId], references: [id])
-
-  @@id([userId, ticketId])
-}
-
-model UserToProject {
-  userId Int
-  projectId Int @map("ticketId")
-  user User @relation(fields: [userId], references: [id])
-  project Project @relation(fields: [projectId], references: [id])
-
-  @@id([userId, projectId])
 }
 
 model Comment {
@@ -99,4 +77,12 @@ enum Priority {
 enum HistoryType {
   ticket
   project
+}
+
+enum TicketStatus {
+  new
+  testing
+  reviewed
+  development
+  completed
 }
