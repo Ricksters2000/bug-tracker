@@ -100,6 +100,9 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
                   <NavLink to={`./ticket/create`}>
                     Create Ticket
                   </NavLink>
+                  <NavLink to={`./ticket/`}>
+                    All Tickets
+                  </NavLink>
                 </SideNavCollapse>
                 <SideNavCollapse label='Account' adornment={<DashboardIcon/>}>
                   <SideNavCollapse label='Authentication'>

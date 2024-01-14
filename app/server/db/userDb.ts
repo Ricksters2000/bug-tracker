@@ -33,7 +33,7 @@ export const authenticateUser = async (email: string, password: string): Promise
     where: {
       email,
       password,
-    }
+    },
   })
   if (!user) {
     return null
