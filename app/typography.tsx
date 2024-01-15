@@ -66,3 +66,11 @@ export const A = emotionStyled(Link)(props => ({
   color: props.theme.color.content.link,
   textDecoration: `underline`,
 }))
+
+export const ABase = emotionStyled(A)({
+  color: `black`,
+  textDecoration: `none`,
+  ':hover': {
+    textDecoration: `underline`,
+  }
+})
