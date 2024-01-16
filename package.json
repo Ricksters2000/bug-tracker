@@ -6,7 +6,8 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev --manual -c \"nodemon\"",
-    "start": "cross-env NODE_ENV=production node ./server.js",
+    "start": "cross-env NODE_ENV=production node --loader ts-node/esm --experimental-specifier-resolution=node ./app/server/server.ts",
+    "deploy": "prisma db push && yarn build && yarn start",
     "generate-db": "prisma generate",
     "typecheck": "tsc"
   },
