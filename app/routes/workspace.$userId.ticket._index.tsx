@@ -17,7 +17,7 @@ export default function Index() {
   const tickets = useLoaderData<Array<TicketPreview>>()
   return (
     <div>
-      <H1>Create a new project</H1>
+      <H1>Tickets</H1>
       <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
       <List>
         {tickets.map(ticket => {

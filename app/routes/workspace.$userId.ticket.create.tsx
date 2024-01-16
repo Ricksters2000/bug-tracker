@@ -4,7 +4,7 @@ import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {H1} from "~/typography";
 import {$Enums, Prisma} from "@prisma/client";
 import {ActionFunction, json, redirect} from "@remix-run/node";
-import {Button, FormControl, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
+import {Alert, Button, FormControl, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
 import {DatePicker} from "~/components/input/DatePicker";
 import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
 import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
@@ -66,28 +66,32 @@ export default function CreateTicket() {
   const [searchParams, setSearchParams] = useSearchParams()
   return (
     <div>
-      <H1>Create a new project</H1>
+      <H1>Create a Ticket</H1>
       <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
       <Form method="post" encType='multipart/form-data'>
         <Stack direction={`column`} spacing={`16px`}>
           <Paper>
             <Stack direction={`column`} spacing={`16px`}>
               <Stack direction={`column`} spacing={`16px`} padding={`24px`}>
-                <FormControl fullWidth>
-                  <InputLabel id='project-label'>Project</InputLabel>
-                  <Select<number>
-                    labelId="project-label"
-                    label='Project'
-                    name={formKeys.projectId}
-                    defaultValue={projects[0].id}
-                  >
-                    {projects.map(project => {
-                      return (
-                        <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
-                      )
-                    })}
-                  </Select>
-                </FormControl>
+                {projects.length === 0 ?
+                  <Alert color="error">No Projects Found! Create a project before creating a ticket.</Alert>
+                  :
+                  <FormControl fullWidth>
+                    <InputLabel id='project-label'>Project</InputLabel>
+                    <Select<number>
+                      labelId="project-label"
+                      label='Project'
+                      name={formKeys.projectId}
+                      defaultValue={projects[0].id}
+                    >
+                      {projects.map(project => {
+                        return (
+                          <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </FormControl>
+                }
                 <TextField required name={formKeys.title} label='Title'/>
                 <TextField
                   name={formKeys.content}
@@ -118,7 +122,7 @@ export default function CreateTicket() {
             </Stack>
           </Paper>
           <Stack direction={`row`} spacing={`16px`} justifyContent={`flex-end`}>
-            <Button type="submit">Create</Button>
+            <Button type="submit" disabled={projects.length === 0}>Create</Button>
           </Stack>
         </Stack>
       </Form>

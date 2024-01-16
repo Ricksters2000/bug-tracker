@@ -10,7 +10,7 @@ export const getProjectPreviews = async (): Promise<Array<ProjectPreview>> => {
     select: {
       id: true,
       title: true,
-    }
+    },
   })
   return projects
 }
