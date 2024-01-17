@@ -1,7 +1,7 @@
 import {Prisma} from "@prisma/client"
 import {LoaderFunction, json, redirect} from "@remix-run/node"
 import {Outlet, useLoaderData} from "@remix-run/react"
-import {Layout} from "~/components/layout/Layout"
+import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
 import {UserPublic, findUserById} from "~/server/db/userDb"
 
 export const loader: LoaderFunction = async ({request, params}) => {
@@ -19,8 +19,8 @@ export const loader: LoaderFunction = async ({request, params}) => {
 export default function Workspace() {
   const user = useLoaderData<UserPublic>()
   return (
-    <Layout user={user}>
+    <LayoutContainer user={user}>
       <Outlet/>
-    </Layout>
+    </LayoutContainer>
   )
 }

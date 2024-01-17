@@ -8,7 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import {Layout} from "./components/layout/Layout";
+import {LayoutContainer} from "./routes/workspace/layout/components/LayoutContainer";
 import {AppTheme} from "./types/AppTheme";
 import {Global, ThemeProvider} from "@emotion/react";
 import {ThemeProvider as MuiThemeProvider, createTheme} from "@mui/material";

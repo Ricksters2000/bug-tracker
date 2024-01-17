@@ -1,14 +1,14 @@
-import React from 'react';
-import emotionStyled from '@emotion/styled';
+import emotionStyled from "@emotion/styled";
+import {Outlet} from "@remix-run/react";
 
-export const AuthLayout: React.FC<React.PropsWithChildren> = (props) => {
+export default function Auth() {
   return (
     <Root>
       <Content>
         <Container>
           <InnerContainer>
             <ContentWrapper>
-              {props.children}
+              <Outlet/>
             </ContentWrapper>
           </InnerContainer>
         </Container>

@@ -14,7 +14,7 @@ type Props = {
   user: UserPublic;
 }
 
-export const Layout: React.FC<React.PropsWithChildren<Props>> = (props) => {
+export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const {user} = props
   const [sideNavBarIsOpen, setSideNavBarIsOpen] = React.useState(true);
   const [userDropdownIsOpen, setUserDropdownIsOpen] = React.useState(false);
