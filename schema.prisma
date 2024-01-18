@@ -21,8 +21,8 @@ model User {
 }
 
 model Ticket {
-  id Int @id @default(autoincrement())
-  projectId Int
+  id String @id @default(uuid())
+  projectId String
   title String
   priority Priority
   createdDate DateTime
@@ -35,7 +35,7 @@ model Ticket {
 }
 
 model Project {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   title String
   description String?
   createdDate DateTime
@@ -46,9 +46,9 @@ model Project {
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   userId Int
-  ticketId Int
+  ticketId String
   message String
   user User @relation(fields: [userId], references: [id])
   ticket Ticket @relation(fields: [ticketId], references: [id])
