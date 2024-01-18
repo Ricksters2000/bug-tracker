@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async () => {
 }
 
 export default function Index() {
-  const [checked, setChecked] = React.useState<Record<number, true>>({})
+  const [checked, setChecked] = React.useState<Record<string, true>>({})
   const tickets = useLoaderData<Array<TicketPreview>>()
   return (
     <div>

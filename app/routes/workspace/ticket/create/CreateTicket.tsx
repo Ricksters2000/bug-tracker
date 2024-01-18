@@ -45,7 +45,7 @@ export const action: ActionFunction = async ({request}) => {
     },
     data: {
       title: requiredData.title,
-      projectId: parseInt(requiredData.projectId),
+      projectId: requiredData.projectId,
       content: requiredData.content,
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
