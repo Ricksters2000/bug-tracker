@@ -1,7 +1,7 @@
 import {db} from "./db";
 
 export type ProjectPreview = {
-  id: number;
+  id: string;
   title: string;
 }
 

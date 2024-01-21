@@ -50,6 +50,9 @@ export const action: ActionFunction = async ({request}) => {
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
       priority: requiredData.priority as $Enums.Priority,
+      // assignedUsers: {
+      //   connect: [{id: 1}]
+      // }
     },
   })
   return redirect(`./${id}`)
