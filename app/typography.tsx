@@ -53,13 +53,25 @@ export const SmallText = emotionStyled(BodyText)({
   fontSize: `0.875em`,
 })
 
+export const InformationalText = emotionStyled(SmallText)(props => ({
+  color: props.theme.color.content.info,
+}))
+
 export const H1 = emotionStyled.h1(props => ({
   marginTop: `1.5rem`,
   fontSize: `2.5rem`,
 }))
 
+export const H2 = emotionStyled.h2(props => ({
+  fontSize: `2.2rem`,
+}))
+
 export const H3 = emotionStyled.h3(props => ({
   fontSize: `1.75rem`,
+}))
+
+export const H4 = emotionStyled.h4(props => ({
+  fontSize: `1.25rem`,
 }))
 
 export const A = emotionStyled(Link)(props => ({

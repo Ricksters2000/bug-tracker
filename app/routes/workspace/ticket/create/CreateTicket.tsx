@@ -81,7 +81,7 @@ export default function CreateTicket() {
                   :
                   <FormControl fullWidth>
                     <InputLabel id='project-label'>Project</InputLabel>
-                    <Select<number>
+                    <Select<string>
                       labelId="project-label"
                       label='Project'
                       name={formKeys.projectId}
