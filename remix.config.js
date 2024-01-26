@@ -2,6 +2,8 @@
 export default {
   ignoredRouteFiles: ["**/.*"],
   serverModuleFormat: "esm",
+  serverPlatform: `node`,
+  appDirectory: "app",
   routes: (defineRoutes) => {
     const routesFolder = `routes`
     const authenticationFolder = `${routesFolder}/authentication`
@@ -25,8 +27,7 @@ export default {
         route(`ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
       })
     })
-  }
-  // appDirectory: "app",
+  },
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
