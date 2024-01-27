@@ -18,6 +18,7 @@ export const findTicketById = async (id: string): Promise<TicketInfo | null> => 
       content: true,
       createdDate: true,
       history: true,
+      status: true,
       comments: {
         select: commentSelectInput,
         orderBy: {dateSent: `desc`}
