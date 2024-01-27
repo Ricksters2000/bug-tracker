@@ -6,7 +6,7 @@ import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {ExternalLabelCard} from "~/components/cards/ExternalLabelCard";
 import {TicketInfo, findTicketById} from "~/server/db/ticketDb";
 import {BodyText, H1} from "~/typography";
-import {CardSubInfo} from "./components/CardSubInfo";
+import {CardSubInfo} from "../../components/CardSubInfo";
 
 export const loader: LoaderFunction = async ({params}) => {
   const {ticketId} = params
