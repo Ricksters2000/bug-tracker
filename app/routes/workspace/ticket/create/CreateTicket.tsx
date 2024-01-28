@@ -10,7 +10,7 @@ import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
 import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
 import {db} from "~/server/db/db";
 import {FormResponse} from "~/types/Response";
-import {getProjectPreviews} from "~/server/db/projectDb";
+import {findProjectPreviews} from "~/server/db/projectDb";
 
 const formKeys = {
   projectId: `projectId`,
@@ -59,7 +59,7 @@ export const action: ActionFunction = async ({request}) => {
 }
 
 export const loader = async () => {
-  const projects = await getProjectPreviews()
+  const projects = await findProjectPreviews()
   return projects
 }
 

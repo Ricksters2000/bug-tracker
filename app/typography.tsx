@@ -86,3 +86,9 @@ export const ABase = emotionStyled(A)({
     textDecoration: `underline`,
   }
 })
+
+export const ANoTextDecoration = emotionStyled(ABase)({
+  ':hover': {
+    textDecoration: `none`,
+  }
+})
