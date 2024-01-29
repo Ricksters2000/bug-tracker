@@ -1,19 +1,33 @@
 import React from 'react';
-import {FormControl, FormControlProps, Input, InputLabel} from '@mui/material';
+import {FormControl, FormControlProps, FormHelperText, Input, InputLabel} from '@mui/material';
 import dayjs from 'dayjs';
 
 type Props = {
   label: string;
   name?: string;
+  helperText?: string | null;
   value?: Date;
   defaultValue?: Date;
   readOnly?: boolean;
+  error?: boolean;
   onChange?: (newDate: Date) => void;
   ref?: React.RefObject<HTMLInputElement>;
 } & Pick<FormControlProps, `variant` | `fullWidth`>
 
 export const DatePicker: React.FC<Props> = (props) => {
-  const {label, readOnly, value, defaultValue, onChange, variant, ref, fullWidth, name} = props
+  const {
+    label,
+    readOnly,
+    value,
+    defaultValue,
+    onChange,
+    variant,
+    ref,
+    fullWidth,
+    name,
+    error,
+    helperText,
+  } = props
 
   const convertDateToString = (date?: Date | null): string | undefined => {
     if (!date) return undefined;
@@ -23,7 +37,7 @@ export const DatePicker: React.FC<Props> = (props) => {
 
   return (
     <FormControl variant={variant} fullWidth={fullWidth}>
-      <InputLabel shrink variant={variant}>{label}</InputLabel>
+      <InputLabel shrink error={error} variant={variant}>{label}</InputLabel>
       <Input
         inputRef={ref}
         name={name}
@@ -32,7 +46,9 @@ export const DatePicker: React.FC<Props> = (props) => {
         defaultValue={convertDateToString(defaultValue)}
         value={convertDateToString(value)}
         onChange={(evt) => onChange && onChange(new Date(evt.target.value))}
+        error={error}
       />
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   )
 }

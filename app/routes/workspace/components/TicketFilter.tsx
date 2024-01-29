@@ -37,7 +37,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
             </ListItemIcon>
             <ListItemText
               primary={<ABase to={`./${id}`}>{title}</ABase>}
-              secondary={`Due: ${dueDate}`}/>
+              secondary={dueDate ? `Due: ${dueDate}` : null}/>
           </ListItem>
         )
       })}
