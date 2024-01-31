@@ -1,3 +1,5 @@
+import {dashboardId, workspaceId} from './config/routeIds.js'
+
 /** @type {import('@remix-run/dev').AppConfig} */
 export default {
   ignoredRouteFiles: ["**/.*"],
@@ -15,8 +17,8 @@ export default {
         route(`login`, `${authenticationFolder}/login/Login.tsx`)
         route(`register`, `${authenticationFolder}/register/Register.tsx`)
       })
-      route(`/workspace/:userId`, `${workspaceFolder}/layout/Layout.tsx`, () => {
-        route(``, `${workspaceFolder}/Dashboard.tsx`, {index: true})
+      route(`/workspace/:userId`, `${workspaceFolder}/layout/Layout.tsx`, {id: workspaceId}, () => {
+        route(``, `${workspaceFolder}/Dashboard.tsx`, {index: true, id: dashboardId})
         // project routes
         route(`project`, `${projectFolder}/AllProjects.tsx`)
         route(`project/create`, `${projectFolder}/create/CreateProject.tsx`)
@@ -24,7 +26,7 @@ export default {
         // ticket routes
         route(`ticket`, `${ticketFolder}/AllTickets.tsx`)
         route(`ticket/create`, `${ticketFolder}/create/CreateTicket.tsx`)
-        route(`ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
+        route(`project/:projectId/ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
       })
     })
   },

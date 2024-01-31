@@ -2,6 +2,7 @@ import {$Enums, Prisma} from "@prisma/client";
 import {db} from "./db";
 
 export type UserPublic = {
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
@@ -10,6 +11,7 @@ export type UserPublic = {
 }
 
 export const userPublicSelectInput = Prisma.validator<Prisma.UserSelect>()({
+  id: true,
   email: true,
   firstName: true,
   lastName: true,

@@ -3,6 +3,7 @@ import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
 import {removeKeysFromObject} from '~/utils/removeKeysFromObject';
+import {getTicketPath, useWorkspacePath} from '~/utils/route/routePathHelpers';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -11,10 +12,11 @@ type Props = {
 export const TicketFilter: React.FC<Props> = (props) => {
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const {tickets} = props
+  const workspacePath = useWorkspacePath()
   return (
     <List>
       {tickets.map(ticket => {
-        const {id, title, dueDate, priority} = ticket
+        const {id, projectId, title, dueDate, priority} = ticket
         return (
           <ListItem disablePadding key={ticket.id} secondaryAction={
             <Chip size="small" label={priority}/>
@@ -36,7 +38,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
                 />
             </ListItemIcon>
             <ListItemText
-              primary={<ABase to={`./${id}`}>{title}</ABase>}
+              primary={<ABase to={`${getTicketPath(workspacePath, projectId, id)}`}>{title}</ABase>}
               secondary={dueDate ? `Due: ${dueDate}` : null}/>
           </ListItem>
         )

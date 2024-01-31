@@ -4,6 +4,8 @@ import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
 import {UserPublic, findUserById} from "~/server/db/userDb"
 
+export type WorkspaceLoaderData = UserPublic
+
 export const loader: LoaderFunction = async ({request, params}) => {
   const {userId} = params
   if (!userId) {
@@ -17,7 +19,7 @@ export const loader: LoaderFunction = async ({request, params}) => {
 }
 
 export default function Workspace() {
-  const user = useLoaderData<UserPublic>()
+  const user = useLoaderData<WorkspaceLoaderData>()
   return (
     <LayoutContainer user={user}>
       <Outlet/>
