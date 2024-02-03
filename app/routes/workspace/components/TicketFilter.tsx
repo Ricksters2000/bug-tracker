@@ -1,4 +1,4 @@
-import {Checkbox, Chip, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField} from '@mui/material';
+import {Checkbox, Chip, Collapse, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
@@ -9,6 +9,10 @@ import {RoundedSquareBackground} from './RoundedSquareBackground';
 import {priorityColors} from '../utils/priorityColors';
 import {Priority} from '@prisma/client';
 import emotionStyled from '@emotion/styled';
+import {SearchIcon} from '~/assets/icons/SearchIcon';
+import {FilterIcon} from '~/assets/icons/FilterIcon';
+import {DateRangePicker} from './DateRangePicker';
+import {DateRange} from '~/utils/DateRange';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -17,8 +21,11 @@ type Props = {
 const allFilter = `all`
 
 export const TicketFilter: React.FC<Props> = (props) => {
+  const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(true)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const [priorityFilter, setPriorityFilter] = React.useState<Priority | typeof allFilter>(allFilter)
+  const [createAtDateRange, setCreatedAtDateRange] = React.useState<DateRange>({from: null, to: null})
+  const [dueDateRange, setDueDateRange] = React.useState<DateRange>({from: null, to: null})
   const {tickets} = props
   const workspacePath = useWorkspacePath()
   return (
@@ -26,6 +33,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
       <TabsStyled value={priorityFilter} onChange={(e, value) => setPriorityFilter(value)}>
         <TabStyled
           disableRipple
+          value={allFilter}
           id={allFilter}
           label="All"
           iconPosition='end'
@@ -37,6 +45,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
         />
         <TabStyled
           disableRipple
+          value={Priority.low}
           id={Priority.low}
           label="Low"
           iconPosition='end'
@@ -48,6 +57,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
         />
         <TabStyled
           disableRipple
+          value={Priority.medium}
           id={Priority.medium}
           label="Medium"
           iconPosition='end'
@@ -59,6 +69,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
         />
         <TabStyled
           disableRipple
+          value={Priority.high}
           id={Priority.high}
           label="High"
           iconPosition='end'
@@ -69,16 +80,35 @@ export const TicketFilter: React.FC<Props> = (props) => {
           }
         />
       </TabsStyled>
-      <Stack padding={`20px`} spacing={1}>
-        <Stack flexDirection={`row`} spacing={1}>
+      <Stack padding={`20px`} gap={2}>
+        <Stack flexDirection={`row`} alignItems={`center`} gap={1}>
           <TextField
             fullWidth
             placeholder='Search'
-            // InputProps={{
-            //   startAdornment: <Search/>,
-            // }}
+            InputProps={{
+              startAdornment: <SearchIcon/>,
+            }}
           />
+          <Tooltip title="Advanced Filter">
+            <IconButton sx={{width: `40px`, height: `40px`}} onClick={() => setDisplayAdvancedFilters(prev => !prev)}>
+              <FilterIcon/>
+            </IconButton>
+          </Tooltip>
         </Stack>
+        <Collapse in={displayAdvancedFilters}>
+          <Stack flexDirection={`row`} gap={1}>
+            <DateRangePicker
+              label='Create At Range'
+              dateRange={createAtDateRange}
+              onChange={setCreatedAtDateRange}
+            />
+            <DateRangePicker
+              label='Due Date Range'
+              dateRange={dueDateRange}
+              onChange={setDueDateRange}
+            />
+          </Stack>
+        </Collapse>
       </Stack>
       <TableContainer>
         <Table>

@@ -42,7 +42,7 @@ export default function App() {
         danger: `rgba(220, 53, 69, 1)`,
         secondary: ``,
         info: `rgb(99, 115, 129)`,
-        icon: `#000`,
+        icon: `rgb(145, 158, 171)`,
         footer: `rgba(248, 349, 250, 1)`,
         breadcrumb: `#6c757d`,
         link: `#0d6efd`,
