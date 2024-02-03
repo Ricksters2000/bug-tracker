@@ -1,4 +1,4 @@
-import {Checkbox, Chip, Collapse, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
+import {Checkbox, Chip, Collapse, FormControl, IconButton, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
@@ -7,12 +7,13 @@ import {getTicketPath, useWorkspacePath} from '~/utils/route/routePathHelpers';
 import {PriorityTag} from './PriorityTag';
 import {RoundedSquareBackground} from './RoundedSquareBackground';
 import {priorityColors} from '../utils/priorityColors';
-import {Priority} from '@prisma/client';
+import {Priority, TicketStatus} from '@prisma/client';
 import emotionStyled from '@emotion/styled';
 import {SearchIcon} from '~/assets/icons/SearchIcon';
 import {FilterIcon} from '~/assets/icons/FilterIcon';
 import {DateRangePicker} from './DateRangePicker';
 import {DateRange} from '~/utils/DateRange';
+import {objectKeys} from '~/utils/objectKeys';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -26,6 +27,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
   const [priorityFilter, setPriorityFilter] = React.useState<Priority | typeof allFilter>(allFilter)
   const [createAtDateRange, setCreatedAtDateRange] = React.useState<DateRange>({from: null, to: null})
   const [dueDateRange, setDueDateRange] = React.useState<DateRange>({from: null, to: null})
+  const [statusFilter, setStatusFilter] = React.useState<Array<TicketStatus>>([])
   const {tickets} = props
   const workspacePath = useWorkspacePath()
   return (
@@ -89,7 +91,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
               startAdornment: <SearchIcon/>,
             }}
           />
-          <Tooltip title="Advanced Filter">
+          <Tooltip title="More Options">
             <IconButton sx={{width: `40px`, height: `40px`}} onClick={() => setDisplayAdvancedFilters(prev => !prev)}>
               <FilterIcon/>
             </IconButton>
@@ -97,6 +99,34 @@ export const TicketFilter: React.FC<Props> = (props) => {
         </Stack>
         <Collapse in={displayAdvancedFilters}>
           <Stack flexDirection={`row`} gap={1}>
+            <FormControl fullWidth>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                labelId='status-label'
+                multiple
+                input={<OutlinedInput label={`Status`}/>}
+                value={statusFilter}
+                renderValue={(selected => selected.join(`, `))}
+                onChange={(evt => {
+                  const value = evt.target.value
+                  if (typeof value === `string`) {
+                    setStatusFilter(value.split(`,`) as Array<TicketStatus>)
+                  } else {
+                    setStatusFilter(value)
+                  }
+                })}
+              >
+                {objectKeys(TicketStatus).map(key => {
+                  const value = TicketStatus[key]
+                  return (
+                    <MenuItem key={key} value={value}>
+                      <Checkbox checked={statusFilter.indexOf(value) > -1}/>
+                      <ListItemText primary={key}/>
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
             <DateRangePicker
               label='Create At Range'
               dateRange={createAtDateRange}

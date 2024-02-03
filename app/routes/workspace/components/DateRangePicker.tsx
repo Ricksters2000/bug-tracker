@@ -53,7 +53,7 @@ export const DateRangePicker: React.FC<Props> = (props) => {
   }
 
   return (
-    <FormControl error={!!error} sx={{maxWidth: `300px`}}>
+    <FormControl error={!!error} sx={{minWidth: `300px`}}>
       <InputLabel shrink>{label}</InputLabel>
       <OutlinedContainer>
         <Input
