@@ -34,7 +34,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
         </SideToggleButton>
         <UserButtonContainer>
           <UserDropdownButton onClick={() => setUserDropdownIsOpen(prev => !prev)}>
-            <UserIconButton ref={dropdownEl} style={{color: userDropdownIsOpen ? theme.iconHover : ``}} to={`#`}>
+            <UserIconButton ref={dropdownEl} style={{color: userDropdownIsOpen ? theme.iconHover : undefined}} to={`#`}>
               <UserIcon/>
             </UserIconButton>
           </UserDropdownButton>
