@@ -3,7 +3,7 @@ import {FormControl, FormHelperText, InputLabel} from '@mui/material';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import React from 'react';
-import {DateRange} from '~/utils/DateRange';
+import {DateRange} from '~/types/DateRange';
 
 type Props = {
   label: string;
