@@ -1,4 +1,4 @@
-import {$Enums, Prisma, Ticket} from "@prisma/client";
+import {$Enums, Priority, Prisma, Ticket} from "@prisma/client";
 import {db} from "./db";
 import {CommentPublic, commentSelectInput} from "./commentDb";
 import {SerializeFrom} from "@remix-run/node";
@@ -55,6 +55,26 @@ export const findTicketPreviews = async (filter: Prisma.TicketWhereInput): Promi
     where: filter,
   })
   return tickets
+}
+
+export const getTicketCounts = async (filter: Prisma.TicketWhereInput) => {
+  const countsData = await db.ticket.groupBy({
+    by: `priority`,
+    _count: true,
+    where: {
+      ...filter,
+      priority: undefined,
+    },
+  })
+  const priorityCounts: Record<Priority, number> = {
+    low: 0,
+    medium: 0,
+    high: 0,
+  }
+  countsData.forEach(count => {
+    priorityCounts[count.priority] = count._count
+  })
+  return priorityCounts
 }
 
 export const serializedTicketToTicketPreview = (jsonTicket: SerializeFrom<TicketPreview>): TicketPreview => {

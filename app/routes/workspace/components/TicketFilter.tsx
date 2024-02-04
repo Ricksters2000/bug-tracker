@@ -1,4 +1,4 @@
-import {Checkbox, Chip, Collapse, FormControl, IconButton, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
+import {Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
@@ -12,27 +12,35 @@ import emotionStyled from '@emotion/styled';
 import {SearchIcon} from '~/assets/icons/SearchIcon';
 import {FilterIcon} from '~/assets/icons/FilterIcon';
 import {DateRangePicker} from './DateRangePicker';
-import {DateRange} from '~/utils/DateRange';
 import {objectKeys} from '~/utils/objectKeys';
+import {TicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
+import {allFilter} from '~/types/FilterWithAllOption';
 
 type Props = {
   tickets: Array<TicketPreview>;
+  priorityCounts: Record<Priority, number>;
+  ticketCount: number;
+  ticketFilter: TicketFilterClientSide;
+  onChange: React.Dispatch<React.SetStateAction<TicketFilterClientSide>>;
 }
 
-const allFilter = `all`
-
 export const TicketFilter: React.FC<Props> = (props) => {
+  const {ticketFilter, onChange, priorityCounts, ticketCount} = props
+  const {title, statuses, priority, dueDateRange, createdDateRange} = ticketFilter
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(true)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
-  const [priorityFilter, setPriorityFilter] = React.useState<Priority | typeof allFilter>(allFilter)
-  const [createAtDateRange, setCreatedAtDateRange] = React.useState<DateRange>({from: null, to: null})
-  const [dueDateRange, setDueDateRange] = React.useState<DateRange>({from: null, to: null})
-  const [statusFilter, setStatusFilter] = React.useState<Array<TicketStatus>>([])
   const {tickets} = props
   const workspacePath = useWorkspacePath()
+
+  const onFilterChange = <K extends keyof TicketFilterClientSide>(key: K, data: TicketFilterClientSide[K]) => {
+    onChange(prev => ({
+      ...prev,
+      [key]: data,
+    }))
+  }
   return (
     <Paper>
-      <TabsStyled value={priorityFilter} onChange={(e, value) => setPriorityFilter(value)}>
+      <TabsStyled value={priority} onChange={(e, value) => onFilterChange(`priority`, value)}>
         <TabStyled
           disableRipple
           value={allFilter}
@@ -41,7 +49,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={`#fff`} backgroundColor={`#000`}>
-              2
+              {ticketCount}
             </TabIcon>
           }
         />
@@ -53,7 +61,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={priorityColors.low.foreground} backgroundColor={priorityColors.low.background}>
-              2
+              {priorityCounts.low}
             </TabIcon>
           }
         />
@@ -65,7 +73,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={priorityColors.medium.foreground} backgroundColor={priorityColors.medium.background}>
-              2
+              {priorityCounts.medium}
             </TabIcon>
           }
         />
@@ -77,7 +85,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={priorityColors.high.foreground} backgroundColor={priorityColors.high.background}>
-              2
+              {priorityCounts.high}
             </TabIcon>
           }
         />
@@ -87,6 +95,10 @@ export const TicketFilter: React.FC<Props> = (props) => {
           <TextField
             fullWidth
             placeholder='Search'
+            value={title ?? ``}
+            onChange={(evt => {
+              onFilterChange(`title`, evt.target.value)
+            })}
             InputProps={{
               startAdornment: <SearchIcon/>,
             }}
@@ -105,14 +117,14 @@ export const TicketFilter: React.FC<Props> = (props) => {
                 labelId='status-label'
                 multiple
                 input={<OutlinedInput label={`Status`}/>}
-                value={statusFilter}
+                value={statuses}
                 renderValue={(selected => selected.join(`, `))}
                 onChange={(evt => {
                   const value = evt.target.value
                   if (typeof value === `string`) {
-                    setStatusFilter(value.split(`,`) as Array<TicketStatus>)
+                    onFilterChange(`statuses`, value.split(`,`) as Array<TicketStatus>)
                   } else {
-                    setStatusFilter(value)
+                    onFilterChange(`statuses`, value)
                   }
                 })}
               >
@@ -120,7 +132,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
                   const value = TicketStatus[key]
                   return (
                     <MenuItem key={key} value={value}>
-                      <Checkbox checked={statusFilter.indexOf(value) > -1}/>
+                      <Checkbox checked={statuses.indexOf(value) > -1}/>
                       <ListItemText primary={key}/>
                     </MenuItem>
                   )
@@ -129,13 +141,13 @@ export const TicketFilter: React.FC<Props> = (props) => {
             </FormControl>
             <DateRangePicker
               label='Create At Range'
-              dateRange={createAtDateRange}
-              onChange={setCreatedAtDateRange}
+              dateRange={createdDateRange}
+              onChange={newDateRange => onFilterChange(`createdDateRange`, newDateRange)}
             />
             <DateRangePicker
               label='Due Date Range'
               dateRange={dueDateRange}
-              onChange={setDueDateRange}
+              onChange={newDateRange => onFilterChange(`dueDateRange`, newDateRange)}
             />
           </Stack>
         </Collapse>
