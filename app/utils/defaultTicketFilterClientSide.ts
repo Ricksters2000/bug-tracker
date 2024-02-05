@@ -8,10 +8,12 @@ export type TicketFilterClientSide = {
   dueDateRange: DateRange;
   statuses: Array<TicketStatus>;
   priority: FilterWithAllOption<Priority>;
+  projectIds: Array<FilterWithAllOption<string>>;
 }
 
 export const defaultTicketFilterClientSide: TicketFilterClientSide = {
   title: null,
+  projectIds: [allFilter],
   priority: allFilter,
   statuses: [],
   createdDateRange: {

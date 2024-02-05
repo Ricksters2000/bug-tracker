@@ -15,6 +15,8 @@ import {DateRangePicker} from './DateRangePicker';
 import {objectKeys} from '~/utils/objectKeys';
 import {TicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {allFilter} from '~/types/FilterWithAllOption';
+import {ProjectOption} from '~/server/db/projectDb';
+import {SelectFilter} from './SelectFilter';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -22,11 +24,13 @@ type Props = {
   ticketCount: number;
   ticketFilter: TicketFilterClientSide;
   onChange: React.Dispatch<React.SetStateAction<TicketFilterClientSide>>;
+  canChangeProjectId?: boolean;
+  projectOptions: Array<ProjectOption>;
 }
 
 export const TicketFilter: React.FC<Props> = (props) => {
-  const {ticketFilter, onChange, priorityCounts, ticketCount} = props
-  const {title, statuses, priority, dueDateRange, createdDateRange} = ticketFilter
+  const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions} = props
+  const {title, statuses, priority, dueDateRange, createdDateRange, projectIds} = ticketFilter
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(true)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const {tickets} = props
@@ -139,6 +143,18 @@ export const TicketFilter: React.FC<Props> = (props) => {
                 })}
               </Select>
             </FormControl>
+            {canChangeProjectId &&
+              <SelectFilter
+                fullWidth
+                label='Projects'
+                value={projectIds}
+                onChange={(value => onFilterChange(`projectIds`, value))}
+                options={projectOptions.map(option => ({
+                  value: option.id,
+                  label: option.title,
+                }))}
+              />
+            }
             <DateRangePicker
               label='Create At Range'
               dateRange={createdDateRange}

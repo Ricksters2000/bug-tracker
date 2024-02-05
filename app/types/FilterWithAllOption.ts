@@ -1,3 +1,3 @@
 export const allFilter = `ALL`
 
-export type FilterWithAllOption<T extends string> = T | typeof allFilter
+export type FilterWithAllOption<T> = T | typeof allFilter

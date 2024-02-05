@@ -7,11 +7,13 @@ import {H1} from "~/typography"
 import {TicketFilter} from "../components/TicketFilter"
 import {TicketFilterClientSide, defaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
 import {Priority} from "@prisma/client"
+import {ProjectOption, findProjectOptions} from "~/server/db/projectDb"
 
 type ActionData = {
   tickets: Array<TicketPreview>;
   ticketCount: number;
   ticketPriorityCounts: Record<Priority, number>;
+  projectOptions: Array<ProjectOption>;
 }
 
 export const action: ActionFunction = async ({request}) => {
@@ -19,10 +21,12 @@ export const action: ActionFunction = async ({request}) => {
   const ticketWhereInput = convertTicketFilterClientSideToTicketWhereInput(filter)
   const tickets = await findTicketPreviews(ticketWhereInput)
   const ticketCounts = await getTicketCounts(ticketWhereInput)
+  const projectOptions = await findProjectOptions()
   const data: ActionData = {
     tickets,
     ticketPriorityCounts: ticketCounts,
     ticketCount: ticketCounts.low + ticketCounts.medium + ticketCounts.high,
+    projectOptions,
   }
   return json(data)
 }
@@ -49,7 +53,9 @@ export default function Index() {
         ticketFilter={ticketFilter}
         onChange={setTicketFilter}
         priorityCounts={fetcher.data.ticketPriorityCounts}
-        ticketCount={fetcher.data.ticketCount}/>
+        ticketCount={fetcher.data.ticketCount}
+        projectOptions={fetcher.data.projectOptions}
+        canChangeProjectId/>
     </div>
   )
 }

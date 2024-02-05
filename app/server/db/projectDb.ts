@@ -14,6 +14,8 @@ export type ProjectPreview = Pick<Project, `id` | `title` | `createdDate` | `due
   assignedUserCount: number;
 }
 
+export type ProjectOption = Pick<Project, `id` | `title`>
+
 export const findProjectById = async (id: string): Promise<ProjectInfo | null> => {
   const project = await db.project.findUnique({
     select: {
@@ -66,6 +68,16 @@ export const findProjectPreviews = async (): Promise<Array<ProjectPreview>> => {
     openTicketCount: project._count.tickets,
     assignedUserCount: project._count.assignedUsers,
   }))
+}
+
+export const findProjectOptions = async (): Promise<Array<ProjectOption>> => {
+  const projects = await db.project.findMany({
+    select: {
+      id: true,
+      title: true,
+    },
+  })
+  return projects
 }
 
 export const serializedProjectToProjectInfo = (serializedProject: SerializeFrom<ProjectInfo>): ProjectInfo => {

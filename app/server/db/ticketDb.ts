@@ -3,6 +3,7 @@ import {db} from "./db";
 import {CommentPublic, commentSelectInput} from "./commentDb";
 import {SerializeFrom} from "@remix-run/node";
 import {TicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide";
+import {allFilter} from "~/types/FilterWithAllOption";
 
 export type TicketInfo = Omit<Ticket, `projectId`> & {
   comments: Array<CommentPublic>;
@@ -93,7 +94,8 @@ export const convertTicketFilterClientSideToTicketWhereInput = (filter: TicketFi
   return {
     title: filter.title ? {contains: filter.title} : undefined,
     status: filter.statuses.length === 0 ? undefined : {in: filter.statuses},
-    priority: filter.priority === `ALL` ? undefined : filter.priority,
+    projectId: filter.projectIds.includes(allFilter) ? undefined : {in: filter.projectIds},
+    priority: filter.priority === allFilter ? undefined : filter.priority,
     createdDate: createdDateRange.from && createdDateRange.to ? {
       gte: createdDateRange.from,
       lte: createdDateRange.to,

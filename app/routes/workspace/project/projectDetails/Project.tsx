@@ -1,13 +1,22 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
-import {LoaderFunction, json} from '@remix-run/node';
+import {ActionFunction, LoaderFunction, json} from '@remix-run/node';
 import {BodyText, H1} from '~/typography';
-import {useLoaderData} from '@remix-run/react';
+import {useFetcher, useLoaderData} from '@remix-run/react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
 import {Box, Chip, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
+import {Priority} from '@prisma/client';
+import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
+import {TicketFilterClientSide, defaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
+
+type ActionData = {
+  tickets: Array<TicketPreview>;
+  ticketCount: number;
+  ticketPriorityCounts: Record<Priority, number>;
+}
 
 export const loader: LoaderFunction = async ({params}) => {
   const {projectId} = params
@@ -21,8 +30,40 @@ export const loader: LoaderFunction = async ({params}) => {
   return project
 }
 
+export const action: ActionFunction = async ({request, params}) => {
+  const {projectId} = params
+  if (!projectId) {
+    return json(`Error`)
+  }
+  const filter = await request.json() as TicketFilterClientSide
+  const ticketWhereInput = convertTicketFilterClientSideToTicketWhereInput({
+    ...filter,
+    projectIds: [projectId],
+  })
+  const tickets = await findTicketPreviews(ticketWhereInput)
+  const ticketCounts = await getTicketCounts(ticketWhereInput)
+  const data: ActionData = {
+    tickets,
+    ticketPriorityCounts: ticketCounts,
+    ticketCount: ticketCounts.low + ticketCounts.medium + ticketCounts.high,
+  }
+  return json(data)
+}
+
 export default function Project() {
   const project = serializedProjectToProjectInfo(useLoaderData<ProjectInfo>())
+  const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({...defaultTicketFilterClientSide})  
+  const fetcher = useFetcher<ActionData>()
+  React.useEffect(() => {
+    const stringifiedData = JSON.stringify(ticketFilter)
+    fetcher.submit(stringifiedData, {
+      method: `post`,
+      encType: `application/json`,
+    })
+  }, [ticketFilter])
+
+  if (!fetcher.data) return null
+  const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
   return (
     <div>
       <H1>{project.title}</H1>
@@ -37,7 +78,14 @@ export default function Project() {
           </Stack>
         </Box>
       </Paper>
-      <TicketFilter tickets={project.tickets}/>
+      <TicketFilter
+        tickets={tickets}
+        ticketFilter={ticketFilter}
+        onChange={setTicketFilter}
+        priorityCounts={fetcher.data.ticketPriorityCounts}
+        ticketCount={fetcher.data.ticketCount}
+        projectOptions={[]}
+      />
     </div>
   )
 }
