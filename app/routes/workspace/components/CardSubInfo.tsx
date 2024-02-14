@@ -1,7 +1,7 @@
 import emotionStyled from '@emotion/styled';
 import {Stack} from '@mui/material';
 import React from 'react';
-import {H4, InformationalText} from '~/typography';
+import {H4} from '~/typography';
 
 type Props = {
   label: string;
@@ -21,6 +21,6 @@ const Heading = emotionStyled(H4)({
   margin: 0,
 })
 
-const Details = emotionStyled(InformationalText)({
+const Details = emotionStyled(`div`)({
   alignSelf: `flex-end`,
 })

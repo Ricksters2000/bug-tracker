@@ -34,4 +34,5 @@ const Root = emotionStyled(`span`)<Props>(props => ({
   transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
   color: props.foregroundColor,
   backgroundColor: props.backgroundColor,
+  pointerEvents: `none`,
 }))

@@ -1,12 +1,21 @@
-import {$Enums, Priority, Prisma, Ticket} from "@prisma/client";
+import {Priority, Prisma, Ticket} from "@prisma/client";
 import {db} from "./db";
 import {CommentPublic, commentSelectInput} from "./commentDb";
 import {SerializeFrom} from "@remix-run/node";
 import {TicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide";
 import {allFilter} from "~/types/FilterWithAllOption";
+import {UpdateTicketAction, UpdateTicketActionWithId, convertUpdateTicketActionToUpdateInput} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
+import {JSONR} from "~/utils/JSONR";
 
-export type TicketInfo = Omit<Ticket, `projectId`> & {
+export type TicketHistory = {
+  userId: number;
+  date: Date;
+  action: UpdateTicketAction;
+}
+
+export type TicketInfo = Omit<Ticket, `projectId` | `history`> & {
   comments: Array<CommentPublic>;
+  history: Array<TicketHistory>;
 }
 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `dueDate` | `createdDate`>
@@ -20,27 +29,59 @@ export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()(
   createdDate: true,
 })
 
+export const ticketInfoSelectInput = Prisma.validator<Prisma.TicketSelect>()({
+  id: true,
+  title: true,
+  priority: true,
+  dueDate: true,
+  content: true,
+  createdDate: true,
+  history: true,
+  status: true,
+  comments: {
+    select: commentSelectInput,
+    orderBy: {dateSent: `desc`}
+  }
+})
+
 export const findTicketById = async (id: string): Promise<TicketInfo | null> => {
   const ticket = await db.ticket.findUnique({
-    select: {
-      id: true,
-      title: true,
-      priority: true,
-      dueDate: true,
-      content: true,
-      createdDate: true,
-      history: true,
-      status: true,
-      comments: {
-        select: commentSelectInput,
-        orderBy: {dateSent: `desc`}
-      }
-    },
+    select: ticketInfoSelectInput,
     where: {
       id,
     }
   })
-  return ticket
+  if (!ticket) return null;
+  return {
+    ...ticket,
+    history: JSONR.parseFromString<Array<TicketHistory>>(JSONR.stringifyUntyped(ticket.history)),
+  }
+}
+
+export const updateAndGetTicket = async (updateAction: UpdateTicketActionWithId): Promise<TicketInfo | null> => {
+  const {userId, ticketId, action} = updateAction
+  const newHistory: TicketHistory = {
+    userId,
+    action,
+    date: new Date(),
+  }
+  const ticketUpdateInput = convertUpdateTicketActionToUpdateInput(action)
+  const newTicket = await db.ticket.update({
+    select: ticketInfoSelectInput,
+    where: {
+      id: ticketId,
+    },
+    data: {
+      ...ticketUpdateInput,
+      history: {
+        push: JSONR.stringifyUntyped(newHistory),
+      }
+    }
+  })
+  return {
+    ...newTicket,
+    history: JSONR.parseFromString<Array<TicketHistory>>(JSONR.stringifyUntyped(newTicket.history)),
+  }
 }
 
 export const findAllTicketPreviews = async (): Promise<Array<TicketPreview>> => {

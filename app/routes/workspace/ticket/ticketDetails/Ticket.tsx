@@ -1,12 +1,21 @@
 import emotionStyled from "@emotion/styled";
 import {Box, Chip, Stack, TextField} from "@mui/material";
-import {LoaderFunction, json} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
+import {ActionFunction, LoaderFunction, json} from "@remix-run/node";
+import {useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {ExternalLabelCard} from "~/components/cards/ExternalLabelCard";
-import {TicketInfo, findTicketById} from "~/server/db/ticketDb";
-import {BodyText, H1} from "~/typography";
+import {TicketInfo, findTicketById, updateAndGetTicket} from "~/server/db/ticketDb";
+import {BodyText, H1, InformationalText} from "~/typography";
 import {CardSubInfo} from "../../components/CardSubInfo";
+import {EditableText} from "../../components/EditableText";
+import {PriorityTag} from "../../components/PriorityTag";
+import {UpdateTicketAction, UpdateTicketActionWithId} from "./updateTicketAction";
+
+export const action: ActionFunction = async ({request}) => {
+  const data = await request.json() as UpdateTicketActionWithId
+  const newTicket = await updateAndGetTicket(data)
+  return json(newTicket)
+}
 
 export const loader: LoaderFunction = async ({params}) => {
   const {ticketId} = params
@@ -21,20 +30,57 @@ export const loader: LoaderFunction = async ({params}) => {
 }
 
 export default function Ticket() {
-  const ticket = useLoaderData<TicketInfo>()
-  
+  const initialTicket = useLoaderData<TicketInfo>()
+  const fetcher = useFetcher<TicketInfo>()
+
+  const updateTicket = (updateTicketAction: UpdateTicketAction) => {
+    const actionWithId: UpdateTicketActionWithId = {
+      userId: 1,
+      ticketId: ticket.id,
+      action: updateTicketAction
+    }
+    fetcher.submit(actionWithId, {
+      method: `post`,
+      encType: `application/json`,
+    })
+  }
+
+  let ticket = initialTicket
+  if (fetcher.data) {
+    ticket = fetcher.data
+  }
   return (
     <div>
-      <H1>{ticket.title}</H1>
+      <EditableText
+        text={ticket.title}
+        Component={H1}
+        fontSize="2.5rem"
+        inputMarginTop="1.5rem"
+        onSave={(text) => updateTicket({type: `title`, data: text})}
+      />
       <Breadcrumbs paths={[`e`, `E`]}/>
       <Container>
         <ExternalLabelCard label="Details">
-          <Box display={`flex`}>
-            <Description>{ticket.content}</Description>
+          <Box display={`flex`} gap={1}>
+            <EditableDescription
+              multilineTextInput
+              text={ticket.content}
+              Component={BodyText}
+              onSave={(text) => updateTicket({type: `content`, data: text})}
+            />
             <Stack flex={1}>
-              <CardSubInfo label="Priority" details={<Chip size="medium" label={ticket.priority}/>}/>
-              <CardSubInfo label="Created Date" details={ticket.createdDate}/>
-              {ticket.dueDate && <CardSubInfo label="Due Date" details={ticket.dueDate}/>}
+              <CardSubInfo
+                label="Priority"
+                details={
+                  <PriorityTag
+                    priority={ticket.priority}
+                    editable
+                    onChange={(priority) => updateTicket({type: `priority`, data: priority})}
+                  />
+                }
+              />
+              <CardSubInfo label="Created Date" details={<InformationalText>{ticket.createdDate}</InformationalText>}/>
+              {ticket.dueDate && <CardSubInfo label="Due Date" details={<InformationalText>{ticket.dueDate}</InformationalText>}/>}
             </Stack>
           </Box>
         </ExternalLabelCard>
@@ -59,8 +105,9 @@ export default function Ticket() {
   )
 }
 
-const Description = emotionStyled(BodyText)({
+const EditableDescription = emotionStyled(EditableText)({
   flex: 3,
+  alignItems: `flex-start`,
 })
 
 const Container = emotionStyled.div({
