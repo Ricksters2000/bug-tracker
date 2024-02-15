@@ -46,6 +46,7 @@ export default function App() {
         footer: `rgba(248, 349, 250, 1)`,
         breadcrumb: `#6c757d`,
         link: `#0d6efd`,
+        divider: `#c7c7c7`,
         card: {
           border: `rgba(0, 0, 0, 0.175)`,
           background: `#fff`,

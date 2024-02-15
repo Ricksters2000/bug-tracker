@@ -1,11 +1,14 @@
 import {Priority, Prisma} from "@prisma/client";
 import {TicketHistory} from "~/server/db/ticketDb";
 
-export type UpdateTicketActionWithId = {
+export type FullUpdateTicketAction = {
   ticketId: string;
   userId: number;
   action: UpdateTicketAction;
+  previousValue: TicketPreviousValue
 }
+
+export type TicketPreviousValue = UpdateTicketAction[`data`] | null;
 
 export type UpdateTicketAction = 
   UpdateTitleAction |

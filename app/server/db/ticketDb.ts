@@ -1,30 +1,32 @@
 import {Priority, Prisma, Ticket} from "@prisma/client";
 import {db} from "./db";
-import {CommentPublic, commentSelectInput} from "./commentDb";
+import {CommentPublic, commentSelectInput, serializedCommentToCommentPublic} from "./commentDb";
 import {SerializeFrom} from "@remix-run/node";
 import {TicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide";
 import {allFilter} from "~/types/FilterWithAllOption";
-import {UpdateTicketAction, UpdateTicketActionWithId, convertUpdateTicketActionToUpdateInput} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
+import {UpdateTicketAction, FullUpdateTicketAction, convertUpdateTicketActionToUpdateInput, TicketPreviousValue} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
 import {JSONR} from "~/utils/JSONR";
 
 export type TicketHistory = {
   userId: number;
   date: Date;
   action: UpdateTicketAction;
+  previousValue: TicketPreviousValue;
 }
 
-export type TicketInfo = Omit<Ticket, `projectId` | `history`> & {
+export type TicketInfo = Omit<Ticket, `history`> & {
   comments: Array<CommentPublic>;
   history: Array<TicketHistory>;
 }
 
-export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `dueDate` | `createdDate`>
+export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate`>
 
 export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
   projectId: true,
   title: true,
   priority: true,
+  status: true,
   dueDate: true,
   createdDate: true,
 })
@@ -32,6 +34,7 @@ export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()(
 export const ticketInfoSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
   title: true,
+  projectId: true,
   priority: true,
   dueDate: true,
   content: true,
@@ -58,12 +61,13 @@ export const findTicketById = async (id: string): Promise<TicketInfo | null> => 
   }
 }
 
-export const updateAndGetTicket = async (updateAction: UpdateTicketActionWithId): Promise<TicketInfo | null> => {
+export const updateAndGetTicket = async (updateAction: FullUpdateTicketAction): Promise<TicketInfo | null> => {
   const {userId, ticketId, action} = updateAction
   const newHistory: TicketHistory = {
     userId,
     action,
     date: new Date(),
+    previousValue: updateAction.previousValue,
   }
   const ticketUpdateInput = convertUpdateTicketActionToUpdateInput(action)
   const newTicket = await db.ticket.update({
@@ -74,7 +78,7 @@ export const updateAndGetTicket = async (updateAction: UpdateTicketActionWithId)
     data: {
       ...ticketUpdateInput,
       history: {
-        push: JSONR.stringifyUntyped(newHistory),
+        push: newHistory,
       }
     }
   })
@@ -127,6 +131,19 @@ export const serializedTicketToTicketPreview = (jsonTicket: SerializeFrom<Ticket
     createdDate: new Date(jsonTicket.createdDate),
     dueDate: jsonTicket.dueDate ? new Date(jsonTicket.dueDate) : null,
     priority: jsonTicket.priority,
+    status: jsonTicket.status,
+  }
+}
+
+export const serializedTicketToTicketInfo = (jsonTicket: SerializeFrom<TicketInfo>): TicketInfo => {
+  return {
+    ...serializedTicketToTicketPreview(jsonTicket),
+    content: jsonTicket.content,
+    comments: jsonTicket.comments.map(serializedCommentToCommentPublic),
+    history: jsonTicket.history.map(historyItem => ({
+      ...historyItem,
+      date: new Date(historyItem.date)
+    })),
   }
 }
 

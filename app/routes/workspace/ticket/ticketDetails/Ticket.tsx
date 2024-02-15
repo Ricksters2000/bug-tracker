@@ -4,15 +4,15 @@ import {ActionFunction, LoaderFunction, json} from "@remix-run/node";
 import {useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {ExternalLabelCard} from "~/components/cards/ExternalLabelCard";
-import {TicketInfo, findTicketById, updateAndGetTicket} from "~/server/db/ticketDb";
+import {TicketInfo, findTicketById, serializedTicketToTicketInfo, updateAndGetTicket} from "~/server/db/ticketDb";
 import {BodyText, H1, InformationalText} from "~/typography";
 import {CardSubInfo} from "../../components/CardSubInfo";
 import {EditableText} from "../../components/EditableText";
 import {PriorityTag} from "../../components/PriorityTag";
-import {UpdateTicketAction, UpdateTicketActionWithId} from "./updateTicketAction";
+import {UpdateTicketAction, FullUpdateTicketAction, TicketPreviousValue} from "./updateTicketAction";
 
 export const action: ActionFunction = async ({request}) => {
-  const data = await request.json() as UpdateTicketActionWithId
+  const data = await request.json() as FullUpdateTicketAction
   const newTicket = await updateAndGetTicket(data)
   return json(newTicket)
 }
@@ -33,11 +33,12 @@ export default function Ticket() {
   const initialTicket = useLoaderData<TicketInfo>()
   const fetcher = useFetcher<TicketInfo>()
 
-  const updateTicket = (updateTicketAction: UpdateTicketAction) => {
-    const actionWithId: UpdateTicketActionWithId = {
+  const updateTicket = (updateTicketAction: UpdateTicketAction, previousValue: TicketPreviousValue) => {
+    const actionWithId: FullUpdateTicketAction = {
       userId: 1,
       ticketId: ticket.id,
-      action: updateTicketAction
+      action: updateTicketAction,
+      previousValue
     }
     fetcher.submit(actionWithId, {
       method: `post`,
@@ -45,9 +46,11 @@ export default function Ticket() {
     })
   }
 
-  let ticket = initialTicket
+  let ticket: TicketInfo
   if (fetcher.data) {
-    ticket = fetcher.data
+    ticket = serializedTicketToTicketInfo(fetcher.data)
+  } else {
+    ticket = serializedTicketToTicketInfo(initialTicket)
   }
   return (
     <div>
@@ -56,7 +59,7 @@ export default function Ticket() {
         Component={H1}
         fontSize="2.5rem"
         inputMarginTop="1.5rem"
-        onSave={(text) => updateTicket({type: `title`, data: text})}
+        onSave={(text) => updateTicket({type: `title`, data: text}, ticket.title)}
       />
       <Breadcrumbs paths={[`e`, `E`]}/>
       <Container>
@@ -66,7 +69,7 @@ export default function Ticket() {
               multilineTextInput
               text={ticket.content}
               Component={BodyText}
-              onSave={(text) => updateTicket({type: `content`, data: text})}
+              onSave={(text) => updateTicket({type: `content`, data: text}, ticket.content)}
             />
             <Stack flex={1}>
               <CardSubInfo
@@ -75,18 +78,18 @@ export default function Ticket() {
                   <PriorityTag
                     priority={ticket.priority}
                     editable
-                    onChange={(priority) => updateTicket({type: `priority`, data: priority})}
+                    onChange={(priority) => updateTicket({type: `priority`, data: priority}, ticket.priority)}
                   />
                 }
               />
-              <CardSubInfo label="Created Date" details={<InformationalText>{ticket.createdDate}</InformationalText>}/>
-              {ticket.dueDate && <CardSubInfo label="Due Date" details={<InformationalText>{ticket.dueDate}</InformationalText>}/>}
+              <CardSubInfo label="Created Date" details={<InformationalText>{ticket.createdDate.toDateString()}</InformationalText>}/>
+              {ticket.dueDate && <CardSubInfo label="Due Date" details={<InformationalText>{ticket.dueDate?.toDateString()}</InformationalText>}/>}
             </Stack>
           </Box>
         </ExternalLabelCard>
         <Box display={`flex`} gap={`40px`}>
           <CommentsCard label="Comments">
-            <Stack spacing={`20px`}>
+            <Stack spacing={`20px`} height={`100%`}>
               <ScrollContainer></ScrollContainer>
               <TextField
                 variant="filled"
@@ -97,7 +100,20 @@ export default function Ticket() {
             </Stack>
           </CommentsCard>
           <HistoryCard label="History">
-            <ScrollContainer></ScrollContainer>
+            <ScrollContainer>
+              {ticket.history.map((history, i) => {
+                return (
+                  <HistoryItem key={`${i}-${history.date}`}>
+                    <HistoryItemInnerContainer>
+                      <HistoryDate>{history.date.toDateString()}</HistoryDate>
+                      <BodyText>
+                        {history.userId} changed<HistoryTypeText> {history.action.type} </HistoryTypeText> from '<HistoryPreviousValue>{history.previousValue}</HistoryPreviousValue>' to '{history.action.data}'
+                      </BodyText>
+                    </HistoryItemInnerContainer>
+                  </HistoryItem>
+                )
+              })}
+            </ScrollContainer>
           </HistoryCard>
         </Box>
       </Container>
@@ -122,6 +138,7 @@ const CommentsCard = emotionStyled(ExternalLabelCard)({
 
 const HistoryCard = emotionStyled(ExternalLabelCard)({
   flex: 1,
+  padding: `1.5rem 0`,
 })
 
 const ScrollContainer = emotionStyled.div({
@@ -129,4 +146,24 @@ const ScrollContainer = emotionStyled.div({
   height: `100%`,
   maxHeight: `450px`,
   overflowY: `auto`,
+})
+
+const HistoryItem = emotionStyled.div(props => ({
+  padding: `.8rem 0`,
+  borderBottom: `1px solid ${props.theme.color.content.divider}`
+}))
+
+const HistoryItemInnerContainer = emotionStyled.div({
+  padding: `0 1.5rem`,
+})
+
+const HistoryDate = emotionStyled(InformationalText)({
+})
+
+const HistoryPreviousValue = emotionStyled.span({
+  textDecoration: `line-through`,
+})
+
+const HistoryTypeText = emotionStyled.span({
+  fontWeight: 700,
 })
