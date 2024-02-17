@@ -1,5 +1,6 @@
+import React from "react";
 import emotionStyled from "@emotion/styled";
-import {Box, Chip, Stack, TextField} from "@mui/material";
+import {Box, IconButton, Stack, TextField} from "@mui/material";
 import {ActionFunction, LoaderFunction, json} from "@remix-run/node";
 import {useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
@@ -10,6 +11,8 @@ import {CardSubInfo} from "../../components/CardSubInfo";
 import {EditableText} from "../../components/EditableText";
 import {PriorityTag} from "../../components/PriorityTag";
 import {UpdateTicketAction, FullUpdateTicketAction, TicketPreviousValue} from "./updateTicketAction";
+import {SendIcon} from "~/assets/icons/SendIcon";
+import {Comment} from "./Comment";
 
 export const action: ActionFunction = async ({request}) => {
   const data = await request.json() as FullUpdateTicketAction
@@ -26,12 +29,13 @@ export const loader: LoaderFunction = async ({params}) => {
   if (!ticket) {
     return json(`Error`)
   }
-  return ticket
+  return json(ticket)
 }
 
 export default function Ticket() {
   const initialTicket = useLoaderData<TicketInfo>()
   const fetcher = useFetcher<TicketInfo>()
+  const [currentComment, setCurrentComment] = React.useState(``)
 
   const updateTicket = (updateTicketAction: UpdateTicketAction, previousValue: TicketPreviousValue) => {
     const actionWithId: FullUpdateTicketAction = {
@@ -44,6 +48,18 @@ export default function Ticket() {
       method: `post`,
       encType: `application/json`,
     })
+  }
+
+  const addComment = () => {
+    if (!currentComment) return
+    updateTicket({
+      type: `addComment`,
+      data: {
+        userId: 1,
+        message: currentComment
+      }
+    }, null)
+    setCurrentComment(``)
   }
 
   let ticket: TicketInfo
@@ -90,12 +106,33 @@ export default function Ticket() {
         <Box display={`flex`} gap={`40px`}>
           <CommentsCard label="Comments">
             <Stack spacing={`20px`} height={`100%`}>
-              <ScrollContainer></ScrollContainer>
+              <ScrollContainer>
+                {ticket.comments.map(comment => {
+                  return (
+                    <Comment key={comment.id} comment={comment}/>
+                  )
+                })}
+              </ScrollContainer>
               <TextField
                 variant="filled"
                 placeholder="Comment here..."
                 multiline
                 rows={5}
+                value={currentComment}
+                onChange={(evt) => setCurrentComment(evt.target.value)}
+                InputProps={{
+                  onKeyDown: (event) => {
+                    if (event.key === `Enter`) {
+                      event.preventDefault();
+                      addComment();
+                    }
+                  },
+                  endAdornment: (
+                    <IconButton sx={{alignSelf: `flex-end`}} onClick={addComment}>
+                      <SendIcon/>
+                    </IconButton>
+                  )
+                }}
               />
             </Stack>
           </CommentsCard>
@@ -166,4 +203,5 @@ const HistoryPreviousValue = emotionStyled.span({
 
 const HistoryTypeText = emotionStyled.span({
   fontWeight: 700,
+  textTransform: `capitalize`,
 })

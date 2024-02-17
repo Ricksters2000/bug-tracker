@@ -71,7 +71,15 @@ export const H3 = emotionStyled.h3(props => ({
 }))
 
 export const H4 = emotionStyled.h4(props => ({
+  fontSize: `1.5rem`,
+}))
+
+export const H5 = emotionStyled.h5(props => ({
   fontSize: `1.25rem`,
+}))
+
+export const H6 = emotionStyled.h6(props => ({
+  fontSize: `1.125rem`,
 }))
 
 export const A = emotionStyled(Link)(props => ({

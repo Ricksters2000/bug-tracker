@@ -12,7 +12,7 @@ export const commentSelectInput = Prisma.validator<Prisma.CommentSelect>()({
   dateSent: true,
   user: {
     select: userPublicSelectInput,
-  }
+  },
 })
 
 export const serializedCommentToCommentPublic = (jsonComment: SerializeFrom<CommentPublic>): CommentPublic => {

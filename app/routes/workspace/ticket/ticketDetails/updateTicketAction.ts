@@ -8,9 +8,12 @@ export type FullUpdateTicketAction = {
   previousValue: TicketPreviousValue
 }
 
-export type TicketPreviousValue = UpdateTicketAction[`data`] | null;
+export type TicketPreviousValue = UpdateTicketActionAndSaveToHistory[`data`] | null;
 
-export type UpdateTicketAction = 
+export type UpdateTicketAction = UpdateTicketActionAndSaveToHistory |
+  UpdateAddCommentAction;
+
+export type UpdateTicketActionAndSaveToHistory = 
   UpdateTitleAction |
   UpdateContentAction |
   UpdatePriorityAction;
@@ -30,6 +33,32 @@ type UpdatePriorityAction = {
   data: Priority;
 }
 
+type UpdateAddCommentAction = {
+  type: `addComment`;
+  data: {
+    userId: number;
+    message: string;
+  };
+}
+
+export const createTicketUpdateInputAndSaveHistoryFromUpdateAction = (fullAction: FullUpdateTicketAction): Prisma.TicketUpdateInput => {
+  const updateInput = convertUpdateTicketActionToUpdateInput(fullAction.action)
+  // don't save history for adding comments
+  if (fullAction.action.type !== `addComment`) {
+    const history: TicketHistory = {
+      userId: fullAction.userId,
+      action: fullAction.action,
+      previousValue: fullAction.previousValue,
+      date: new Date(),
+    }
+    return {
+      ...updateInput,
+      history: {push: history},
+    }
+  }
+  return updateInput
+}
+
 export const convertUpdateTicketActionToUpdateInput = (action: UpdateTicketAction): Prisma.TicketUpdateInput => {
   switch (action.type) {
     case `title`:
@@ -44,5 +73,17 @@ export const convertUpdateTicketActionToUpdateInput = (action: UpdateTicketActio
       return {
         priority: action.data
       }
+    case `addComment`:
+      return {
+        comments: {
+          create: {
+            userId: action.data.userId,
+            message: action.data.message,
+            dateSent: new Date(),
+          }
+        }
+      }
+    default:
+      return {}
   }
 }
