@@ -3,6 +3,7 @@ import {LoaderFunction, json, redirect} from "@remix-run/node"
 import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
 import {UserPublic, findUserById} from "~/server/db/userDb"
+import {AppContextValue, AppContext} from "../AppContext"
 
 export type WorkspaceLoaderData = UserPublic
 
@@ -20,9 +21,14 @@ export const loader: LoaderFunction = async ({request, params}) => {
 
 export default function Workspace() {
   const user = useLoaderData<WorkspaceLoaderData>()
+  const appContext: AppContextValue = {
+    currentUser: user,
+  }
   return (
     <LayoutContainer user={user}>
-      <Outlet/>
+      <AppContext.Provider value={appContext}>
+        <Outlet/>
+      </AppContext.Provider>
     </LayoutContainer>
   )
 }

@@ -13,6 +13,7 @@ import {PriorityTag} from "../../components/PriorityTag";
 import {UpdateTicketAction, FullUpdateTicketAction, TicketPreviousValue} from "./updateTicketAction";
 import {SendIcon} from "~/assets/icons/SendIcon";
 import {Comment} from "./Comment";
+import {useAppContext} from "../../AppContext";
 
 export const action: ActionFunction = async ({request}) => {
   const data = await request.json() as FullUpdateTicketAction
@@ -35,11 +36,12 @@ export const loader: LoaderFunction = async ({params}) => {
 export default function Ticket() {
   const initialTicket = useLoaderData<TicketInfo>()
   const fetcher = useFetcher<TicketInfo>()
+  const {currentUser} = useAppContext()
   const [currentComment, setCurrentComment] = React.useState(``)
 
   const updateTicket = (updateTicketAction: UpdateTicketAction, previousValue: TicketPreviousValue) => {
     const actionWithId: FullUpdateTicketAction = {
-      userId: 1,
+      userId: currentUser.id,
       ticketId: ticket.id,
       action: updateTicketAction,
       previousValue
@@ -55,7 +57,7 @@ export default function Ticket() {
     updateTicket({
       type: `addComment`,
       data: {
-        userId: 1,
+        userId: currentUser.id,
         message: currentComment
       }
     }, null)
