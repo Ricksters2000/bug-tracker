@@ -169,11 +169,15 @@ const Container = emotionStyled.div({
   flexDirection: `column`,
 })
 
-const CommentsCard = emotionStyled(ExternalLabelCard)({
+const LargeLabelCard = emotionStyled(ExternalLabelCard)({
+  maxHeight: 600,
+})
+
+const CommentsCard = emotionStyled(LargeLabelCard)({
   flex: 3,
 })
 
-const HistoryCard = emotionStyled(ExternalLabelCard)({
+const HistoryCard = emotionStyled(LargeLabelCard)({
   flex: 1,
   padding: `1.5rem 0`,
 })
@@ -181,7 +185,6 @@ const HistoryCard = emotionStyled(ExternalLabelCard)({
 const ScrollContainer = emotionStyled.div({
   minHeight: `100px`,
   height: `100%`,
-  maxHeight: `450px`,
   overflowY: `auto`,
 })
 
