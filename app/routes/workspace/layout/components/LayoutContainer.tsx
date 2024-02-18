@@ -9,6 +9,7 @@ import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover} fro
 import {Link} from '@remix-run/react';
 import {useTheme} from '@emotion/react';
 import {UserPublic} from '~/server/db/userDb';
+import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
 
 type Props = {
   user: UserPublic;
@@ -129,7 +130,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
             </SideNavMenu>
             <SideNavFooter>
               <SmallText>Logged in as:</SmallText>
-              <BodyText>{user.firstName}</BodyText>
+              <BodyText>{getUserFullNameFromUser(user)}</BodyText>
             </SideNavFooter>
           </InnerSideNav>
         </SideNav>

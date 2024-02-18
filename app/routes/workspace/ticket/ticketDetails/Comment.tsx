@@ -4,6 +4,7 @@ import React from 'react';
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {CommentPublic} from '~/server/db/commentDb';
 import {BodyText, H6, InformationalText} from '~/typography';
+import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
 
 type Props = {
   comment: CommentPublic;
@@ -18,7 +19,7 @@ export const Comment: React.FC<Props> = (props) => {
       </Avatar>
       <TextContainer>
         <InformationalText>{dateSent.toDateString()}</InformationalText>
-        <H6>{`${user.firstName} ${user.lastName}`}</H6>
+        <H6>{getUserFullNameFromUser(user)}</H6>
         <BodyText>{message}</BodyText>
       </TextContainer>
     </Box>

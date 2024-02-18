@@ -17,6 +17,7 @@ import {useAppContext} from "../../AppContext";
 import {StatusTag} from "../../components/StatusTag";
 import {UserPicker} from "../../components/UserPicker";
 import {UserList} from "../../components/UserList";
+import {TicketHistoryList} from "./TicketHistoryList";
 
 export const action: ActionFunction = async ({request}) => {
   const data = await request.json() as FullUpdateTicketAction
@@ -169,20 +170,7 @@ export default function Ticket() {
             </Stack>
           </CommentsCard>
           <HistoryCard label="History">
-            <ScrollContainer>
-              {ticket.history.map((history, i) => {
-                return (
-                  <HistoryItem key={`${i}-${history.date}`}>
-                    <HistoryItemInnerContainer>
-                      <HistoryDate>{history.date.toDateString()}</HistoryDate>
-                      <BodyText>
-                        {history.userId} changed<HistoryTypeText> {history.action.type} </HistoryTypeText> from '<HistoryPreviousValue>{history.previousValue}</HistoryPreviousValue>' to '{history.action.data}'
-                      </BodyText>
-                    </HistoryItemInnerContainer>
-                  </HistoryItem>
-                )
-              })}
-            </ScrollContainer>
+            <HistoryScrollableList history={ticket.history}/>
           </HistoryCard>
         </Box>
       </Container>
@@ -227,23 +215,5 @@ const ScrollContainer = emotionStyled.div({
   overflowY: `auto`,
 })
 
-const HistoryItem = emotionStyled.div(props => ({
-  padding: `.8rem 0`,
-  borderBottom: `1px solid ${props.theme.color.content.divider}`
-}))
-
-const HistoryItemInnerContainer = emotionStyled.div({
-  padding: `0 1.5rem`,
-})
-
-const HistoryDate = emotionStyled(InformationalText)({
-})
-
-const HistoryPreviousValue = emotionStyled.span({
-  textDecoration: `line-through`,
-})
-
-const HistoryTypeText = emotionStyled.span({
-  fontWeight: 700,
-  textTransform: `capitalize`,
-})
+const HistoryScrollableList = emotionStyled(ScrollContainer)({
+}).withComponent(TicketHistoryList)

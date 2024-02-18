@@ -4,6 +4,7 @@ import {Avatar, Box, Button, Dialog, DialogContent, DialogTitle, MenuItem, MenuL
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {BodyText, H6, SmallText} from '~/typography';
 import emotionStyled from '@emotion/styled';
+import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
 
 type Props = {
   label?: string;
@@ -39,7 +40,7 @@ export const UserPicker: React.FC<Props> = (props) => {
                       <UserIcon/>
                     </Avatar>
                     <Stack>
-                      <H6 style={{marginBottom: 0}}>{`${user.firstName} ${user.lastName}`}</H6>
+                      <H6 style={{marginBottom: 0}}>{getUserFullNameFromUser(user)}</H6>
                       <RoleText>{user.role}</RoleText>
                     </Stack>
                   </Box>

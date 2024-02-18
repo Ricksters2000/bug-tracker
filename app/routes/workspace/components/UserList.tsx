@@ -3,6 +3,7 @@ import React from 'react';
 import {DeleteIcon} from '~/assets/icons/DeleteIcon';
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {UserPublic} from '~/server/db/userDb';
+import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
 
 type Props = {
   className?: string;
@@ -33,7 +34,7 @@ export const UserList: React.FC<Props> = (props) => {
               </Avatar>
             </ListItemAvatar>
             <ListItemText
-              primary={`${user.firstName} ${user.lastName}`}
+              primary={getUserFullNameFromUser(user)}
               secondary={user.role}
             />
           </ListItem>
