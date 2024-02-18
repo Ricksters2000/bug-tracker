@@ -14,6 +14,7 @@ import {UpdateTicketAction, FullUpdateTicketAction, TicketPreviousValue} from ".
 import {SendIcon} from "~/assets/icons/SendIcon";
 import {Comment} from "./Comment";
 import {useAppContext} from "../../AppContext";
+import {StatusTag} from "../../components/StatusTag";
 
 export const action: ActionFunction = async ({request}) => {
   const data = await request.json() as FullUpdateTicketAction
@@ -97,6 +98,16 @@ export default function Ticket() {
                     priority={ticket.priority}
                     editable
                     onChange={(priority) => updateTicket({type: `priority`, data: priority}, ticket.priority)}
+                  />
+                }
+              />
+              <CardSubInfo
+                label="Status"
+                details={
+                  <StatusTag
+                    status={ticket.status}
+                    editable
+                    onChange={(status) => updateTicket({type: `status`, data: status}, ticket.status)}
                   />
                 }
               />

@@ -17,6 +17,7 @@ import {TicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {allFilter} from '~/types/FilterWithAllOption';
 import {ProjectOption} from '~/server/db/projectDb';
 import {SelectFilter} from './SelectFilter';
+import {StatusTag} from './StatusTag';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -31,7 +32,7 @@ type Props = {
 export const TicketFilter: React.FC<Props> = (props) => {
   const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions} = props
   const {title, statuses, priority, dueDateRange, createdDateRange, projectIds} = ticketFilter
-  const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(true)
+  const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(false)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const {tickets} = props
   const workspacePath = useWorkspacePath()
@@ -188,11 +189,11 @@ export const TicketFilter: React.FC<Props> = (props) => {
                   Due Date
                 </TableSortLabel>
               </TableCell>
-              {/* <TableCell>
+              <TableCell>
                 <TableSortLabel>
                   Status
                 </TableSortLabel>
-              </TableCell> */}
+              </TableCell>
               <TableCell>
                 <TableSortLabel>
                   Priority
@@ -202,7 +203,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           </TableHead>
           <TableBody>
             {tickets.map(ticket => {
-              const {id, projectId, title, dueDate, createdDate, priority} = ticket
+              const {id, projectId, title, dueDate, createdDate, priority, status} = ticket
               return (
                 <TableRow key={id} role="checkbox">
                   <TableCell padding='checkbox'>
@@ -230,6 +231,9 @@ export const TicketFilter: React.FC<Props> = (props) => {
                   </TableCell>
                   <TableCell>
                     {dueDate?.toString() ?? `-`}
+                  </TableCell>
+                  <TableCell>
+                    <StatusTag status={status}/>
                   </TableCell>
                   <TableCell>
                     <PriorityTag priority={priority}/>

@@ -1,4 +1,4 @@
-import {Priority, Prisma} from "@prisma/client";
+import {Priority, Prisma, TicketStatus} from "@prisma/client";
 import {TicketHistory} from "~/server/db/ticketDb";
 
 export type FullUpdateTicketAction = {
@@ -16,7 +16,8 @@ export type UpdateTicketAction = UpdateTicketActionAndSaveToHistory |
 export type UpdateTicketActionAndSaveToHistory = 
   UpdateTitleAction |
   UpdateContentAction |
-  UpdatePriorityAction;
+  UpdatePriorityAction |
+  UpdateStatusAction;
 
 type UpdateTitleAction = {
   type: `title`;
@@ -31,6 +32,11 @@ type UpdateContentAction = {
 type UpdatePriorityAction = {
   type: `priority`;
   data: Priority;
+}
+
+type UpdateStatusAction = {
+  type: `status`;
+  data: TicketStatus;
 }
 
 type UpdateAddCommentAction = {
@@ -72,6 +78,10 @@ export const convertUpdateTicketActionToUpdateInput = (action: UpdateTicketActio
     case `priority`:
       return {
         priority: action.data
+      }
+    case `status`:
+      return {
+        status: action.data
       }
     case `addComment`:
       return {

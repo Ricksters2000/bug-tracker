@@ -1,6 +1,5 @@
 import {$Enums} from "@prisma/client";
 
-
 type Color = {
   foreground: string;
   background: string;
