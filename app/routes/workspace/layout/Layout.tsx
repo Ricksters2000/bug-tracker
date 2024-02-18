@@ -2,10 +2,13 @@ import {Prisma} from "@prisma/client"
 import {LoaderFunction, json, redirect} from "@remix-run/node"
 import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
-import {UserPublic, findUserById} from "~/server/db/userDb"
+import {UserPublic, findAllUsers, findUserById} from "~/server/db/userDb"
 import {AppContextValue, AppContext} from "../AppContext"
 
-export type WorkspaceLoaderData = UserPublic
+export type WorkspaceLoaderData = {
+  currentUser: UserPublic;
+  allUsers: Array<UserPublic>;
+}
 
 export const loader: LoaderFunction = async ({request, params}) => {
   const {userId} = params
@@ -16,16 +19,22 @@ export const loader: LoaderFunction = async ({request, params}) => {
   if (!user) {
     return redirect(`/auth/login`)
   }
-  return json(user)
+  const users = await findAllUsers()
+  const workspaceData: WorkspaceLoaderData = {
+    currentUser: user,
+    allUsers: users,
+  }
+  return json(workspaceData)
 }
 
 export default function Workspace() {
-  const user = useLoaderData<WorkspaceLoaderData>()
+  const data = useLoaderData<WorkspaceLoaderData>()
   const appContext: AppContextValue = {
-    currentUser: user,
+    currentUser: data.currentUser,
+    allUsers: data.allUsers,
   }
   return (
-    <LayoutContainer user={user}>
+    <LayoutContainer user={data.currentUser}>
       <AppContext.Provider value={appContext}>
         <Outlet/>
       </AppContext.Provider>

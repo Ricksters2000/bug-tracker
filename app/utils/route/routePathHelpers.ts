@@ -5,7 +5,7 @@ import {WorkspaceLoaderData} from "~/routes/workspace/layout/Layout"
 export const useWorkspacePath = () => {
   const data = useRouteLoaderData<WorkspaceLoaderData>(routeIds.workspace)
   if (!data) throw new Error(`Unexpected no user data found from useWorkspacePath()`)
-  return `/workspace/${data.id}`
+  return `/workspace/${data.currentUser.id}`
 }
 
 export const getTicketPath = (workspacePath: string, projectId: string, ticketId: string) => {

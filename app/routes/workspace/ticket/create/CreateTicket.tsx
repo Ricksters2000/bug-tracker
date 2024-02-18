@@ -1,10 +1,11 @@
+import React from "react";
 import emotionStyled from "@emotion/styled";
 import {Form, useActionData, useLoaderData, useSearchParams} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {H1} from "~/typography";
 import {$Enums, Prisma} from "@prisma/client";
 import {ActionFunction, json, redirect} from "@remix-run/node";
-import {Alert, Button, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
+import {Alert, Box, Button, Divider, FormControl, FormHelperText, InputLabel, List, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
 import {DatePicker} from "~/components/input/DatePicker";
 import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
 import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
@@ -12,6 +13,9 @@ import {db} from "~/server/db/db";
 import {FormErrors, FormResponse} from "~/types/Response";
 import {findProjectPreviews} from "~/server/db/projectDb";
 import {objectKeys} from "~/utils/objectKeys";
+import {UserPicker} from "../../components/UserPicker";
+import {useAppContext} from "../../AppContext";
+import {UserList} from "../../components/UserList";
 
 const formKeys = {
   projectId: `projectId`,
@@ -19,7 +23,7 @@ const formKeys = {
   content: `content`,
   dateCreated: `dateCreated`,
   dueDate: `dueDate`,
-  // users: `users`,
+  users: `users`,
   priority: `priority`,
 }
 
@@ -37,6 +41,7 @@ export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData()
   const data = getDataFromFormAsObject(formData, formKeys)
   const formResponse = createFormResponseFromData(data, objectKeys(requiredKeys))
+  console.log(`users:`, data.users, formData.getAll(`users`))
   if (!formResponse.success) {
     return json(formResponse)
   }
@@ -52,9 +57,9 @@ export const action: ActionFunction = async ({request}) => {
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
       priority: requiredData.priority as $Enums.Priority,
-      // assignedUsers: {
-      //   connect: [{id: 1}]
-      // }
+      assignedUsers: {
+        connect: requiredData.users?.split(`,`).map(id => ({id: parseInt(id)})),
+      }
     },
   })
   return redirect(`../ticket/${id}`)
@@ -66,9 +71,11 @@ export const loader = async () => {
 }
 
 export default function CreateTicket() {
+  const {allUsers} = useAppContext()
   const actionData = useActionData<FormResponse<RequiredKeys>>()
   const projects = useLoaderData<typeof loader>()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [selectedUserIds, setSelectedUserIds] = React.useState<Array<number>>([])
   let errors: FormErrors<RequiredKeys> | undefined
   if (actionData && !actionData.success) {
     errors = actionData.errors
@@ -81,7 +88,7 @@ export default function CreateTicket() {
         <Stack direction={`column`} spacing={`16px`}>
           <Paper>
             <Stack direction={`column`} spacing={`16px`}>
-              <Stack direction={`column`} spacing={`16px`} padding={`24px`}>
+              <Stack direction={`column`} gap={`16px`} padding={`24px`}>
                 {projects.length === 0 ?
                   <Alert color="error">No Projects Found! Create a project before creating a ticket.</Alert>
                   :
@@ -142,6 +149,26 @@ export default function CreateTicket() {
                   <FormHelperText>{errors?.priority}</FormHelperText>
                 </FormControl>
               </ExtraDetailsContainer>
+              <Stack padding={`24px`}>
+                <UserPicker 
+                  label="Assign Users"
+                  selectedUserIds={selectedUserIds}
+                  onChange={(id) => {
+                    setSelectedUserIds(prev => {
+                      if (prev.includes(id)) {
+                        return prev.filter(userId => userId !== id)
+                      }
+                      return [...prev, id]
+                    })
+                  }}
+                />
+                <Divider sx={{marginTop: `8px`}}/>
+                <UserList
+                  users={allUsers.filter(user => selectedUserIds.includes(user.id))}
+                  onDelete={(userId) => setSelectedUserIds(prev => prev.filter(id => id !== userId))}
+                />
+                <input name={formKeys.users} type="hidden" value={selectedUserIds.map(id => id.toString())}/>
+              </Stack>
             </Stack>
           </Paper>
           <Stack direction={`row`} spacing={`16px`} justifyContent={`flex-end`}>

@@ -3,6 +3,7 @@ import {UserPublic} from '~/server/db/userDb';
 
 export type AppContextValue = {
   currentUser: UserPublic;
+  allUsers: Array<UserPublic>;
 }
 
 export const AppContext = React.createContext<AppContextValue | null>(null)

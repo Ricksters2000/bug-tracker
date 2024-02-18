@@ -29,6 +29,13 @@ export const findUserById = async (id: number): Promise<UserPublic | null> => {
   return user
 }
 
+export const findAllUsers = async (): Promise<Array<UserPublic>> => {
+  const users = await db.user.findMany({
+    select: userPublicSelectInput,
+  })
+  return users
+}
+
 export const authenticateUser = async (email: string, password: string): Promise<number | null> => {
   const user = await db.user.findUnique({
     select: {
