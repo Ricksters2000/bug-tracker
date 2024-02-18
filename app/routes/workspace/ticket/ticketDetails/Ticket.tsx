@@ -15,6 +15,8 @@ import {SendIcon} from "~/assets/icons/SendIcon";
 import {Comment} from "./Comment";
 import {useAppContext} from "../../AppContext";
 import {StatusTag} from "../../components/StatusTag";
+import {UserPicker} from "../../components/UserPicker";
+import {UserList} from "../../components/UserList";
 
 export const action: ActionFunction = async ({request}) => {
   const data = await request.json() as FullUpdateTicketAction
@@ -83,7 +85,7 @@ export default function Ticket() {
       <Breadcrumbs paths={[`e`, `E`]}/>
       <Container>
         <ExternalLabelCard label="Details">
-          <Box display={`flex`} gap={1}>
+          <Box display={`flex`} gap={`4px`}>
             <EditableDescription
               multilineTextInput
               text={ticket.content}
@@ -91,6 +93,23 @@ export default function Ticket() {
               onSave={(text) => updateTicket({type: `content`, data: text}, ticket.content)}
             />
             <Stack flex={1}>
+              <UserPicker
+                label="Assign Users"
+                selectedUserIds={ticket.assignedUsers.map(user => user.id)}
+                onChange={(userId) => {
+                  if (ticket.assignedUsers.findIndex(user => user.id === userId) > -1) {
+                    updateTicket({type: `removeUser`, data: userId}, null)
+                  } else {
+                    updateTicket({type: `assignUser`, data: userId}, null)
+                  }
+                }}
+              />
+              <UserList
+                users={ticket.assignedUsers}
+                onDelete={(userId) => updateTicket({type: `removeUser`, data: userId}, null)}
+              />
+            </Stack>
+            <TicketMetadataInfoContainer flex={1}>
               <CardSubInfo
                 label="Priority"
                 details={
@@ -113,7 +132,7 @@ export default function Ticket() {
               />
               <CardSubInfo label="Created Date" details={<InformationalText>{ticket.createdDate.toDateString()}</InformationalText>}/>
               {ticket.dueDate && <CardSubInfo label="Due Date" details={<InformationalText>{ticket.dueDate?.toDateString()}</InformationalText>}/>}
-            </Stack>
+            </TicketMetadataInfoContainer>
           </Box>
         </ExternalLabelCard>
         <Box display={`flex`} gap={`40px`}>
@@ -171,10 +190,17 @@ export default function Ticket() {
   )
 }
 
-const EditableDescription = emotionStyled(EditableText)({
-  flex: 3,
+const EditableDescription = emotionStyled(EditableText)(props => ({
+  flex: 2,
   alignItems: `flex-start`,
-})
+  paddingRight: 8,
+  borderRight: `1px solid ${props.theme.color.content.divider}`,
+}))
+
+const TicketMetadataInfoContainer = emotionStyled(Stack)(props => ({
+  paddingLeft: 8,
+  borderLeft: `1px solid ${props.theme.color.content.divider}`,
+}))
 
 const Container = emotionStyled.div({
   display: `flex`,

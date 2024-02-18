@@ -6,6 +6,7 @@ import {TicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide";
 import {allFilter} from "~/types/FilterWithAllOption";
 import {UpdateTicketAction, FullUpdateTicketAction, convertUpdateTicketActionToUpdateInput, TicketPreviousValue, UpdateTicketActionAndSaveToHistory, createTicketUpdateInputAndSaveHistoryFromUpdateAction} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
 import {JSONR} from "~/utils/JSONR";
+import {UserPublic, userPublicSelectInput} from "./userDb";
 
 export type TicketHistory = {
   userId: number;
@@ -17,6 +18,7 @@ export type TicketHistory = {
 export type TicketInfo = Omit<Ticket, `history`> & {
   comments: Array<CommentPublic>;
   history: Array<TicketHistory>;
+  assignedUsers: Array<UserPublic>;
 }
 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate`>
@@ -44,7 +46,10 @@ export const ticketInfoSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   comments: {
     select: commentSelectInput,
     orderBy: {dateSent: `asc`}
-  }
+  },
+  assignedUsers: {
+    select: userPublicSelectInput,
+  },
 })
 
 export const findTicketById = async (id: string): Promise<TicketInfo | null> => {
@@ -128,6 +133,7 @@ export const serializedTicketToTicketInfo = (jsonTicket: SerializeFrom<TicketInf
   return {
     ...serializedTicketToTicketPreview(jsonTicket),
     content: jsonTicket.content,
+    assignedUsers: jsonTicket.assignedUsers,
     comments: jsonTicket.comments.map(serializedCommentToCommentPublic),
     history: jsonTicket.history.map(historyItem => ({
       ...historyItem,

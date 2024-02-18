@@ -17,7 +17,9 @@ export type UpdateTicketActionAndSaveToHistory =
   UpdateTitleAction |
   UpdateContentAction |
   UpdatePriorityAction |
-  UpdateStatusAction;
+  UpdateStatusAction |
+  UpdateAssignUserAction |
+  UpdateRemoveUserAction;
 
 type UpdateTitleAction = {
   type: `title`;
@@ -37,6 +39,16 @@ type UpdatePriorityAction = {
 type UpdateStatusAction = {
   type: `status`;
   data: TicketStatus;
+}
+
+type UpdateAssignUserAction = {
+  type: `assignUser`;
+  data: number;
+}
+
+type UpdateRemoveUserAction = {
+  type: `removeUser`;
+  data: number;
 }
 
 type UpdateAddCommentAction = {
@@ -92,6 +104,18 @@ export const convertUpdateTicketActionToUpdateInput = (action: UpdateTicketActio
             dateSent: new Date(),
           }
         }
+      }
+    case `assignUser`:
+      return {
+        assignedUsers: {
+          connect: {id: action.data},
+        },
+      }
+    case `removeUser`:
+      return {
+        assignedUsers: {
+          disconnect: {id: action.data},
+        },
       }
     default:
       return {}
