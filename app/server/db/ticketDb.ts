@@ -15,7 +15,7 @@ export type TicketHistory = {
   previousValue: TicketPreviousValue;
 }
 
-export type TicketInfo = Omit<Ticket, `history`> & {
+export type TicketInfo = Omit<Ticket, `history` | `companyId`> & {
   comments: Array<CommentPublic>;
   history: Array<TicketHistory>;
   assignedUsers: Array<UserPublic>;
@@ -145,6 +145,7 @@ export const serializedTicketToTicketInfo = (jsonTicket: SerializeFrom<TicketInf
 export const convertTicketFilterClientSideToTicketWhereInput = (filter: TicketFilterClientSide): Prisma.TicketWhereInput => {
   const {createdDateRange, dueDateRange} = filter
   return {
+    companyId: filter.companyId,
     title: filter.title ? {contains: filter.title} : undefined,
     status: filter.statuses.length === 0 ? undefined : {in: filter.statuses},
     projectId: filter.projectIds.includes(allFilter) ? undefined : {in: filter.projectIds},

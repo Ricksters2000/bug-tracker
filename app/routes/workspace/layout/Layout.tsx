@@ -1,12 +1,11 @@
-import {Prisma} from "@prisma/client"
 import {LoaderFunction, json, redirect} from "@remix-run/node"
 import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
-import {UserPublic, findAllUsers, findUserById} from "~/server/db/userDb"
+import {UserPublic, UserPublicWithCompany, findAllUsersByCompanyId, findUserWithCompany} from "~/server/db/userDb"
 import {AppContextValue, AppContext} from "../AppContext"
 
 export type WorkspaceLoaderData = {
-  currentUser: UserPublic;
+  currentUser: UserPublicWithCompany;
   allUsers: Array<UserPublic>;
 }
 
@@ -15,11 +14,11 @@ export const loader: LoaderFunction = async ({request, params}) => {
   if (!userId) {
     return redirect(`/auth/login`)
   }
-  const user = await findUserById(parseInt(userId))
+  const user = await findUserWithCompany(parseInt(userId))
   if (!user) {
     return redirect(`/auth/login`)
   }
-  const users = await findAllUsers()
+  const users = await findAllUsersByCompanyId(user.company.id)
   const workspaceData: WorkspaceLoaderData = {
     currentUser: user,
     allUsers: users,

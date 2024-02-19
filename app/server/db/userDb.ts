@@ -1,4 +1,4 @@
-import {$Enums, Prisma} from "@prisma/client";
+import {$Enums, Company, Prisma} from "@prisma/client";
 import {db} from "./db";
 
 export type UserPublic = {
@@ -10,6 +10,10 @@ export type UserPublic = {
   role: $Enums.UserRole;
 }
 
+export type UserPublicWithCompany = UserPublic & {
+  company: Company;
+}
+
 export const userPublicSelectInput = Prisma.validator<Prisma.UserSelect>()({
   id: true,
   email: true,
@@ -18,6 +22,17 @@ export const userPublicSelectInput = Prisma.validator<Prisma.UserSelect>()({
   role: true,
   bio: true,
 })
+
+export const findUserWithCompany = async (id: number): Promise<UserPublicWithCompany | null> => {
+  const user = await db.user.findUnique({
+    select: {
+      ...userPublicSelectInput,
+      company: true,
+    },
+    where: {id},
+  })
+  return user
+}
 
 export const findUserById = async (id: number): Promise<UserPublic | null> => {
   const user = await db.user.findUnique({
@@ -32,6 +47,16 @@ export const findUserById = async (id: number): Promise<UserPublic | null> => {
 export const findAllUsers = async (): Promise<Array<UserPublic>> => {
   const users = await db.user.findMany({
     select: userPublicSelectInput,
+  })
+  return users
+}
+
+export const findAllUsersByCompanyId = async (companyId: string): Promise<Array<UserPublic>> => {
+  const users = await db.user.findMany({
+    select: userPublicSelectInput,
+    where: {
+      companyId,
+    },
   })
   return users
 }

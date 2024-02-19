@@ -4,6 +4,7 @@ import {FilterWithAllOption, allFilter} from "~/types/FilterWithAllOption";
 
 export type TicketFilterClientSide = {
   title: string | null;
+  companyId: string;
   createdDateRange: DateRange;
   dueDateRange: DateRange;
   statuses: Array<TicketStatus>;
@@ -11,7 +12,8 @@ export type TicketFilterClientSide = {
   projectIds: Array<FilterWithAllOption<string>>;
 }
 
-export const defaultTicketFilterClientSide: TicketFilterClientSide = {
+export const createDefaultTicketFilterClientSide = (companyId: string): TicketFilterClientSide => ({
+  companyId,
   title: null,
   projectIds: [allFilter],
   priority: allFilter,
@@ -24,4 +26,19 @@ export const defaultTicketFilterClientSide: TicketFilterClientSide = {
     from: null,
     to: null,
   },
-}
+})
+
+// export const defaultTicketFilterClientSide: TicketFilterClientSide = {
+//   title: null,
+//   projectIds: [allFilter],
+//   priority: allFilter,
+//   statuses: [],
+//   createdDateRange: {
+//     from: null,
+//     to: null,
+//   },
+//   dueDateRange: {
+//     from: null,
+//     to: null,
+//   },
+// }

@@ -5,9 +5,10 @@ import {Breadcrumbs} from "~/components/Breadcrumbs"
 import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
 import {H1} from "~/typography"
 import {TicketFilter} from "../components/TicketFilter"
-import {TicketFilterClientSide, defaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
+import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
 import {Priority} from "@prisma/client"
 import {ProjectOption, findProjectOptions} from "~/server/db/projectDb"
+import {useAppContext} from "../AppContext"
 
 type ActionData = {
   tickets: Array<TicketPreview>;
@@ -32,7 +33,10 @@ export const action: ActionFunction = async ({request}) => {
 }
 
 export default function Index() {
-  const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({...defaultTicketFilterClientSide})  
+  const {currentUser} = useAppContext()
+  const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
+    ...createDefaultTicketFilterClientSide(currentUser.company.id),
+  })  
   const fetcher = useFetcher<ActionData>()
   React.useEffect(() => {
     const stringifiedData = JSON.stringify(ticketFilter)

@@ -1,8 +1,8 @@
 import React from 'react';
-import {UserPublic} from '~/server/db/userDb';
+import {UserPublic, UserPublicWithCompany} from '~/server/db/userDb';
 
 export type AppContextValue = {
-  currentUser: UserPublic;
+  currentUser: UserPublicWithCompany;
   allUsers: Array<UserPublic>;
 }
 
