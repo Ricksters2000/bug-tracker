@@ -9,6 +9,7 @@ generator client {
 
 model User {
   id Int @id @default(autoincrement())
+  companyId String @default("dummy")
   firstName String
   lastName String
   email String @unique
@@ -18,11 +19,13 @@ model User {
   tickets Ticket[]
   projects Project[]
   comments Comment[]
+  company Company @relation(fields: [companyId], references: [id])
 }
 
 model Ticket {
   id String @id @default(uuid())
   projectId String
+  companyId String @default("dummy")
   title String
   priority Priority
   createdDate DateTime
@@ -37,6 +40,7 @@ model Ticket {
 
 model Project {
   id String @id @default(uuid())
+  companyId String @default("dummy")
   title String
   description String?
   createdDate DateTime
@@ -56,11 +60,10 @@ model Comment {
   ticket Ticket @relation(fields: [ticketId], references: [id])
 }
 
-model History {
-  id Int @id @default(autoincrement())
-  userId Int
-  changedId Int
-  type HistoryType
+model Company {
+  id String @id @default(uuid())
+  name String
+  users User[]
 }
 
 enum UserRole {
@@ -74,11 +77,6 @@ enum Priority {
   low
   medium
   high
-}
-
-enum HistoryType {
-  ticket
-  project
 }
 
 enum TicketStatus {
