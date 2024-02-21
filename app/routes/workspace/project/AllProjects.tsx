@@ -1,18 +1,35 @@
+import React from "react";
 import emotionStyled from "@emotion/styled";
 import {Box, Card, CardActionArea, CardContent, Chip, Paper, Stack} from "@mui/material";
-import {LoaderFunction} from "@remix-run/node";
-import {Link, useLoaderData} from "@remix-run/react";
+import {ActionFunction, json} from "@remix-run/node";
+import {Link, useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
-import {ProjectPreview, findProjectPreviews, serializedProjectToProjectPreview} from "~/server/db/projectDb";
+import {ProjectPreview, findProjectPreviewsByCompanyId, serializedProjectToProjectPreview} from "~/server/db/projectDb";
 import {ANoTextDecoration, H1, H3, InformationalText} from "~/typography";
+import {useAppContext} from "../AppContext";
 
-export const loader: LoaderFunction = async () => {
-  const projects = await findProjectPreviews()
-  return projects
+export const action: ActionFunction = async ({request}) => {
+  const {companyId} = await request.json()
+  const projects = await findProjectPreviewsByCompanyId(companyId)
+  return json(projects)
 }
 
 export default function AllProjects() {
-  const projects = useLoaderData<Array<ProjectPreview>>().map(serializedProjectToProjectPreview)
+  const {currentUser} = useAppContext()
+  const fetcher = useFetcher<Array<ProjectPreview>>()
+  let projects: Array<ProjectPreview> = []
+
+  React.useEffect(() => {
+    fetcher.submit({companyId: currentUser.company.id}, {
+      method: `post`,
+      encType: `application/json`,
+    })
+  }, [])
+
+  if (fetcher.data) {
+    projects = fetcher.data.map(serializedProjectToProjectPreview)
+  }
+  
   return (
     <div>
       <H1>Projects</H1>

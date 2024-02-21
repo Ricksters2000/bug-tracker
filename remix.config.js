@@ -28,6 +28,7 @@ export default {
         route(`ticket/create`, `${ticketFolder}/create/CreateTicket.tsx`)
         route(`project/:projectId/ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
       })
+      route(`/api/get-project-options`, `${workspaceFolder}/api/getProjectOptions.ts`)
     })
   },
   // assetsBuildDirectory: "public/build",

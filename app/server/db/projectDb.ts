@@ -4,7 +4,7 @@ import {TicketPreview, serializedTicketToTicketPreview, ticketPreviewSelectInput
 import {SerializeFrom} from "@remix-run/node";
 import {UserPublic, userPublicSelectInput} from "./userDb";
 
-export type ProjectInfo = Project & {
+export type ProjectInfo = Omit<Project, `companyId`> & {
   tickets: Array<TicketPreview>;
   assignedUsers: Array<UserPublic>;
 };
@@ -39,7 +39,7 @@ export const findProjectById = async (id: string): Promise<ProjectInfo | null> =
   return project
 }
 
-export const findProjectPreviews = async (): Promise<Array<ProjectPreview>> => {
+export const findProjectPreviewsByCompanyId = async (companyId: string): Promise<Array<ProjectPreview>> => {
   const projects = await db.project.findMany({
     select: {
       id: true,
@@ -52,12 +52,14 @@ export const findProjectPreviews = async (): Promise<Array<ProjectPreview>> => {
           assignedUsers: true,
           tickets: {
             where: {
+              companyId,
               status: {not: `completed`}
             }
           }
         },
       },
     },
+    orderBy: {title: `asc`},
   })
   return projects.map(project => ({
     id: project.id,
@@ -70,12 +72,16 @@ export const findProjectPreviews = async (): Promise<Array<ProjectPreview>> => {
   }))
 }
 
-export const findProjectOptions = async (): Promise<Array<ProjectOption>> => {
+export const findProjectOptionsByCompanyId = async (companyId: string): Promise<Array<ProjectOption>> => {
   const projects = await db.project.findMany({
     select: {
       id: true,
       title: true,
     },
+    where: {
+      companyId,
+    },
+    orderBy: {title: `asc`},
   })
   return projects
 }

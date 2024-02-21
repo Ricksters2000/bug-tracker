@@ -7,7 +7,7 @@ import {H1} from "~/typography"
 import {TicketFilter} from "../components/TicketFilter"
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
 import {Priority} from "@prisma/client"
-import {ProjectOption, findProjectOptions} from "~/server/db/projectDb"
+import {ProjectOption, findProjectOptionsByCompanyId} from "~/server/db/projectDb"
 import {useAppContext} from "../AppContext"
 
 type ActionData = {
@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({request}) => {
   const ticketWhereInput = convertTicketFilterClientSideToTicketWhereInput(filter)
   const tickets = await findTicketPreviews(ticketWhereInput)
   const ticketCounts = await getTicketCounts(ticketWhereInput)
-  const projectOptions = await findProjectOptions()
+  const projectOptions = await findProjectOptionsByCompanyId(filter.companyId)
   const data: ActionData = {
     tickets,
     ticketPriorityCounts: ticketCounts,

@@ -1,6 +1,6 @@
 import React from "react";
 import emotionStyled from "@emotion/styled";
-import {Form, useActionData, useLoaderData, useSearchParams} from "@remix-run/react";
+import {Form, useActionData, useFetcher, useLoaderData, useSearchParams} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {H1} from "~/typography";
 import {$Enums, Prisma} from "@prisma/client";
@@ -11,7 +11,7 @@ import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
 import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
 import {db} from "~/server/db/db";
 import {FormErrors, FormResponse} from "~/types/Response";
-import {findProjectPreviews} from "~/server/db/projectDb";
+import {ProjectOption, findProjectPreviewsByCompanyId} from "~/server/db/projectDb";
 import {objectKeys} from "~/utils/objectKeys";
 import {UserPicker} from "../../components/UserPicker";
 import {useAppContext} from "../../AppContext";
@@ -65,21 +65,31 @@ export const action: ActionFunction = async ({request}) => {
   return redirect(`../ticket/${id}`)
 }
 
-export const loader = async () => {
-  const projects = await findProjectPreviews()
-  return projects
-}
-
 export default function CreateTicket() {
-  const {allUsers} = useAppContext()
+  const {currentUser, allUsers} = useAppContext()
   const actionData = useActionData<FormResponse<RequiredKeys>>()
-  const projects = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<Array<ProjectOption>>()
   const [searchParams, setSearchParams] = useSearchParams()
   const [selectedUserIds, setSelectedUserIds] = React.useState<Array<number>>([])
+  let projects: Array<ProjectOption> = []
   let errors: FormErrors<RequiredKeys> | undefined
+
+  React.useEffect(() => {
+    fetcher.submit({companyId: currentUser.company.id}, {
+      method: `post`,
+      encType: `application/json`,
+      action: `/api/get-project-options`,
+    })
+  }, [])
+
   if (actionData && !actionData.success) {
     errors = actionData.errors
   }
+
+  if (fetcher.data) {
+    projects = fetcher.data
+  }
+
   return (
     <div>
       <H1>Create a Ticket</H1>
