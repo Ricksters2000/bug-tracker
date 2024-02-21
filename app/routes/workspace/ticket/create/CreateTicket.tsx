@@ -58,12 +58,12 @@ export const action: ActionFunction = async ({request}) => {
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
       priority: requiredData.priority as $Enums.Priority,
-      assignedUsers: {
-        connect: requiredData.users?.split(`,`).map(id => ({id: parseInt(id)})),
-      }
+      assignedUsers: requiredData.users ? {
+        connect: requiredData.users.split(`,`).map(id => ({id: parseInt(id)})),
+      } : undefined,
     },
   })
-  return redirect(`../ticket/${id}`)
+  return redirect(`../project/${requiredData.projectId}/ticket/${id}`)
 }
 
 export default function CreateTicket() {
