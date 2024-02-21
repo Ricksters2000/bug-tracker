@@ -52,12 +52,14 @@ export const findProjectPreviewsByCompanyId = async (companyId: string): Promise
           assignedUsers: true,
           tickets: {
             where: {
-              companyId,
               status: {not: `completed`}
             }
           }
         },
       },
+    },
+    where: {
+      companyId,
     },
     orderBy: {title: `asc`},
   })

@@ -2,7 +2,7 @@ import React from "react";
 import emotionStyled from "@emotion/styled";
 import {Button, Stack, TextField} from "@mui/material";
 import {ActionFunction, json, redirect} from "@remix-run/node";
-import {Form, useActionData} from "@remix-run/react";
+import {Form, useActionData, useRouteError} from "@remix-run/react";
 import {AuthCard} from "~/components/cards/AuthCard";
 import {PasswordField} from "~/components/input/PasswordField";
 import {isEmptyString} from "~/utils/isEmptyString";
@@ -10,6 +10,9 @@ import {db} from "~/server/db/db";
 import {$Enums} from "@prisma/client";
 import {FormErrors, FormResponse} from "~/types/Response";
 import {formatPrismaError} from "~/utils/formatPrismaError";
+import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
+import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
+import {objectKeys} from "~/utils/objectKeys";
 
 const formKeys = {
   firstName: `firstName`,
@@ -17,53 +20,33 @@ const formKeys = {
   emailAddress: `emailAddress`,
   password: `password`,
   confirmPassword: `confirmPassword`,
+  companyName: `companyName`,
 }
 
 type FormKeys = keyof typeof formKeys
 
 export const action: ActionFunction = async ({request}) => {
   let userId: number
-  const data = await request.formData()
-  const firstName = data.get(formKeys.firstName)
-  const lastName = data.get(formKeys.lastName)
-  const email = data.get(formKeys.emailAddress)
-  const password = data.get(formKeys.password)
-
-  const errors: FormErrors<FormKeys> = {
-    firstName: null,
-    lastName: null,
-    emailAddress: null,
-    password: null,
-    confirmPassword: null,
+  const formData = await request.formData()
+  const data = getDataFromFormAsObject(formData, formKeys)
+  const formResponse = createFormResponseFromData(data, objectKeys(formKeys))
+  if (!formResponse.success) {
+    return json(formResponse)
   }
-
-  if (!firstName || !lastName || !email || !password) {
-    if (!firstName) {
-      errors.firstName = `First name is required to create user.`
-    }
-    if (!lastName) {
-      errors.lastName = `Last name is required to create user.`
-    }
-    if (!email) {
-      errors.emailAddress = `Email is required to create user.`
-    }
-    if (!password) {
-      errors.password = `Password is required to create user.`
-    }
-    const response: FormResponse<FormKeys> = {
-      success: false,
-      errors,
-    }
-    return json(response)
-  }
+  const {firstName, lastName, emailAddress, password, companyName} = data as Record<FormKeys, string>
   try {
     const {id} = await db.user.create({
       data: {
-        firstName: firstName.toString(),
-        lastName: lastName.toString(),
-        email: email.toString(),
-        password: password.toString(),
+        firstName: firstName,
+        lastName: lastName,
+        email: emailAddress,
+        password: password,
         role: $Enums.UserRole.admin,
+        company: {
+          create: {
+            name: companyName,
+          },
+        },
       },
       select: {
         id: true,
@@ -71,12 +54,7 @@ export const action: ActionFunction = async ({request}) => {
     })
     userId = id
   } catch (err: any) {
-    const response: FormResponse<FormKeys> = {
-      success: false,
-      errors,
-      errorMessage: formatPrismaError(err, `User with`),
-    }
-    return json(response)
+    throw new Error(`${formatPrismaError(err, `User with`)}`)
   }
   return redirect(`/workspace/${userId}`)
 }
@@ -86,6 +64,7 @@ export default function Register() {
   const passwordRef = React.useRef<HTMLInputElement>(null)
   const confirmPasswordRef = React.useRef<HTMLInputElement>(null)
   const [passwordError, setPasswordError] = React.useState<string | null>(null)
+  const errorMessage = useRouteError() as string | undefined
 
   const onPasswordBlur = () => {
     const passwordEl = passwordRef.current
@@ -106,10 +85,8 @@ export default function Register() {
   }
 
   let errors: FormErrors<FormKeys> | null = null
-  let errorMessage: string | undefined
   if (actionData && !actionData.success) {
     errors = actionData.errors
-    errorMessage = actionData.errorMessage
   }
 
   return (
@@ -144,6 +121,12 @@ export default function Register() {
             label='Email address'
             error={!!errors?.emailAddress}
             helperText={errors?.emailAddress}/>
+          <TextField
+            required
+            name={formKeys.companyName}
+            label='Company Name'
+            error={!!errors?.companyName}
+            helperText={errors?.companyName}/>
           <Stack flexDirection={`row`} gap={3}>
             <PasswordField
               fullWidth

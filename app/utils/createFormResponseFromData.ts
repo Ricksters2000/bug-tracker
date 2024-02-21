@@ -6,7 +6,7 @@ export const createFormResponseFromData = <K extends string>(data: Record<K, str
   const errors: FormErrors<K>  = createNullObjectFromKeys(data)
   for (const key of requiredKeys) {
     if (!data[key]) {
-      errors[key] = `Required to have a value for ${key}`
+      errors[key] = `${key} is required`
       hasErrors = true
     }
   }

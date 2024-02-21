@@ -11,6 +11,7 @@ import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
 import {db} from "~/server/db/db";
 import {FormErrors, FormResponse} from "~/types/Response";
 import {objectKeys} from "~/utils/objectKeys";
+import {useAppContext} from "../../AppContext";
 
 const formKeys = {
   title: `title`,
@@ -19,6 +20,7 @@ const formKeys = {
   dueDate: `dueDate`,
   // users: `users`,
   priority: `priority`,
+  companyId: `companyId`,
 }
 
 const requiredKeys = {
@@ -44,6 +46,7 @@ export const action: ActionFunction = async ({request}) => {
     },
     data: {
       title: requiredData.title,
+      companyId: requiredData.companyId,
       description: requiredData.description,
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
@@ -54,6 +57,7 @@ export const action: ActionFunction = async ({request}) => {
 }
 
 export default function CreateProject() {
+  const {currentUser} = useAppContext()
   const actionData = useActionData<FormResponse<RequiredKeys>>()
   let errors: FormErrors<RequiredKeys> | undefined
   if (actionData && !actionData.success) {
@@ -68,6 +72,7 @@ export default function CreateProject() {
           <Paper>
             <Stack direction={`column`} spacing={`16px`}>
               <Stack direction={`column`} spacing={`16px`} padding={`24px`}>
+                <input type="hidden" name={formKeys.companyId} value={currentUser.company.id}/>
                 <TextField
                   name={formKeys.title}
                   label='Title'

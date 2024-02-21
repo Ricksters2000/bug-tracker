@@ -18,6 +18,7 @@ import {useAppContext} from "../../AppContext";
 import {UserList} from "../../components/UserList";
 
 const formKeys = {
+  companyId: `companyId`,
   projectId: `projectId`,
   title: `title`,
   content: `content`,
@@ -41,7 +42,6 @@ export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData()
   const data = getDataFromFormAsObject(formData, formKeys)
   const formResponse = createFormResponseFromData(data, objectKeys(requiredKeys))
-  console.log(`users:`, data.users, formData.getAll(`users`))
   if (!formResponse.success) {
     return json(formResponse)
   }
@@ -53,6 +53,7 @@ export const action: ActionFunction = async ({request}) => {
     data: {
       title: requiredData.title,
       projectId: requiredData.projectId,
+      companyId: requiredData.companyId,
       content: requiredData.content,
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
@@ -99,6 +100,7 @@ export default function CreateTicket() {
           <Paper>
             <Stack direction={`column`} spacing={`16px`}>
               <Stack direction={`column`} gap={`16px`} padding={`24px`}>
+                <input type="hidden" name={formKeys.companyId} value={currentUser.company.id}/>
                 {projects.length === 0 ?
                   <Alert color="error">No Projects Found! Create a project before creating a ticket.</Alert>
                   :
