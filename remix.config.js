@@ -12,6 +12,7 @@ export default {
     const workspaceFolder = `${routesFolder}/workspace`
     const projectFolder = `${workspaceFolder}/project`
     const ticketFolder = `${workspaceFolder}/ticket`
+    const userFolder = `${workspaceFolder}/user`
     return defineRoutes(route => {
       route(`/auth`, `${authenticationFolder}/Layout.tsx`, () => {
         route(`login`, `${authenticationFolder}/login/Login.tsx`)
@@ -27,6 +28,9 @@ export default {
         route(`ticket`, `${ticketFolder}/AllTickets.tsx`)
         route(`ticket/create`, `${ticketFolder}/create/CreateTicket.tsx`)
         route(`project/:projectId/ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
+        // user routes
+        route(`user/create`, `${userFolder}/create/CreateUser.tsx`)
+        // route(`user/roles`)
       })
       route(`/api/get-project-options`, `${workspaceFolder}/api/getProjectOptions.ts`)
     })

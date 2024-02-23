@@ -1,5 +1,7 @@
 import React from 'react';
-import {FormControl, FormControlProps, FormHelperText, InputLabel, OutlinedInput, OutlinedInputProps} from '@mui/material';
+import {FormControl, FormControlProps, FormHelperText, IconButton, InputLabel, OutlinedInput, OutlinedInputProps} from '@mui/material';
+import {VisibilityOffIcon} from '~/assets/icons/VisibilityOffIcon';
+import {VisibilityIcon} from '~/assets/icons/VisibilityIcon';
 
 type Props = {
   label: string;
@@ -9,6 +11,7 @@ type Props = {
 
 export const PasswordField: React.FC<Props> = (props) => {
   const {name, error, label, helperText, fullWidth, inputRef, required, onBlur} = props
+  const [isVisible, setIsVisible] = React.useState(false)
 
   return (
     <FormControl fullWidth={fullWidth} error={error}>
@@ -18,8 +21,15 @@ export const PasswordField: React.FC<Props> = (props) => {
         onBlur={onBlur}
         required={required}
         name={name}
-        type='password'
-        label={label}/>
+        type={isVisible ? `text` : 'password'}
+        label={label}
+        endAdornment={
+          <IconButton onClick={() => setIsVisible(prev => !prev)}>
+            {isVisible && <VisibilityOffIcon/>}
+            {!isVisible && <VisibilityIcon/>}
+          </IconButton>
+        }
+      />
       <FormHelperText>
         {helperText}  
       </FormHelperText>

@@ -93,9 +93,6 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
                   <NavLink to={`./project`}>
                     Archived Projects
                   </NavLink>
-                  <NavLink to={`./project`}>
-                    Member Roles
-                  </NavLink>
                 </SideNavCollapse>
                 <SideNavCollapse label='Tickets' adornment={<DashboardIcon/>}>
                   <NavLink to={`./ticket/create`}>
@@ -105,26 +102,13 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
                     All Tickets
                   </NavLink>
                 </SideNavCollapse>
-                <SideNavCollapse label='Account' adornment={<DashboardIcon/>}>
-                  <SideNavCollapse label='Authentication'>
-                    <NavLink to={``}>
-                      Login
-                    </NavLink>
-                    <NavLink to={``}>
-                      Register
-                    </NavLink>
-                  </SideNavCollapse>
-                  <SideNavCollapse label='Error'>
-                    <NavLink to={``}>
-                      401 Page
-                    </NavLink>
-                    <NavLink to={``}>
-                      404 Page
-                    </NavLink>
-                    <NavLink to={``}>
-                      500 Page
-                    </NavLink>
-                  </SideNavCollapse>
+                <SideNavCollapse label='Users' adornment={<DashboardIcon/>}>
+                  <NavLink to={`./user/create`}>
+                    Create User
+                  </NavLink>
+                  <NavLink to={`./user/roles`}>
+                    Member Roles
+                  </NavLink>
                 </SideNavCollapse>
               </SideNavContent>
             </SideNavMenu>
