@@ -15,7 +15,7 @@ import {SendIcon} from "~/assets/icons/SendIcon";
 import {Comment} from "./Comment";
 import {useAppContext} from "../../AppContext";
 import {StatusTag} from "../../components/StatusTag";
-import {UserPicker} from "../../components/UserPicker";
+import {UserSelect} from "../../components/UserSelect";
 import {UserList} from "../../components/UserList";
 import {TicketHistoryList} from "./TicketHistoryList";
 
@@ -94,7 +94,7 @@ export default function Ticket() {
               onSave={(text) => updateTicket({type: `content`, data: text}, ticket.content)}
             />
             <Stack flex={1}>
-              <UserPicker
+              <UserSelect
                 label="Assign Users"
                 selectedUserIds={ticket.assignedUsers.map(user => user.id)}
                 onChange={(userId) => {

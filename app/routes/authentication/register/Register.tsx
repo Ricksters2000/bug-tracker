@@ -54,6 +54,7 @@ export const action: ActionFunction = async ({request}) => {
     })
     userId = id
   } catch (err: any) {
+    // @todo handle duplicate user better
     throw new Error(`${formatPrismaError(err, `User with`)}`)
   }
   return redirect(`/workspace/${userId}`)

@@ -12,7 +12,7 @@ type Props = {
   onChange: (id: number) => void;
 }
 
-export const UserPicker: React.FC<Props> = (props) => {
+export const UserSelect: React.FC<Props> = (props) => {
   const {selectedUserIds, onChange} = props
   const {allUsers} = useAppContext()
   const [isOpen, setIsOpen] = React.useState(false)

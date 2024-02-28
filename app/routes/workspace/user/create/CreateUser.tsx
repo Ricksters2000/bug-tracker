@@ -2,14 +2,14 @@ import {Stack, Paper, Alert, FormControl, InputLabel, Select, MenuItem, TextFiel
 import {$Enums, UserRole} from '@prisma/client';
 import {RequiredKeys} from '@prisma/client/runtime/library';
 import {ActionFunction, json, redirect} from '@remix-run/node';
-import {useActionData, useFetcher, useSearchParams, Form} from '@remix-run/react';
+import {useActionData, useFetcher, useSearchParams, Form, useRouteError} from '@remix-run/react';
 import React from 'react';
 import {ProjectOption} from '~/server/db/projectDb';
 import {FormResponse, FormErrors} from '~/types/Response';
 import {H1} from '~/typography';
 import {useAppContext} from '../../AppContext';
 import {UserList} from '../../components/UserList';
-import {UserPicker} from '../../components/UserPicker';
+import {UserSelect} from '../../components/UserSelect';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
 import {PasswordField} from '~/components/input/PasswordField';
 import {getDataFromFormAsObject} from '~/utils/getDataFromFormAsObject';
@@ -59,9 +59,10 @@ export const action: ActionFunction = async ({request}) => {
     })
     userId = id
   } catch (err: any) {
-    throw new Error(`${formatPrismaError(err, `User with`)}`)
+    // @todo handle duplicate user
+    // throw new Error(`${formatPrismaError(err, `User with`)}`)
   }
-  return redirect(`.`)
+  return redirect(`../roles`)
 }
 
 export default function CreateUser() {

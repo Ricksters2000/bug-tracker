@@ -30,7 +30,7 @@ export default {
         route(`project/:projectId/ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
         // user routes
         route(`user/create`, `${userFolder}/create/CreateUser.tsx`)
-        // route(`user/roles`)
+        route(`user/roles`, `${userFolder}/roles/UserRoles.tsx`)
       })
       route(`/api/get-project-options`, `${workspaceFolder}/api/getProjectOptions.ts`)
     })

@@ -13,7 +13,7 @@ import {db} from "~/server/db/db";
 import {FormErrors, FormResponse} from "~/types/Response";
 import {ProjectOption} from "~/server/db/projectDb";
 import {objectKeys} from "~/utils/objectKeys";
-import {UserPicker} from "../../components/UserPicker";
+import {UserSelect} from "../../components/UserSelect";
 import {useAppContext} from "../../AppContext";
 import {UserList} from "../../components/UserList";
 
@@ -162,7 +162,7 @@ export default function CreateTicket() {
                 </FormControl>
               </ExtraDetailsContainer>
               <Stack padding={`24px`}>
-                <UserPicker 
+                <UserSelect 
                   label="Assign Users"
                   selectedUserIds={selectedUserIds}
                   onChange={(id) => {

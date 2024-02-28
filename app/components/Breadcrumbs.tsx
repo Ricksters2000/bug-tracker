@@ -3,16 +3,16 @@ import emotionStyled from '@emotion/styled';
 import {A} from '~/typography';
 
 type Props = {
-  paths: Array<string>;
+  paths?: Array<string>;
 }
 
 export const Breadcrumbs: React.FC<Props> = (props) => {
   return (
     <Root>
-      {props.paths.map((path, i) => {
+      {props.paths?.map((path, i) => {
         return (
           <Item key={`bc-${path}-${i}`} includeSlash={i !== 0}>
-            {i === props.paths.length - 1 ? path : (
+            {i === (props.paths?.length ?? 1) - 1 ? path : (
               <A to={`/${path}`}>{path}</A>
             )}
           </Item>

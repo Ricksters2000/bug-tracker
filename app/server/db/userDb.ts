@@ -57,6 +57,10 @@ export const findAllUsersByCompanyId = async (companyId: string): Promise<Array<
     where: {
       companyId,
     },
+    orderBy: [
+      {firstName: `desc`},
+      {lastName: `desc`},
+    ],
   })
   return users
 }
