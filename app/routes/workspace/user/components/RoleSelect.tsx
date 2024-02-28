@@ -58,7 +58,7 @@ export const RoleSelect: React.FC<Props> = (props) => {
         onClose={() => setTooltipOpen(false)}
         enterDelay={0}
       >
-        <FormControl sx={props.displayRoleInfoAsPopup ? {flex: 1} : {width: `100%`}} error={!!error}>
+        <FormControl sx={!props.displayRoleInfoAsPopup ? {flex: 1} : {width: `100%`}} error={!!error}>
           <InputLabel id='role-label'>Role</InputLabel>
           <Select
             labelId='role-label'

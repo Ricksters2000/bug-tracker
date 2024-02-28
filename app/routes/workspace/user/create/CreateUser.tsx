@@ -62,7 +62,7 @@ export const action: ActionFunction = async ({request}) => {
     // @todo handle duplicate user
     // throw new Error(`${formatPrismaError(err, `User with`)}`)
   }
-  return redirect(`../roles`)
+  return redirect(`../user/roles`)
 }
 
 export default function CreateUser() {
