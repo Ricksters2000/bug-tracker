@@ -2,7 +2,7 @@ import React from 'react';
 import emotionStyled from '@emotion/styled';
 import {ActionFunction, LoaderFunction, json} from '@remix-run/node';
 import {A, BodyText, H1} from '~/typography';
-import {useFetcher, useLoaderData} from '@remix-run/react';
+import {useFetcher, useLoaderData, useOutletContext} from '@remix-run/react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
 import {Box, Chip, Paper, Stack} from '@mui/material';
@@ -19,18 +19,6 @@ type ActionData = {
   tickets: Array<TicketPreview>;
   ticketCount: number;
   ticketPriorityCounts: Record<Priority, number>;
-}
-
-export const loader: LoaderFunction = async ({params}) => {
-  const {projectId} = params
-  if (!projectId) {
-    return json(`Error`)
-  }
-  const project = await findProjectById(projectId)
-  if (!project) {
-    return json(`Error`)
-  }
-  return project
 }
 
 export const action: ActionFunction = async ({request, params}) => {
@@ -55,7 +43,7 @@ export const action: ActionFunction = async ({request, params}) => {
 
 export default function Project() {
   const {currentUser} = useAppContext()
-  const project = serializedProjectToProjectInfo(useLoaderData<ProjectInfo>())
+  const project = useOutletContext<ProjectInfo>()
   const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
     ...createDefaultTicketFilterClientSide(currentUser.company.id),
   })  

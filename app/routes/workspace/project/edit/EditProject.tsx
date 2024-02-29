@@ -1,5 +1,5 @@
 import {ActionFunction, LoaderFunction, json, redirect} from '@remix-run/node';
-import {useActionData, useLoaderData} from '@remix-run/react';
+import {useActionData, useLoaderData, useOutletContext} from '@remix-run/react';
 import React from 'react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
 import {useAppContext} from '../../AppContext';
@@ -12,18 +12,6 @@ import {createFormResponseFromData} from '~/utils/createFormResponseFromData';
 import {objectKeys} from '~/utils/objectKeys';
 import {db} from '~/server/db/db';
 import {Priority} from '@prisma/client';
-
-export const loader: LoaderFunction = async ({params}) => {
-  const {projectId} = params
-  if (!projectId) {
-    return json(`Error`)
-  }
-  const project = await findProjectById(projectId)
-  if (!project) {
-    return json(`Error`)
-  }
-  return project
-}
 
 export const action: ActionFunction = async ({request, params}) => {
   const {projectId} = params
@@ -58,7 +46,7 @@ export const action: ActionFunction = async ({request, params}) => {
 
 export default function EditProject() {
   const {currentUser} = useAppContext()
-  const project = serializedProjectToProjectInfo(useLoaderData<ProjectInfo>())
+  const project = useOutletContext<ProjectInfo>()
   const actionData = useActionData<FormResponse<ProjectFormRequiredKeys>>()
   let errors: FormErrors<ProjectFormRequiredKeys> | undefined
   if (actionData && !actionData.success) {
