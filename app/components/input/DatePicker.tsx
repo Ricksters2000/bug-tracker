@@ -7,7 +7,7 @@ type Props = {
   name?: string;
   helperText?: string | null;
   value?: Date;
-  defaultValue?: Date;
+  defaultValue?: Date | null;
   readOnly?: boolean;
   error?: boolean;
   onChange?: (newDate: Date) => void;

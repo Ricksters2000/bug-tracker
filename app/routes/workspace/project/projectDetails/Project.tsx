@@ -1,7 +1,7 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
 import {ActionFunction, LoaderFunction, json} from '@remix-run/node';
-import {BodyText, H1} from '~/typography';
+import {A, BodyText, H1} from '~/typography';
 import {useFetcher, useLoaderData} from '@remix-run/react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
@@ -12,6 +12,8 @@ import {Priority} from '@prisma/client';
 import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {useAppContext} from '../../AppContext';
+import {UserList} from '../../components/UserList';
+import {PriorityTag} from '../../components/PriorityTag';
 
 type ActionData = {
   tickets: Array<TicketPreview>;
@@ -72,14 +74,18 @@ export default function Project() {
     <div>
       <H1>{project.title}</H1>
       <Breadcrumbs paths={[`Dashboard`]}/>
-      <Paper>
+      <A style={{marginBottom: `1rem`, display: `block`}} to={`./edit`}>Edit Project</A>
+      <Paper sx={{padding: `1.5rem`}}>
         <Box>
           <Description>{project.description}</Description>
           <Stack flex={1}>
-            <CardSubInfo label="Priority" details={<Chip size="medium" label={project.priority}/>}/>
+            <UserList users={project.assignedUsers}/>
+          </Stack>
+          <ProjectMetadataInfoContainer flex={1}>
+            <CardSubInfo label="Priority" details={<PriorityTag priority={project.priority}/>}/>
             <CardSubInfo label="Created Date" details={project.createdDate.toString()}/>
             {project.dueDate && <CardSubInfo label="Due Date" details={project.dueDate.toString()}/>}
-          </Stack>
+          </ProjectMetadataInfoContainer>
         </Box>
       </Paper>
       <TicketFilter
@@ -94,6 +100,13 @@ export default function Project() {
   )
 }
 
-const Description = emotionStyled(BodyText)({
-  flex: 3,
-})
+const Description = emotionStyled(BodyText)(props => ({
+  flex: 2,
+  paddingRight: 8,
+  borderRight: `1px solid ${props.theme.color.content.divider}`,
+}))
+
+const ProjectMetadataInfoContainer = emotionStyled(Stack)(props => ({
+  paddingLeft: 8,
+  borderLeft: `1px solid ${props.theme.color.content.divider}`,
+}))

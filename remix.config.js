@@ -24,6 +24,7 @@ export default {
         route(`project`, `${projectFolder}/AllProjects.tsx`)
         route(`project/create`, `${projectFolder}/create/CreateProject.tsx`)
         route(`project/:projectId`, `${projectFolder}/projectDetails/Project.tsx`)
+        route(`project/:projectId/edit`, `${projectFolder}/edit/EditProject.tsx`)
         // ticket routes
         route(`ticket`, `${ticketFolder}/AllTickets.tsx`)
         route(`ticket/create`, `${ticketFolder}/create/CreateTicket.tsx`)
