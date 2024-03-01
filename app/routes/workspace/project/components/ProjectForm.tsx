@@ -37,8 +37,17 @@ type Props = {
 
 export const ProjectForm: React.FC<Props> = (props) => {
   const {companyId, project, errors} = props
-  const [selectedUserIds, setSelectedUserIds] = React.useState<Array<number>>([])
+  const assignedUserIds = project?.assignedUsers.map(user => user.id)
+  const [selectedUserIds, setSelectedUserIds] = React.useState<Array<number>>(assignedUserIds ?? [])
+  const [priority, setPriority] = React.useState<Priority>(project?.priority ?? Priority.low)
   const {allUsers} = useAppContext()
+
+  const reset = () => {
+    if (!project) return
+    setSelectedUserIds(project.assignedUsers.map(user => user.id))
+    setPriority(project.priority)
+  }
+
   return (
     <Form method="post" encType='multipart/form-data'>
       <Stack direction={`column`} spacing={`16px`}>
@@ -69,8 +78,11 @@ export const ProjectForm: React.FC<Props> = (props) => {
                   labelId="priority-label"
                   label='priority'
                   name={projectFormKeys.priority}
-                  defaultValue={project?.priority ?? Priority.low}
                   error={!!errors?.priority}
+                  value={priority}
+                  onChange={(evt) => {
+                    setPriority(evt.target.value as Priority)
+                  }}
                 >
                   {Object.keys(Priority).map(key => {
                     return (
@@ -104,7 +116,7 @@ export const ProjectForm: React.FC<Props> = (props) => {
           </Stack>
         </Paper>
         <Stack direction={`row`} spacing={`16px`} justifyContent={`flex-end`}>
-          {project && <Button type='reset' variant='contained' color='error'>Reset</Button>}
+          {project && <Button type='reset' variant='contained' color='error' onClick={reset}>Reset</Button>}
           <Button type="submit">{project ? `Save` : `Create`}</Button>
         </Stack>
       </Stack>

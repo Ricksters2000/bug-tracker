@@ -34,7 +34,7 @@ export const action: ActionFunction = async ({request, params}) => {
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
       priority: requiredData.priority as Priority,
       assignedUsers: requiredData.users ? {
-        connect: requiredData.users.split(`,`).map(id => ({id: parseInt(id)})),
+        set: requiredData.users.split(`,`).map(id => ({id: parseInt(id)})),
       } : undefined,
     },
     where: {
