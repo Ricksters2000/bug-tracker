@@ -1,7 +1,7 @@
-import {ActionFunction, LoaderFunction, json, redirect} from '@remix-run/node';
-import {useActionData, useLoaderData, useOutletContext} from '@remix-run/react';
+import {ActionFunction, json, redirect} from '@remix-run/node';
+import {useActionData, useOutletContext} from '@remix-run/react';
 import React from 'react';
-import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
+import {ProjectInfo} from '~/server/db/projectDb';
 import {useAppContext} from '../../AppContext';
 import {H1} from '~/typography';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
@@ -25,10 +25,7 @@ export const action: ActionFunction = async ({request, params}) => {
     return json(formResponse)
   }
   const requiredData = data as Record<ProjectFormRequiredKeys, string> & Record<ProjectFormKeys, string | undefined>
-  const {id} = await db.project.update({
-    select: {
-      id: true,
-    },
+  await db.project.update({
     data: {
       title: requiredData.title,
       companyId: requiredData.companyId,
@@ -36,6 +33,9 @@ export const action: ActionFunction = async ({request, params}) => {
       createdDate: new Date(requiredData.dateCreated),
       dueDate: requiredData.dueDate ? new Date(requiredData.dueDate) : null,
       priority: requiredData.priority as Priority,
+      assignedUsers: requiredData.users ? {
+        connect: requiredData.users.split(`,`).map(id => ({id: parseInt(id)})),
+      } : undefined,
     },
     where: {
       id: projectId,

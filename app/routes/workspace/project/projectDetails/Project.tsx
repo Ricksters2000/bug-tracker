@@ -61,18 +61,18 @@ export default function Project() {
   return (
     <div>
       <H1>{project.title}</H1>
-      <Breadcrumbs paths={[`Dashboard`]}/>
+      <Breadcrumbs/>
       <A style={{marginBottom: `1rem`, display: `block`}} to={`./edit`}>Edit Project</A>
       <Paper sx={{padding: `1.5rem`}}>
-        <Box>
+        <Box display={`flex`}>
           <Description>{project.description}</Description>
           <Stack flex={1}>
             <UserList users={project.assignedUsers}/>
           </Stack>
           <ProjectMetadataInfoContainer flex={1}>
             <CardSubInfo label="Priority" details={<PriorityTag priority={project.priority}/>}/>
-            <CardSubInfo label="Created Date" details={project.createdDate.toString()}/>
-            {project.dueDate && <CardSubInfo label="Due Date" details={project.dueDate.toString()}/>}
+            <CardSubInfo label="Created Date" details={project.createdDate.toDateString()}/>
+            {project.dueDate && <CardSubInfo label="Due Date" details={project.dueDate.toDateString()}/>}
           </ProjectMetadataInfoContainer>
         </Box>
       </Paper>

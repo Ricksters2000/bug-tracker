@@ -1,18 +1,21 @@
 import emotionStyled from '@emotion/styled';
-import {Button, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, TextField} from '@mui/material';
+import {Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, TextField} from '@mui/material';
 import {Priority} from '@prisma/client';
 import {Form} from '@remix-run/react';
 import React from 'react';
 import {DatePicker} from '~/components/input/DatePicker';
 import {ProjectInfo} from '~/server/db/projectDb';
 import {FormErrors} from '~/types/Response';
+import {UserSelect} from '../../components/UserSelect';
+import {UserList} from '../../components/UserList';
+import {useAppContext} from '../../AppContext';
 
 export const projectFormKeys = {
   title: `title`,
   description: `description`,
   dateCreated: `dateCreated`,
   dueDate: `dueDate`,
-  // users: `users`,
+  users: `users`,
   priority: `priority`,
   companyId: `companyId`,
 }
@@ -34,6 +37,8 @@ type Props = {
 
 export const ProjectForm: React.FC<Props> = (props) => {
   const {companyId, project, errors} = props
+  const [selectedUserIds, setSelectedUserIds] = React.useState<Array<number>>([])
+  const {allUsers} = useAppContext()
   return (
     <Form method="post" encType='multipart/form-data'>
       <Stack direction={`column`} spacing={`16px`}>
@@ -47,7 +52,7 @@ export const ProjectForm: React.FC<Props> = (props) => {
                 defaultValue={project?.title}
                 error={!!errors?.title}
                 helperText={errors?.title}/>
-              <TextField name={projectFormKeys.description} defaultValue={project?.description} label='Description' multiline maxRows={5}/>
+              <TextField name={projectFormKeys.description} defaultValue={project?.description} label='Description' multiline rows={5}/>
             </Stack>
             <ExtraDetailsContainer direction={`row`} spacing={`16px`} padding={`24px`}>
               <DatePicker
@@ -76,6 +81,26 @@ export const ProjectForm: React.FC<Props> = (props) => {
                 <FormHelperText>{errors?.priority}</FormHelperText>
               </FormControl>
             </ExtraDetailsContainer>
+            <Stack padding={`24px`}>
+                <UserSelect 
+                  label="Assign Users"
+                  selectedUserIds={selectedUserIds}
+                  onChange={(id) => {
+                    setSelectedUserIds(prev => {
+                      if (prev.includes(id)) {
+                        return prev.filter(userId => userId !== id)
+                      }
+                      return [...prev, id]
+                    })
+                  }}
+                />
+                <Divider sx={{marginTop: `8px`}}/>
+                <UserList
+                  users={allUsers.filter(user => selectedUserIds.includes(user.id))}
+                  onDelete={(userId) => setSelectedUserIds(prev => prev.filter(id => id !== userId))}
+                />
+                <input name={projectFormKeys.users} type="hidden" value={selectedUserIds.map(id => id.toString())}/>
+              </Stack>
           </Stack>
         </Paper>
         <Stack direction={`row`} spacing={`16px`} justifyContent={`flex-end`}>
