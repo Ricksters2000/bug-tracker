@@ -17,7 +17,6 @@ export default function Index() {
   return (
     <Root>
       <H1>Your Dashboard</H1>
-      <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <DefaultCard label="Tickets">

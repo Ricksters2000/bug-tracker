@@ -48,7 +48,7 @@ export default function CreateProject() {
   return (
     <div>
       <H1>Create a new project</H1>
-      <Breadcrumbs/>
+      <Breadcrumbs currentLinkTitle="Create"/>
       <ProjectForm errors={errors} companyId={currentUser.company.id}/>
     </div>
   )

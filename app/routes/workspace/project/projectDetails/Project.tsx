@@ -1,7 +1,7 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
 import {ActionFunction, LoaderFunction, json} from '@remix-run/node';
-import {A, BodyText, H1} from '~/typography';
+import {A, BodyText, BreadcrumbLink, H1} from '~/typography';
 import {useFetcher, useLoaderData, useOutletContext} from '@remix-run/react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
@@ -61,7 +61,7 @@ export default function Project() {
   return (
     <div>
       <H1>{project.title}</H1>
-      <Breadcrumbs/>
+      <Breadcrumbs currentLinkTitle={project.title} excludeParentLink/>
       <A style={{marginBottom: `1rem`, display: `block`}} to={`./edit`}>Edit Project</A>
       <Paper sx={{padding: `1.5rem`}}>
         <Box display={`flex`}>

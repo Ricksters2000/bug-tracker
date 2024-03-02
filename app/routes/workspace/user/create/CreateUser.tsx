@@ -93,7 +93,7 @@ export default function CreateUser() {
   return (
     <div>
       <H1>Create a User</H1>
-      <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
+      <Breadcrumbs currentLinkTitle='New User'/>
       <Form method="post" encType='multipart/form-data'>
         <Stack direction={`column`} spacing={`16px`}>
           <Paper>

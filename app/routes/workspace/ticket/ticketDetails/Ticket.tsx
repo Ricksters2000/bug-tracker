@@ -83,7 +83,7 @@ export default function Ticket() {
         inputMarginTop="1.5rem"
         onSave={(text) => updateTicket({type: `title`, data: text}, ticket.title)}
       />
-      <Breadcrumbs paths={[`e`, `E`]}/>
+      <Breadcrumbs currentLinkTitle={ticket.title}/>
       <Container>
         <ExternalLabelCard label="Details">
           <Box display={`flex`} gap={`4px`}>

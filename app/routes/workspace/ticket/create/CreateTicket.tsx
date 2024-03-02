@@ -94,7 +94,7 @@ export default function CreateTicket() {
   return (
     <div>
       <H1>Create a Ticket</H1>
-      <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
+      <Breadcrumbs currentLinkTitle="Create"/>
       <Form method="post" encType='multipart/form-data'>
         <Stack direction={`column`} spacing={`16px`}>
           <Paper>

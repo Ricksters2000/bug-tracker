@@ -1,34 +1,36 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
-import {A} from '~/typography';
+import {BreadcrumbText} from '~/typography';
+import {useMatches} from '@remix-run/react';
+import {Breadcrumbs as BreadcrumbsMui} from '@mui/material';
+import {CommonHandle} from '~/utils/CommonHandle';
 
 type Props = {
   paths?: Array<string>;
+  currentLinkTitle: string;
+  /** Use for index pages to prevent duplicate links */
+  excludeParentLink?: boolean;
 }
 
 export const Breadcrumbs: React.FC<Props> = (props) => {
+  const matches = useMatches()
   return (
     <Root>
-      {props.paths?.map((path, i) => {
-        return (
-          <Item key={`bc-${path}-${i}`} includeSlash={i !== 0}>
-            {i === (props.paths?.length ?? 1) - 1 ? path : (
-              <A to={`/${path}`}>{path}</A>
-            )}
-          </Item>
-        )
+      {matches.map((match, i) => {
+        if (props.excludeParentLink && i === matches.length - 2) return null
+        if (i === matches.length - 1) {
+          return <BreadcrumbText key={`${props.currentLinkTitle}-${i}`}>{props.currentLinkTitle}</BreadcrumbText>
+        }
+        const handle = match.handle as CommonHandle<any> | undefined
+        if (!handle?.breadcrumb) return null
+        return handle.breadcrumb({params: match.params, data: match.data})
       })}
     </Root>
   )
 }
 
-const Root = emotionStyled.ul({
+const Root = emotionStyled(BreadcrumbsMui)({
   marginBottom: `1.5rem`,
-  display: `flex`,
-  flexWrap: `wrap`,
-  padding: 0,
-  listStyle: `none`,
-  gap: `0.5rem`,
 })
 
 const Item = emotionStyled.li<{includeSlash?: boolean}>(props => ({

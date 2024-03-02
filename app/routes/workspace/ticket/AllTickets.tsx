@@ -51,7 +51,7 @@ export default function Index() {
   return (
     <div>
       <H1>Tickets</H1>
-      <Breadcrumbs paths={[`Dashboard`, `Test`]}/>
+      <Breadcrumbs currentLinkTitle="Tickets"/>
       <TicketFilter
         tickets={tickets}
         ticketFilter={ticketFilter}

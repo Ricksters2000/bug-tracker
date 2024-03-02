@@ -33,7 +33,7 @@ export default function AllProjects() {
   return (
     <div>
       <H1>Projects</H1>
-      <Breadcrumbs paths={[`Dashboard`]}/>
+      <Breadcrumbs currentLinkTitle="List"/>
       <Grid>
         {projects.map(project => {
           const {id, title, priority, createdDate, dueDate, openTicketCount, assignedUserCount} = project

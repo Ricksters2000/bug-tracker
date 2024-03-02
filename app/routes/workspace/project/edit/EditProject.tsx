@@ -3,7 +3,7 @@ import {useActionData, useOutletContext} from '@remix-run/react';
 import React from 'react';
 import {ProjectInfo} from '~/server/db/projectDb';
 import {useAppContext} from '../../AppContext';
-import {H1} from '~/typography';
+import {BreadcrumbLink, H1} from '~/typography';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
 import {ProjectForm, ProjectFormKeys, ProjectFormRequiredKeys, projectFormKeys, projectRequiredKeys} from '../components/ProjectForm';
 import {FormErrors, FormResponse} from '~/types/Response';
@@ -55,7 +55,7 @@ export default function EditProject() {
   return (
     <div>
       <H1>{`Edit ${project.title}`}</H1>
-      <Breadcrumbs/>
+      <Breadcrumbs currentLinkTitle='Edit'/>
       <ProjectForm project={project} companyId={currentUser.company.id} errors={errors}/>
     </div>
   )

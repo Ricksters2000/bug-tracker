@@ -100,3 +100,9 @@ export const ANoTextDecoration = emotionStyled(ABase)({
     textDecoration: `none`,
   }
 })
+
+export const BreadcrumbLink = emotionStyled(ABase)({
+})
+
+export const BreadcrumbText = emotionStyled.span({
+})

@@ -3,6 +3,15 @@ import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
 import {UserPublic, UserPublicWithCompany, findAllUsersByCompanyId, findUserWithCompany} from "~/server/db/userDb"
 import {AppContextValue, AppContext} from "../AppContext"
+import {CommonHandle} from '~/utils/CommonHandle';
+import {BreadcrumbLink} from "~/typography"
+
+export const handle: CommonHandle<WorkspaceLoaderData> = {
+  breadcrumb: ({params, data}) => {
+    const {userId} = params
+    return <BreadcrumbLink to={`/workspace/${userId}`}>{`Dashboard`}</BreadcrumbLink>
+  }
+}
 
 export type WorkspaceLoaderData = {
   currentUser: UserPublicWithCompany;

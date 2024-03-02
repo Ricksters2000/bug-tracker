@@ -2,6 +2,16 @@ import {LoaderFunction, json} from '@remix-run/node';
 import {Outlet, useLoaderData} from '@remix-run/react';
 import React from 'react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
+import {BreadcrumbLink} from '~/typography';
+import {CommonHandle} from '~/utils/CommonHandle';
+
+export const handle: CommonHandle<ProjectInfo> = {
+  breadcrumb: ({params, data}) => {
+    const {projectId, userId} = params
+    if (!projectId) throw new Error(`Unexpected project id is undefined`)
+    return <BreadcrumbLink to={`/workspace/${userId}/project/${projectId}`}>{data?.title ?? `Project`}</BreadcrumbLink>
+  }
+}
 
 export const loader: LoaderFunction = async ({params}) => {
   const {projectId} = params

@@ -49,7 +49,7 @@ export default function UserRoles() {
   return (
     <div>
       <H1>Member Roles</H1>
-      <Breadcrumbs/>
+      <Breadcrumbs currentLinkTitle='Member Roles'/>
       <ButtonGroup sx={{marginBottom: `16px`}}>
         <Button color='error' onClick={resetChangedRoles}>Reset</Button>
         <Button onClick={saveChangedRoles} disabled={isEmptyObject(changedRoles)}>Save</Button>
