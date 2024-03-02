@@ -21,16 +21,20 @@ export default {
       route(`/workspace/:userId`, `${workspaceFolder}/layout/Layout.tsx`, {id: workspaceId}, () => {
         route(``, `${workspaceFolder}/Dashboard.tsx`, {index: true, id: dashboardId})
         // project routes
-        route(`project`, `${projectFolder}/AllProjects.tsx`)
-        route(`project/create`, `${projectFolder}/create/CreateProject.tsx`)
-        route(`project/:projectId`, `${projectFolder}/ProjectLoader.tsx`, () => {
-          route(``, `${projectFolder}/projectDetails/Project.tsx`, {index: true})
-          route(`edit`, `${projectFolder}/edit/EditProject.tsx`)
+        route(`project`, `${projectFolder}/ProjectLayout.tsx`, () => {
+          route(``, `${projectFolder}/list/ProjectList.tsx`, {index: true})
+          route(`create`, `${projectFolder}/create/CreateProject.tsx`)
+          route(`:projectId`, `${projectFolder}/ProjectLoader.tsx`, () => {
+            route(``, `${projectFolder}/projectDetails/Project.tsx`, {index: true})
+            route(`edit`, `${projectFolder}/edit/EditProject.tsx`)
+            route(`ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
+          })
         })
         // ticket routes
-        route(`ticket`, `${ticketFolder}/AllTickets.tsx`)
-        route(`ticket/create`, `${ticketFolder}/create/CreateTicket.tsx`)
-        route(`project/:projectId/ticket/:ticketId`, `${ticketFolder}/ticketDetails/Ticket.tsx`)
+        route(`ticket`, `${ticketFolder}/TicketLayout.tsx`, () => {
+          route(``, `${ticketFolder}/list/TicketList.tsx`, {index: true})
+          route(`create`, `${ticketFolder}/create/CreateTicket.tsx`)
+        })
         // user routes
         route(`user/create`, `${userFolder}/create/CreateUser.tsx`)
         route(`user/roles`, `${userFolder}/roles/UserRoles.tsx`)

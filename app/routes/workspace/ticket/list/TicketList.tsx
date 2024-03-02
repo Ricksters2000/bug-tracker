@@ -4,11 +4,11 @@ import {useFetcher} from "@remix-run/react"
 import {Breadcrumbs} from "~/components/Breadcrumbs"
 import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
 import {H1} from "~/typography"
-import {TicketFilter} from "../components/TicketFilter"
+import {TicketFilter} from "../../components/TicketFilter"
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
 import {Priority} from "@prisma/client"
 import {ProjectOption, findProjectOptionsByCompanyId} from "~/server/db/projectDb"
-import {useAppContext} from "../AppContext"
+import {useAppContext} from "../../AppContext"
 
 type ActionData = {
   tickets: Array<TicketPreview>;
@@ -32,7 +32,7 @@ export const action: ActionFunction = async ({request}) => {
   return json(data)
 }
 
-export default function Index() {
+export default function TicketList() {
   const {currentUser} = useAppContext()
   const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
     ...createDefaultTicketFilterClientSide(currentUser.company.id),
@@ -51,7 +51,7 @@ export default function Index() {
   return (
     <div>
       <H1>Tickets</H1>
-      <Breadcrumbs currentLinkTitle="Tickets"/>
+      <Breadcrumbs currentLinkTitle="List"/>
       <TicketFilter
         tickets={tickets}
         ticketFilter={ticketFilter}

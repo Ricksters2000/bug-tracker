@@ -6,7 +6,7 @@ import {Link, useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {ProjectPreview, findProjectPreviewsByCompanyId, serializedProjectToProjectPreview} from "~/server/db/projectDb";
 import {ANoTextDecoration, H1, H3, InformationalText} from "~/typography";
-import {useAppContext} from "../AppContext";
+import {useAppContext} from "../../AppContext";
 
 export const action: ActionFunction = async ({request}) => {
   const {companyId} = await request.json()
@@ -14,7 +14,7 @@ export const action: ActionFunction = async ({request}) => {
   return json(projects)
 }
 
-export default function AllProjects() {
+export default function ProjectList() {
   const {currentUser} = useAppContext()
   const fetcher = useFetcher<Array<ProjectPreview>>()
   let projects: Array<ProjectPreview> = []
