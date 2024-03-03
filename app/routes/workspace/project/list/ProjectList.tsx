@@ -1,12 +1,13 @@
 import React from "react";
 import emotionStyled from "@emotion/styled";
-import {Box, Card, CardActionArea, CardContent, Chip, Paper, Stack} from "@mui/material";
+import {Box, Card, CardActionArea, CardContent, Chip, Divider, Paper, Stack} from "@mui/material";
 import {ActionFunction, json} from "@remix-run/node";
 import {Link, useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {ProjectPreview, findProjectPreviewsByCompanyId, serializedProjectToProjectPreview} from "~/server/db/projectDb";
-import {ANoTextDecoration, H1, H3, InformationalText} from "~/typography";
+import {ANoTextDecoration, H1, H3, InformationalText, SmallText} from "~/typography";
 import {useAppContext} from "../../AppContext";
+import {PriorityTag} from "../../components/PriorityTag";
 
 export const action: ActionFunction = async ({request}) => {
   const {companyId} = await request.json()
@@ -44,13 +45,15 @@ export default function ProjectList() {
                   <CardContent>
                     <Stack>
                       <Box display={`flex`} justifyContent={`flex-end`} alignItems={`center`} width={1}>
-                        <Chip size="small" label={priority}/>
+                        {dueDate && <SmallText style={{marginRight: `auto`}}>{`Due: ${dueDate.toDateString()}`}</SmallText>}
+                        <PriorityTag priority={priority}/>
                       </Box>
                       <H3>{title}</H3>
                       <SubTextContainer>
                         <InformationalText>Open Tickets:</InformationalText>
                         <InformationalText>{openTicketCount}</InformationalText>
                       </SubTextContainer>
+                      <Divider sx={{margin: `4px 0`}}/>
                       <SubTextContainer>
                         <InformationalText>Users:</InformationalText>
                         <InformationalText>{assignedUserCount}</InformationalText>
