@@ -74,6 +74,7 @@ export default function Ticket() {
   } else {
     ticket = serializedTicketToTicketInfo(initialTicket)
   }
+  console.log(`ticket:`, ticket)
   return (
     <div>
       <EditableText
@@ -90,7 +91,7 @@ export default function Ticket() {
             <EditableDescription
               multilineTextInput
               text={ticket.content}
-              Component={BodyText}
+              Component={Description}
               onSave={(text) => updateTicket({type: `content`, data: text}, ticket.content)}
             />
             <Stack flex={1}>
@@ -217,3 +218,7 @@ const ScrollContainer = emotionStyled.div({
 
 const HistoryScrollableList = emotionStyled(ScrollContainer)({
 }).withComponent(TicketHistoryList)
+
+const Description = emotionStyled(BodyText)({
+  whiteSpace: `break-spaces`,
+})
