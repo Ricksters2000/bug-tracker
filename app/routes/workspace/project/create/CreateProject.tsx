@@ -35,7 +35,7 @@ export const action: ActionFunction = async ({request}) => {
       } : undefined,
     },
   })
-  return redirect(`../project/${id}`)
+  return redirect(`../../project/${id}`)
 }
 
 export default function CreateProject() {

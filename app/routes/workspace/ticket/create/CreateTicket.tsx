@@ -63,7 +63,7 @@ export const action: ActionFunction = async ({request}) => {
       } : undefined,
     },
   })
-  return redirect(`../project/${requiredData.projectId}/ticket/${id}`)
+  return redirect(`../../project/${requiredData.projectId}/ticket/${id}`)
 }
 
 export default function CreateTicket() {
