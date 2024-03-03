@@ -23,7 +23,11 @@ export const Breadcrumbs: React.FC<Props> = (props) => {
         }
         const handle = match.handle as CommonHandle<any> | undefined
         if (!handle?.breadcrumb) return null
-        return handle.breadcrumb({params: match.params, data: match.data})
+        const Breadcrumb = handle.breadcrumb({params: match.params, data: match.data})
+        return React.cloneElement(Breadcrumb, {
+          ...Breadcrumb.props,
+          key: `breadcrumb-${i}`
+        })
       })}
     </Root>
   )
