@@ -10,6 +10,7 @@ import {Link} from '@remix-run/react';
 import {useTheme} from '@emotion/react';
 import {UserPublic} from '~/server/db/userDb';
 import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
+import {Footer} from '~/components/Footer';
 
 type Props = {
   user: UserPublic;
@@ -123,6 +124,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
             <ContainerFluid>
               {props.children}
             </ContainerFluid>
+            <ContentFooter/>
           </main>
         </ContentContainer>
       </SideNavContainer>
@@ -261,4 +263,8 @@ const ContainerFluid = emotionStyled.div({
   padding: `0 1.5rem`,
   margin: `0 auto`,
   width: `100%`,
+})
+
+const ContentFooter = emotionStyled(Footer)({
+  marginTop: `1.5rem`,
 })

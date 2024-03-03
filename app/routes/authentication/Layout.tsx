@@ -1,5 +1,6 @@
 import emotionStyled from "@emotion/styled";
 import {Outlet} from "@remix-run/react";
+import {Footer} from "~/components/Footer";
 
 export default function Auth() {
   return (
@@ -13,13 +14,7 @@ export default function Auth() {
           </InnerContainer>
         </Container>
       </Content>
-      <FooterContainer>
-        <Footer>
-          <InnerFooter>
-            <FooterText>{`Copyright © Your Website ${new Date().getFullYear()}`}</FooterText>
-          </InnerFooter>
-        </Footer>
-      </FooterContainer>
+      <Footer/>
     </Root>
   )
 }
@@ -53,25 +48,3 @@ const ContentWrapper = emotionStyled.div({
   width: `41.66%`,
   maxWidth: `100%`,
 })
-
-const FooterContainer = emotionStyled.div({
-  minWidth: 0,
-})
-
-const Footer = emotionStyled.footer(props => ({
-  background: props.theme.color.content.footer,
-  padding: `1.5rem`,
-  marginTop: `auto`,
-}))
-
-const InnerFooter = emotionStyled.div({
-  width: `100%`,
-  margin: `0 auto`,
-  display: `flex`,
-  alignItems: `center`,
-})
-
-const FooterText = emotionStyled.div(props => ({
-  color: props.theme.color.content.info,
-  fontSize: `0.875em`,
-}))

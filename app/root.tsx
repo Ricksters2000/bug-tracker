@@ -43,7 +43,7 @@ export default function App() {
         secondary: ``,
         info: `rgb(99, 115, 129)`,
         icon: `rgb(145, 158, 171)`,
-        footer: `rgba(248, 349, 250, 1)`,
+        footer: `rgba(248, 249, 250, 1)`,
         breadcrumb: `#6c757d`,
         link: `#0d6efd`,
         divider: `#c7c7c7`,
