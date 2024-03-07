@@ -2,6 +2,7 @@ import 'chart.js/auto';
 import {ChartTypeRegistry} from 'chart.js';
 import React from 'react';
 import {Chart, ChartProps} from 'react-chartjs-2';
+import emotionStyled from '@emotion/styled';
 
 
 export const GenericChart = <T extends keyof ChartTypeRegistry>(props: ChartProps<T>) => {
@@ -24,6 +25,12 @@ export const GenericChart = <T extends keyof ChartTypeRegistry>(props: ChartProp
   // })
 
   return (
-    <Chart width={`100%`} height={375} {...props}/>
+    <Root>
+      <div>&nbsp;</div>
+      <Chart width={`100%`} height={375} {...props}/>
+    </Root>
   )
 }
+
+const Root = emotionStyled.div({
+})

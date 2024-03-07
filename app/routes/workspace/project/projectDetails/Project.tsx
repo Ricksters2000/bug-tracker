@@ -5,20 +5,31 @@ import {A, BodyText, BreadcrumbLink, H1} from '~/typography';
 import {useFetcher, useLoaderData, useOutletContext} from '@remix-run/react';
 import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
-import {Box, Chip, Paper, Stack} from '@mui/material';
+import {Box, Chip, Grid, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
-import {Priority} from '@prisma/client';
+import {Priority, TicketStatus} from '@prisma/client';
 import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {useAppContext} from '../../AppContext';
 import {UserList} from '../../components/UserList';
 import {PriorityTag} from '../../components/PriorityTag';
+import {DefaultCard} from '~/components/cards/DefaultCard';
+import {PieChart} from '~/components/charts/PieChart';
 
 type ActionData = {
   tickets: Array<TicketPreview>;
   ticketCount: number;
   ticketPriorityCounts: Record<Priority, number>;
+}
+
+type LoaderData = {
+  ticketPriorityCounts: {
+    high: number;
+    medium: number;
+    low: number;
+  }
+  totalTicketCount: number;
 }
 
 export const action: ActionFunction = async ({request, params}) => {
@@ -41,9 +52,30 @@ export const action: ActionFunction = async ({request, params}) => {
   return json(data)
 }
 
+export const loader: LoaderFunction = async ({params}) => {
+  const {projectId} = params
+  if (!projectId) {
+    return json(`Error`)
+  }
+  const ticketCounts = await getTicketCounts({
+    projectId,
+    status: {not: TicketStatus.completed}
+  })
+  const data: LoaderData = {
+    ticketPriorityCounts: {
+      high: ticketCounts.high,
+      medium: ticketCounts.medium,
+      low: ticketCounts.low,
+    },
+    totalTicketCount: ticketCounts.high + ticketCounts.medium + ticketCounts.low,
+  }
+  return json(data)
+}
+
 export default function Project() {
   const {currentUser} = useAppContext()
   const project = useOutletContext<ProjectInfo>()
+  const ticketCounts = useLoaderData<LoaderData>()
   const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
     ...createDefaultTicketFilterClientSide(currentUser.company.id),
   })  
@@ -58,6 +90,7 @@ export default function Project() {
 
   if (!fetcher.data) return null
   const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
+  const {ticketPriorityCounts, totalTicketCount} = ticketCounts
   return (
     <div>
       <H1>{project.title}</H1>
@@ -76,6 +109,21 @@ export default function Project() {
           </ProjectMetadataInfoContainer>
         </Box>
       </Paper>
+      <Grid container marginTop={`1.5rem`}>
+        <Grid item xs={4}>
+          <DefaultCard label='Open Tickets'>
+            <PieChart
+              label='Open Tickets'
+              data={[
+                {value: ticketPriorityCounts.high, label: `High`, color: `rgb(255, 99, 132)`},
+                {value: ticketPriorityCounts.medium, label: `Medium`, color: `rgb(255, 205, 86)`},
+                {value: ticketPriorityCounts.low, label: `Low`, color: `rgb(54, 162, 235)`},
+              ]}
+              centerNumber={totalTicketCount}
+            />
+          </DefaultCard>
+        </Grid>
+      </Grid>
       <TicketFilter
         tickets={tickets}
         ticketFilter={ticketFilter}
