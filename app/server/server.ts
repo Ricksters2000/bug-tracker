@@ -9,6 +9,7 @@ import express from "express";
 import morgan from "morgan";
 import sourceMapSupport from "source-map-support";
 import {db} from "./db/db";
+import {JsonRestoreData, restoreDataFromJson} from "./restoreData/restoreData";
 
 sourceMapSupport.install();
 installGlobals();
@@ -27,6 +28,7 @@ const createServer = async () => {
         });
 
   await db.$connect();
+  await restoreDataFromJson()
   const app = express();
 
   app.use(compression());
@@ -45,6 +47,40 @@ const createServer = async () => {
   app.use(express.static("public", { maxAge: "1h" }));
 
   app.use(morgan("tiny"));
+
+  app.get(`/json/:companyId/:password`, async (req, res) => {
+    const {companyId, password} = req.params
+    const company = await db.company.findUnique({where: {id: companyId}})
+    if (!company) {
+      res.send(`Company not found with id: ${companyId}`)
+      return
+    }
+    const users = await db.user.findMany({where: {companyId}})
+    const projects = await db.project.findMany({where: {companyId}})
+    const tickets = await db.ticket.findMany({
+      select: {
+        id: true,
+        projectId: true,
+        priority: true,
+        companyId: true,
+        title: true,
+        createdDate: true,
+        dueDate: true,
+        content: true,
+        status: true,
+        history: true,
+        comments: true,
+      },
+      where: {companyId}
+    })
+    const jsonData: JsonRestoreData = {
+      company,
+      users,
+      projects,
+      tickets,
+    }
+    res.json(jsonData)
+  })
 
   app.all("*", remixHandler);
 
