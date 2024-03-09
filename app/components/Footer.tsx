@@ -24,7 +24,7 @@ const Root = emotionStyled.div({
 const FooterContainer = emotionStyled.footer(props => ({
   background: props.theme.color.content.footer,
   padding: `1.5rem`,
-  marginTop: `auto`,
+  marginTop: `1.5rem`,
 }))
 
 const InnerFooter = emotionStyled.div({

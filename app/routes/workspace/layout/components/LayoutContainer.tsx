@@ -124,8 +124,8 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
             <ContainerFluid>
               {props.children}
             </ContainerFluid>
-            <ContentFooter/>
           </main>
+          <ContentFooter/>
         </ContentContainer>
       </SideNavContainer>
     </div>
