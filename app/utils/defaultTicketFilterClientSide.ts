@@ -1,6 +1,7 @@
 import {Priority, Prisma, TicketStatus} from "@prisma/client";
 import {DateRange} from "../types/DateRange";
 import {FilterWithAllOption, allFilter} from "~/types/FilterWithAllOption";
+import {objectKeys} from "./objectKeys";
 
 export type TicketFilterClientSide = {
   title: string | null;
@@ -21,7 +22,7 @@ export const createDefaultTicketFilterClientSide = (companyId: string): TicketFi
   title: null,
   projectIds: [allFilter],
   priority: allFilter,
-  statuses: [],
+  statuses: objectKeys(TicketStatus).filter(status => status !== `completed`),
   createdDateRange: {
     from: null,
     to: null,
@@ -32,7 +33,7 @@ export const createDefaultTicketFilterClientSide = (companyId: string): TicketFi
   },
   orderBy: {
     field: `title`,
-    order: `asc`
+    order: `asc`,
   }
 })
 
