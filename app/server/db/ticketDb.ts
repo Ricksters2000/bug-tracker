@@ -89,10 +89,11 @@ export const findAllTicketPreviews = async (): Promise<Array<TicketPreview>> => 
   return tickets
 }
 
-export const findTicketPreviews = async (filter: Prisma.TicketWhereInput): Promise<Array<TicketPreview>> => {
+export const findTicketPreviews = async (filter: Prisma.TicketWhereInput, orderBy?: Prisma.TicketOrderByWithRelationInput): Promise<Array<TicketPreview>> => {
   const tickets = await db.ticket.findMany({
     select: ticketPreviewSelectInput,
     where: filter,
+    orderBy,
   })
   return tickets
 }
@@ -142,9 +143,9 @@ export const serializedTicketToTicketInfo = (jsonTicket: SerializeFrom<TicketInf
   }
 }
 
-export const convertTicketFilterClientSideToTicketWhereInput = (filter: TicketFilterClientSide): Prisma.TicketWhereInput => {
-  const {createdDateRange, dueDateRange} = filter
-  return {
+export const convertTicketFilterClientSideToTicketFilterServerSide = (filter: TicketFilterClientSide) => {
+  const {createdDateRange, dueDateRange, orderBy} = filter
+  const ticketFilter: Prisma.TicketWhereInput = {
     companyId: filter.companyId,
     title: filter.title ? {contains: filter.title} : undefined,
     status: filter.statuses.length === 0 ? undefined : {in: filter.statuses},
@@ -158,5 +159,12 @@ export const convertTicketFilterClientSideToTicketWhereInput = (filter: TicketFi
       gte: dueDateRange.from,
       lte: dueDateRange.to,
     } : undefined,
+  }
+  const ticketOrderBy: Prisma.TicketOrderByWithRelationInput = {
+    [orderBy.field]: orderBy.order,
+  }
+  return {
+    filter: ticketFilter,
+    orderBy: ticketOrderBy,
   }
 }

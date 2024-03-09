@@ -9,7 +9,7 @@ import {Box, Chip, Grid, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
 import {Priority, TicketStatus} from '@prisma/client';
-import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
+import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {useAppContext} from '../../AppContext';
 import {UserList} from '../../components/UserList';
@@ -38,12 +38,12 @@ export const action: ActionFunction = async ({request, params}) => {
     return json(`Error`)
   }
   const filter = await request.json() as TicketFilterClientSide
-  const ticketWhereInput = convertTicketFilterClientSideToTicketWhereInput({
+  const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide({
     ...filter,
     projectIds: [projectId],
   })
-  const tickets = await findTicketPreviews(ticketWhereInput)
-  const ticketCounts = await getTicketCounts(ticketWhereInput)
+  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy)
+  const ticketCounts = await getTicketCounts(ticketFilterInput.filter)
   const data: ActionData = {
     tickets,
     ticketPriorityCounts: ticketCounts,

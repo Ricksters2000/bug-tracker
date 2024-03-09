@@ -7,7 +7,7 @@ import {getTicketPath, useWorkspacePath} from '~/utils/route/routePathHelpers';
 import {PriorityTag} from './PriorityTag';
 import {RoundedSquareBackground} from './RoundedSquareBackground';
 import {priorityColors} from '../utils/priorityColors';
-import {Priority, TicketStatus} from '@prisma/client';
+import {Priority, Prisma, TicketStatus} from '@prisma/client';
 import emotionStyled from '@emotion/styled';
 import {SearchIcon} from '~/assets/icons/SearchIcon';
 import {FilterIcon} from '~/assets/icons/FilterIcon';
@@ -31,7 +31,7 @@ type Props = {
 
 export const TicketFilter: React.FC<Props> = (props) => {
   const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions} = props
-  const {title, statuses, priority, dueDateRange, createdDateRange, projectIds} = ticketFilter
+  const {title, statuses, priority, dueDateRange, createdDateRange, projectIds, orderBy} = ticketFilter
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(false)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const {tickets} = props
@@ -43,6 +43,17 @@ export const TicketFilter: React.FC<Props> = (props) => {
       [key]: data,
     }))
   }
+
+  const onOrderByChange = (field: TicketFilterClientSide[`orderBy`][`field`]) => {
+    let newOrder: Prisma.SortOrder
+    if (orderBy.field === field) {
+      newOrder = orderBy.order === `asc` ? `desc` : `asc`
+    } else {
+      newOrder = `asc`
+    }
+    onFilterChange(`orderBy`, {field, order: newOrder})
+  }
+
   return (
     <Paper>
       <TabsStyled value={priority} onChange={(e, value) => onFilterChange(`priority`, value)}>
@@ -175,27 +186,47 @@ export const TicketFilter: React.FC<Props> = (props) => {
             <TableRow>
               <TableCell padding='checkbox'/>
               <TableCell>
-                <TableSortLabel>
+                <TableSortLabel
+                  active={orderBy.field === `title`}
+                  direction={orderBy.field === `title` ? orderBy.order : `asc`}
+                  onClick={() => onOrderByChange(`title`)}
+                >
                   Title
                 </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel>
+                <TableSortLabel
+                  active={orderBy.field === `createdDate`}
+                  direction={orderBy.field === `createdDate` ? orderBy.order : `asc`}
+                  onClick={() => onOrderByChange(`createdDate`)}
+                >
                   Created At
                 </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel>
+                <TableSortLabel
+                  active={orderBy.field === `dueDate`}
+                  direction={orderBy.field === `dueDate` ? orderBy.order : `asc`}
+                  onClick={() => onOrderByChange(`dueDate`)}
+                >
                   Due Date
                 </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel>
+                <TableSortLabel
+                  active={orderBy.field === `status`}
+                  direction={orderBy.field === `status` ? orderBy.order : `asc`}
+                  onClick={() => onOrderByChange(`status`)}
+                >
                   Status
                 </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel>
+                <TableSortLabel
+                  active={orderBy.field === `priority`}
+                  direction={orderBy.field === `priority` ? orderBy.order : `asc`}
+                  onClick={() => onOrderByChange(`priority`)}
+                >
                   Priority
                 </TableSortLabel>
               </TableCell>

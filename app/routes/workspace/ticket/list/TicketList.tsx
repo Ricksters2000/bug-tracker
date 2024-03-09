@@ -2,7 +2,7 @@ import React from "react"
 import {ActionFunction, json} from "@remix-run/node"
 import {useFetcher} from "@remix-run/react"
 import {Breadcrumbs} from "~/components/Breadcrumbs"
-import {TicketPreview, convertTicketFilterClientSideToTicketWhereInput, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
+import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
 import {H1} from "~/typography"
 import {TicketFilter} from "../../components/TicketFilter"
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
@@ -19,9 +19,9 @@ type ActionData = {
 
 export const action: ActionFunction = async ({request}) => {
   const filter = await request.json() as TicketFilterClientSide
-  const ticketWhereInput = convertTicketFilterClientSideToTicketWhereInput(filter)
-  const tickets = await findTicketPreviews(ticketWhereInput)
-  const ticketCounts = await getTicketCounts(ticketWhereInput)
+  const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide(filter)
+  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy)
+  const ticketCounts = await getTicketCounts(ticketFilterInput.filter)
   const projectOptions = await findProjectOptionsByCompanyId(filter.companyId)
   const data: ActionData = {
     tickets,
