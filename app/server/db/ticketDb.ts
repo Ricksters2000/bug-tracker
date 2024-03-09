@@ -89,11 +89,13 @@ export const findAllTicketPreviews = async (): Promise<Array<TicketPreview>> => 
   return tickets
 }
 
-export const findTicketPreviews = async (filter: Prisma.TicketWhereInput, orderBy?: Prisma.TicketOrderByWithRelationInput): Promise<Array<TicketPreview>> => {
+export const findTicketPreviews = async (filter: Prisma.TicketWhereInput, orderBy?: Prisma.TicketOrderByWithRelationInput, limit?: number, offset?: number): Promise<Array<TicketPreview>> => {
   const tickets = await db.ticket.findMany({
     select: ticketPreviewSelectInput,
     where: filter,
     orderBy,
+    skip: offset,
+    take: limit,
   })
   return tickets
 }

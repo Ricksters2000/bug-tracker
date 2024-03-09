@@ -42,7 +42,8 @@ export const action: ActionFunction = async ({request, params}) => {
     ...filter,
     projectIds: [projectId],
   })
-  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy)
+  const paginationOptions = filter.pagination
+  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
   const ticketCounts = await getTicketCounts(ticketFilterInput.filter)
   const data: ActionData = {
     tickets,

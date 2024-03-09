@@ -15,6 +15,10 @@ export type TicketFilterClientSide = {
     field: keyof Prisma.TicketOrderByWithRelationInput;
     order: Prisma.SortOrder;
   };
+  pagination: {
+    limit: number;
+    offset: number;
+  }
 }
 
 export const createDefaultTicketFilterClientSide = (companyId: string): TicketFilterClientSide => ({
@@ -34,20 +38,9 @@ export const createDefaultTicketFilterClientSide = (companyId: string): TicketFi
   orderBy: {
     field: `title`,
     order: `asc`,
+  },
+  pagination: {
+    limit: 20,
+    offset: 0,
   }
 })
-
-// export const defaultTicketFilterClientSide: TicketFilterClientSide = {
-//   title: null,
-//   projectIds: [allFilter],
-//   priority: allFilter,
-//   statuses: [],
-//   createdDateRange: {
-//     from: null,
-//     to: null,
-//   },
-//   dueDateRange: {
-//     from: null,
-//     to: null,
-//   },
-// }

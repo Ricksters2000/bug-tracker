@@ -1,4 +1,4 @@
-import {Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
+import {Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
@@ -31,9 +31,10 @@ type Props = {
 
 export const TicketFilter: React.FC<Props> = (props) => {
   const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions} = props
-  const {title, statuses, priority, dueDateRange, createdDateRange, projectIds, orderBy} = ticketFilter
+  const {title, statuses, priority, dueDateRange, createdDateRange, projectIds, orderBy, pagination} = ticketFilter
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(false)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
+  const [pageNumber, setPageNumber] = React.useState(pagination.offset === 0 ? 0 : pagination.offset / pagination.limit)
   const {tickets} = props
   const workspacePath = useWorkspacePath()
 
@@ -41,6 +42,13 @@ export const TicketFilter: React.FC<Props> = (props) => {
     onChange(prev => ({
       ...prev,
       [key]: data,
+      // reset page back to 0 on filter change
+      ...(key !== `pagination` ? {
+        pagination: {
+          ...prev.pagination,
+          offset: 0,
+        }
+      } : {})
     }))
   }
 
@@ -275,6 +283,28 @@ export const TicketFilter: React.FC<Props> = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[20, 50, 100]}
+        component={`div`}
+        count={ticketCount}
+        rowsPerPage={pagination.limit}
+        page={pageNumber}
+        onPageChange={(evt, page) => {
+          setPageNumber(page)
+          onFilterChange(`pagination`, {
+            limit: pagination.limit,
+            offset: page * pagination.limit,
+          })
+        }}
+        onRowsPerPageChange={(evt) => {
+          const value = parseInt(evt.target.value)
+          setPageNumber(0)
+          onFilterChange(`pagination`, {
+            limit: value,
+            offset: 0,
+          })
+        }}
+      />
     </Paper>
   )
 }

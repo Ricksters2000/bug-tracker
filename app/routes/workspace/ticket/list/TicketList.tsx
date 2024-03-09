@@ -20,7 +20,8 @@ type ActionData = {
 export const action: ActionFunction = async ({request}) => {
   const filter = await request.json() as TicketFilterClientSide
   const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide(filter)
-  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy)
+  const paginationOptions = filter.pagination
+  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
   const ticketCounts = await getTicketCounts(ticketFilterInput.filter)
   const projectOptions = await findProjectOptionsByCompanyId(filter.companyId)
   const data: ActionData = {
