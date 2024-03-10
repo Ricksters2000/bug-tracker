@@ -1,10 +1,11 @@
 import {LoaderFunction, json, redirect} from "@remix-run/node"
 import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
-import {UserPublic, UserPublicWithCompany, findAllUsersByCompanyId, findUserWithCompany} from "~/server/db/userDb"
+import {UserPublic, UserPublicWithCompany, authenticateUserWithSessionId, findAllUsersByCompanyId, findUserWithCompany} from "~/server/db/userDb"
 import {AppContextValue, AppContext} from "../AppContext"
 import {CommonHandle} from '~/utils/CommonHandle';
 import {BreadcrumbLink} from "~/typography"
+import {getSession} from "~/sessions"
 
 export const handle: CommonHandle<WorkspaceLoaderData> = {
   breadcrumb: ({params, data}) => {
@@ -23,7 +24,9 @@ export const loader: LoaderFunction = async ({request, params}) => {
   if (!userId) {
     return redirect(`/auth/login`)
   }
-  const user = await findUserWithCompany(parseInt(userId))
+  const session = await getSession(request.headers.get(`Cookie`))
+  const sessionId = session.get(`userSessionId`)
+  const user = await authenticateUserWithSessionId(parseInt(userId), sessionId)
   if (!user) {
     return redirect(`/auth/login`)
   }

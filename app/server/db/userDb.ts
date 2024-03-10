@@ -1,5 +1,6 @@
 import {$Enums, Company, Prisma} from "@prisma/client";
 import {db} from "./db";
+import {createUuid} from "~/utils/createUuid";
 
 export type UserPublic = {
   id: number;
@@ -65,7 +66,7 @@ export const findAllUsersByCompanyId = async (companyId: string): Promise<Array<
   return users
 }
 
-export const authenticateUser = async (email: string, password: string): Promise<number | null> => {
+export const authenticateUserWithEmailAndPassword = async (email: string, password: string) => {
   const user = await db.user.findUnique({
     select: {
       id: true,
@@ -78,5 +79,32 @@ export const authenticateUser = async (email: string, password: string): Promise
   if (!user) {
     return null
   }
-  return user.id
+  const sessionId = createUuid()
+  await db.user.update({
+    where: {id: user.id},
+    data: {
+      sessionIds: {push: sessionId},
+    },
+  })
+  return {
+    userId: user.id,
+    sessionId,
+  }
+}
+
+export const authenticateUserWithSessionId = async (userId: number, sessionId?: string) => {
+  if (!sessionId) return null
+  const user = await db.user.findUnique({
+    select: {
+      ...userPublicSelectInput,
+      company: true,
+    },
+    where: {
+      id: userId,
+      sessionIds: {
+        has: sessionId,
+      },
+    },
+  })
+  return user
 }

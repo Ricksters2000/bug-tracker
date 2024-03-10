@@ -13,6 +13,8 @@ import {formatPrismaError} from "~/utils/formatPrismaError";
 import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
 import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
 import {objectKeys} from "~/utils/objectKeys";
+import {createUuid} from "~/utils/createUuid";
+import {commitSession, getSession} from "~/sessions";
 
 const formKeys = {
   firstName: `firstName`,
@@ -27,6 +29,7 @@ type FormKeys = keyof typeof formKeys
 
 export const action: ActionFunction = async ({request}) => {
   let userId: number
+  const session = await getSession(request.headers.get(`Cookie`))
   const formData = await request.formData()
   const data = getDataFromFormAsObject(formData, formKeys)
   const formResponse = createFormResponseFromData(data, objectKeys(formKeys))
@@ -35,6 +38,7 @@ export const action: ActionFunction = async ({request}) => {
   }
   const {firstName, lastName, emailAddress, password, companyName} = data as Record<FormKeys, string>
   try {
+    const sessionId = createUuid()
     const {id} = await db.user.create({
       data: {
         firstName: firstName,
@@ -42,6 +46,7 @@ export const action: ActionFunction = async ({request}) => {
         email: emailAddress,
         password: password,
         role: $Enums.UserRole.admin,
+        sessionIds: [sessionId],
         company: {
           create: {
             name: companyName,
@@ -53,11 +58,16 @@ export const action: ActionFunction = async ({request}) => {
       }
     })
     userId = id
+    session.set(`userSessionId`, sessionId)
   } catch (err: any) {
     // @todo handle duplicate user better
     throw new Error(`${formatPrismaError(err, `User with`)}`)
   }
-  return redirect(`/workspace/${userId}`)
+  return redirect(`/workspace/${userId}`, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  })
 }
 
 export default function Register() {

@@ -4,7 +4,8 @@ import {ActionFunction, json, redirect} from "@remix-run/node";
 import {Form, useActionData} from "@remix-run/react";
 import {AuthCard} from "~/components/cards/AuthCard";
 import {PasswordField} from "~/components/input/PasswordField";
-import {authenticateUser} from "~/server/db/userDb";
+import {authenticateUserWithEmailAndPassword} from "~/server/db/userDb";
+import {commitSession, getSession} from "~/sessions";
 import {FormErrors, FormResponse} from "~/types/Response";
 
 const formKeys = {
@@ -15,6 +16,7 @@ const formKeys = {
 type FormKeys = keyof typeof formKeys
 
 export const action: ActionFunction = async ({request}) => {
+  const session = await getSession(request.headers.get(`Cookie`))
   const formData = await request.formData()
   const email = formData.get(formKeys.email)?.toString()
   const password = formData.get(formKeys.password)?.toString()
@@ -35,8 +37,8 @@ export const action: ActionFunction = async ({request}) => {
     }
     return json(errorResponse)
   }
-  const userId = await authenticateUser(email, password)
-  if (!userId) {
+  const authData = await authenticateUserWithEmailAndPassword(email, password)
+  if (!authData) {
     const errorResponse: FormResponse<FormKeys> = {
       success: false,
       errors,
@@ -44,7 +46,12 @@ export const action: ActionFunction = async ({request}) => {
     }
     return json(errorResponse)
   }
-  return redirect(`/workspace/${userId}`)
+  session.set(`userSessionId`, authData.sessionId)
+  return redirect(`/workspace/${authData.userId}`, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  })
 }
 
 export default function Login() {
