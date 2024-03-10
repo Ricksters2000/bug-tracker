@@ -151,6 +151,7 @@ export const convertTicketFilterClientSideToTicketFilterServerSide = (filter: Ti
     status: filter.statuses.length === 0 ? undefined : {in: filter.statuses},
     projectId: filter.projectIds.includes(allFilter) ? undefined : {in: filter.projectIds},
     priority: filter.priority === allFilter ? undefined : filter.priority,
+    isClosed: filter.isClosed,
     createdDate: createdDateRange.from && createdDateRange.to ? {
       gte: createdDateRange.from,
       lte: createdDateRange.to,
