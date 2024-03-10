@@ -7,7 +7,7 @@ import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {ProjectPreview, findProjectPreviewsByCompanyId, serializedProjectToProjectPreview} from "~/server/db/projectDb";
 import {ANoTextDecoration, H1, H3, InformationalText, SmallText} from "~/typography";
 import {useAppContext} from "../../AppContext";
-import {PriorityTag} from "../../components/PriorityTag";
+import {PriorityTag} from "../../components/tags/PriorityTag";
 
 export const action: ActionFunction = async ({request}) => {
   const {companyId} = await request.json()

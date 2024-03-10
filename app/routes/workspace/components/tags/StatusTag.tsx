@@ -4,7 +4,7 @@ import {RoundedSquareBackground} from './RoundedSquareBackground';
 import {MenuItem, Select} from '@mui/material';
 import {objectKeys} from '~/utils/objectKeys';
 import emotionStyled from '@emotion/styled';
-import {statusColors} from '../utils/statusColors';
+import {statusColors} from '../../utils/statusColors';
 
 type Props = {
   status: TicketStatus;

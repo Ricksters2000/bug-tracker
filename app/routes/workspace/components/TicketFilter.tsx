@@ -1,11 +1,11 @@
-import {Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
+import {Box, Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
 import {removeKeysFromObject} from '~/utils/removeKeysFromObject';
 import {getTicketPath, useWorkspacePath} from '~/utils/route/routePathHelpers';
-import {PriorityTag} from './PriorityTag';
-import {RoundedSquareBackground} from './RoundedSquareBackground';
+import {PriorityTag} from './tags/PriorityTag';
+import {RoundedSquareBackground} from './tags/RoundedSquareBackground';
 import {priorityColors} from '../utils/priorityColors';
 import {Priority, Prisma, TicketStatus} from '@prisma/client';
 import emotionStyled from '@emotion/styled';
@@ -17,7 +17,8 @@ import {TicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {allFilter} from '~/types/FilterWithAllOption';
 import {ProjectOption} from '~/server/db/projectDb';
 import {SelectFilter} from './SelectFilter';
-import {StatusTag} from './StatusTag';
+import {StatusTag} from './tags/StatusTag';
+import {ClosedTicketTag} from './tags/ClosedTicketTag';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -242,7 +243,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           </TableHead>
           <TableBody>
             {tickets.map(ticket => {
-              const {id, projectId, title, dueDate, createdDate, priority, status} = ticket
+              const {id, projectId, title, dueDate, createdDate, priority, status, isClosed} = ticket
               return (
                 <TableRow key={id} role="checkbox">
                   <TableCell padding='checkbox'>
@@ -261,9 +262,12 @@ export const TicketFilter: React.FC<Props> = (props) => {
                     />
                   </TableCell>
                   <TableCell>
-                    <ABase to={`${getTicketPath(workspacePath, projectId, id)}`}>
-                      {title}
-                    </ABase>
+                    <Box display={`flex`} alignItems={`center`} gap={`8px`}>
+                      <ABase to={`${getTicketPath(workspacePath, projectId, id)}`}>
+                        {title}
+                      </ABase>
+                      {isClosed && <ClosedTicketTag/>}
+                    </Box>
                   </TableCell>
                   <TableCell>
                     {createdDate.toString()}

@@ -13,7 +13,7 @@ import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, fi
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {useAppContext} from '../../AppContext';
 import {UserList} from '../../components/UserList';
-import {PriorityTag} from '../../components/PriorityTag';
+import {PriorityTag} from '../../components/tags/PriorityTag';
 import {DefaultCard} from '~/components/cards/DefaultCard';
 import {PieChart} from '~/components/charts/PieChart';
 

@@ -9,15 +9,16 @@ import {TicketInfo, findTicketById, serializedTicketToTicketInfo, updateAndGetTi
 import {BodyText, H1, InformationalText} from "~/typography";
 import {CardSubInfo} from "../../components/CardSubInfo";
 import {EditableText} from "../../components/EditableText";
-import {PriorityTag} from "../../components/PriorityTag";
+import {PriorityTag} from "../../components/tags/PriorityTag";
 import {UpdateTicketAction, FullUpdateTicketAction, TicketPreviousValue} from "./updateTicketAction";
 import {SendIcon} from "~/assets/icons/SendIcon";
 import {Comment} from "./Comment";
 import {useAppContext} from "../../AppContext";
-import {StatusTag} from "../../components/StatusTag";
+import {StatusTag} from "../../components/tags/StatusTag";
 import {UserSelect} from "../../components/UserSelect";
 import {UserList} from "../../components/UserList";
 import {TicketHistoryList} from "./TicketHistoryList";
+import {ClosedTicketTag} from "../../components/tags/ClosedTicketTag";
 
 export const action: ActionFunction = async ({request}) => {
   const data = await request.json() as FullUpdateTicketAction
@@ -79,7 +80,8 @@ export default function Ticket() {
     <div>
       <EditableText
         text={ticket.title}
-        Component={H1}
+        Component={TicketTitle}
+        textAdornment={ticket.isClosed ? <ClosedTicketTag/> : null}
         fontSize="2.5rem"
         inputMarginTop="1.5rem"
         onSave={(text) => updateTicket({type: `title`, data: text}, ticket.title)}
@@ -198,6 +200,12 @@ export default function Ticket() {
     </div>
   )
 }
+
+const TicketTitle = emotionStyled(H1)({
+  display: `flex`,
+  alignItems: `center`,
+  gap: 10,
+})
 
 const EditableDescription = emotionStyled(EditableText)(props => ({
   flex: 2,

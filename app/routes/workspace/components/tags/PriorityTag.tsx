@@ -1,7 +1,7 @@
 import {Priority} from '@prisma/client';
 import React from 'react';
 import {RoundedSquareBackground} from './RoundedSquareBackground';
-import {priorityColors} from '../utils/priorityColors';
+import {priorityColors} from '../../utils/priorityColors';
 import {MenuItem, Select} from '@mui/material';
 import {objectKeys} from '~/utils/objectKeys';
 import emotionStyled from '@emotion/styled';

@@ -13,6 +13,8 @@ type Props = {
   multilineTextInput?: boolean;
   fontSize?: string;
   inputMarginTop?: string;
+  /** Extra components to be displayed next to the text element */
+  textAdornment?: JSX.Element | null;
 }
 
 export const EditableText: React.FC<Props> = (props) => {
@@ -33,6 +35,7 @@ export const EditableText: React.FC<Props> = (props) => {
       {!isEditing ?
         <props.Component>
           {props.text}
+          {props.textAdornment}
         </props.Component>
         :
         <TextField
