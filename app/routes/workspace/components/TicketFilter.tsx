@@ -1,4 +1,4 @@
-import {Box, Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
+import {Box, Button, ButtonGroup, Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
@@ -135,57 +135,83 @@ export const TicketFilter: React.FC<Props> = (props) => {
           </Tooltip>
         </Stack>
         <Collapse in={displayAdvancedFilters}>
-          <Stack flexDirection={`row`} gap={1}>
-            <FormControl fullWidth>
-              <InputLabel id="status-label">Status</InputLabel>
-              <Select
-                labelId='status-label'
-                multiple
-                input={<OutlinedInput label={`Status`}/>}
-                value={statuses}
-                renderValue={(selected => selected.join(`, `))}
-                onChange={(evt => {
-                  const value = evt.target.value
-                  if (typeof value === `string`) {
-                    onFilterChange(`statuses`, value.split(`,`) as Array<TicketStatus>)
-                  } else {
-                    onFilterChange(`statuses`, value)
-                  }
-                })}
-              >
-                {objectKeys(TicketStatus).map(key => {
-                  const value = TicketStatus[key]
-                  return (
-                    <MenuItem key={key} value={value}>
-                      <Checkbox checked={statuses.indexOf(value) > -1}/>
-                      <ListItemText primary={key}/>
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-            </FormControl>
-            {canChangeProjectId &&
-              <SelectFilter
-                fullWidth
-                label='Projects'
-                value={projectIds}
-                onChange={(value => onFilterChange(`projectIds`, value))}
-                options={projectOptions.map(option => ({
-                  value: option.id,
-                  label: option.title,
-                }))}
+          <Stack gap={2}>
+            <Stack flexDirection={`row`} gap={1}>
+              <FormControl fullWidth>
+                <InputLabel id="status-label">Status</InputLabel>
+                <Select
+                  labelId='status-label'
+                  multiple
+                  input={<OutlinedInput label={`Status`}/>}
+                  value={statuses}
+                  renderValue={(selected => selected.join(`, `))}
+                  onChange={(evt => {
+                    const value = evt.target.value
+                    if (typeof value === `string`) {
+                      onFilterChange(`statuses`, value.split(`,`) as Array<TicketStatus>)
+                    } else {
+                      onFilterChange(`statuses`, value)
+                    }
+                  })}
+                >
+                  {objectKeys(TicketStatus).map(key => {
+                    const value = TicketStatus[key]
+                    return (
+                      <MenuItem key={key} value={value}>
+                        <Checkbox checked={statuses.indexOf(value) > -1}/>
+                        <ListItemText primary={key}/>
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </FormControl>
+              {canChangeProjectId &&
+                <SelectFilter
+                  fullWidth
+                  label='Projects'
+                  value={projectIds}
+                  onChange={(value => onFilterChange(`projectIds`, value))}
+                  options={projectOptions.map(option => ({
+                    value: option.id,
+                    label: option.title,
+                  }))}
+                />
+              }
+              <DateRangePicker
+                label='Create At Range'
+                dateRange={createdDateRange}
+                onChange={newDateRange => onFilterChange(`createdDateRange`, newDateRange)}
               />
-            }
-            <DateRangePicker
-              label='Create At Range'
-              dateRange={createdDateRange}
-              onChange={newDateRange => onFilterChange(`createdDateRange`, newDateRange)}
-            />
-            <DateRangePicker
-              label='Due Date Range'
-              dateRange={dueDateRange}
-              onChange={newDateRange => onFilterChange(`dueDateRange`, newDateRange)}
-            />
+              <DateRangePicker
+                label='Due Date Range'
+                dateRange={dueDateRange}
+                onChange={newDateRange => onFilterChange(`dueDateRange`, newDateRange)}
+              />
+            </Stack>
+            <Stack direction={`row`} gap={1}>
+              <ButtonGroup aria-label='closed/open filter button group'>
+                <Button
+                  disabled={ticketFilter.isClosed === false}
+                  onClick={() => onFilterChange(`isClosed`, false)}
+                >
+                  Open
+                </Button>
+                <Button
+                  color='secondary'
+                  disabled={ticketFilter.isClosed === undefined}
+                  onClick={() => onFilterChange(`isClosed`, undefined)}
+                >
+                  Both
+                </Button>
+                <Button
+                  color='error'
+                  disabled={ticketFilter.isClosed === true}
+                  onClick={() => onFilterChange(`isClosed`, true)}
+                >
+                  Closed
+                </Button>
+              </ButtonGroup>
+            </Stack>
           </Stack>
         </Collapse>
       </Stack>

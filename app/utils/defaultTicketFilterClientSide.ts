@@ -11,7 +11,7 @@ export type TicketFilterClientSide = {
   statuses: Array<TicketStatus>;
   priority: FilterWithAllOption<Priority>;
   projectIds: Array<FilterWithAllOption<string>>;
-  isClosed: boolean;
+  isClosed?: boolean;
   orderBy: {
     field: keyof Prisma.TicketOrderByWithRelationInput;
     order: Prisma.SortOrder;

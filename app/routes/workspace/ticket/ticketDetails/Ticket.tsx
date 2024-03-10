@@ -204,7 +204,7 @@ export default function Ticket() {
 const TicketTitle = emotionStyled(H1)({
   display: `flex`,
   alignItems: `center`,
-  gap: 10,
+  gap: 16,
 })
 
 const EditableDescription = emotionStyled(EditableText)(props => ({
