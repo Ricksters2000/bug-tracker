@@ -19,6 +19,7 @@ export const TicketHistoryList: React.FC<Props> = (props) => {
         let field: string = history.action.type
         let data = history.action.data
         let displayChangedText = true
+        let displayNewData = true
         const user = allUsers.find(userPublic => userPublic.id === history.userId)
         const username = user ? getUserFullNameFromUser(user) : notFoundUserPlaceholder
         switch (history.action.type) {
@@ -37,6 +38,11 @@ export const TicketHistoryList: React.FC<Props> = (props) => {
             data = removedUser ? getUserFullNameFromUser(removedUser) : notFoundUserPlaceholder
             displayChangedText = false
             break
+          case `isClosed`:
+            field = `${data ? `Closed` : `Opened`} Ticket`
+            displayChangedText = false
+            displayNewData = false
+            break
         }
         return (
           <HistoryItem key={`${i}-${history.date}`}>
@@ -50,7 +56,7 @@ export const TicketHistoryList: React.FC<Props> = (props) => {
                     from '<HistoryPreviousValue>{history.previousValue}</HistoryPreviousValue>{`' to `}
                   </>
                 )}
-                '{data}'
+                {displayNewData && `'${data}'`}
               </BodyText>
             </HistoryItemInnerContainer>
           </HistoryItem>

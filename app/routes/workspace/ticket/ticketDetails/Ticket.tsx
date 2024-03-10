@@ -1,6 +1,6 @@
 import React from "react";
 import emotionStyled from "@emotion/styled";
-import {Box, IconButton, Stack, TextField} from "@mui/material";
+import {Box, Button, IconButton, Stack, TextField} from "@mui/material";
 import {ActionFunction, LoaderFunction, json} from "@remix-run/node";
 import {useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
@@ -85,6 +85,26 @@ export default function Ticket() {
         onSave={(text) => updateTicket({type: `title`, data: text}, ticket.title)}
       />
       <Breadcrumbs currentLinkTitle={ticket.title}/>
+      {ticket.isClosed ? (
+        <Button
+          sx={{marginBottom: `1.5rem`}}
+          variant="contained"
+          size="small"
+          onClick={() => updateTicket({type: `isClosed`, data: false}, null)}
+        >
+          Open Ticket
+        </Button>
+      ) : (
+        <Button
+          sx={{marginBottom: `1.5rem`}}
+          variant="contained"
+          color="error"
+          size="small"
+          onClick={() => updateTicket({type: `isClosed`, data: true}, null)}
+        >
+          Close Ticket
+        </Button>
+      )}
       <Container>
         <ExternalLabelCard label="Details">
           <Box display={`flex`} gap={`4px`}>

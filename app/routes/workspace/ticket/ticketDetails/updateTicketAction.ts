@@ -19,7 +19,8 @@ export type UpdateTicketActionAndSaveToHistory =
   UpdatePriorityAction |
   UpdateStatusAction |
   UpdateAssignUserAction |
-  UpdateRemoveUserAction;
+  UpdateRemoveUserAction |
+  UpdateIsClosedAction;
 
 type UpdateTitleAction = {
   type: `title`;
@@ -49,6 +50,11 @@ type UpdateAssignUserAction = {
 type UpdateRemoveUserAction = {
   type: `removeUser`;
   data: number;
+}
+
+type UpdateIsClosedAction = {
+  type: `isClosed`;
+  data: boolean;
 }
 
 type UpdateAddCommentAction = {
@@ -94,6 +100,10 @@ export const convertUpdateTicketActionToUpdateInput = (action: UpdateTicketActio
     case `status`:
       return {
         status: action.data
+      }
+    case `isClosed`:
+      return {
+        isClosed: action.data
       }
     case `addComment`:
       return {
