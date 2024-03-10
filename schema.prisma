@@ -34,6 +34,7 @@ model Ticket {
   content String?
   status TicketStatus @default(new)
   history Json[]
+  isClosed Boolean @default(false)
   project Project @relation(fields: [projectId], references: [id])
   assignedUsers User[]
   comments Comment[]
@@ -85,5 +86,4 @@ enum TicketStatus {
   testing
   reviewed
   development
-  completed
 }

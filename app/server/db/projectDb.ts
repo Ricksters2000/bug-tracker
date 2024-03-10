@@ -52,8 +52,8 @@ export const findProjectPreviewsByCompanyId = async (companyId: string): Promise
           assignedUsers: true,
           tickets: {
             where: {
-              status: {not: `completed`}
-            }
+              isClosed: false,
+            },
           }
         },
       },

@@ -60,7 +60,7 @@ export const loader: LoaderFunction = async ({params}) => {
   }
   const ticketCounts = await getTicketCounts({
     projectId,
-    status: {not: TicketStatus.completed}
+    isClosed: false,
   })
   const data: LoaderData = {
     ticketPriorityCounts: {

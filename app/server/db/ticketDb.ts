@@ -21,7 +21,7 @@ export type TicketInfo = Omit<Ticket, `history` | `companyId`> & {
   assignedUsers: Array<UserPublic>;
 }
 
-export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate`>
+export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate` | `isClosed`>
 
 export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
@@ -31,6 +31,7 @@ export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()(
   status: true,
   dueDate: true,
   createdDate: true,
+  isClosed: true,
 })
 
 export const ticketInfoSelectInput = Prisma.validator<Prisma.TicketSelect>()({
@@ -43,6 +44,7 @@ export const ticketInfoSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   createdDate: true,
   history: true,
   status: true,
+  isClosed: true,
   comments: {
     select: commentSelectInput,
     orderBy: {dateSent: `asc`}
@@ -122,13 +124,9 @@ export const getTicketCounts = async (filter: Prisma.TicketWhereInput) => {
 
 export const serializedTicketToTicketPreview = (jsonTicket: SerializeFrom<TicketPreview>): TicketPreview => {
   return {
-    id: jsonTicket.id,
-    projectId: jsonTicket.projectId,
-    title: jsonTicket.title,
+    ...jsonTicket,
     createdDate: new Date(jsonTicket.createdDate),
     dueDate: jsonTicket.dueDate ? new Date(jsonTicket.dueDate) : null,
-    priority: jsonTicket.priority,
-    status: jsonTicket.status,
   }
 }
 

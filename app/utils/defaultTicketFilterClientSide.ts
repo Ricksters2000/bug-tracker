@@ -26,7 +26,7 @@ export const createDefaultTicketFilterClientSide = (companyId: string): TicketFi
   title: null,
   projectIds: [allFilter],
   priority: allFilter,
-  statuses: objectKeys(TicketStatus).filter(status => status !== `completed`),
+  statuses: [],
   createdDateRange: {
     from: null,
     to: null,
