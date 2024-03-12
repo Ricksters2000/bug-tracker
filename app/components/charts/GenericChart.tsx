@@ -26,6 +26,7 @@ export const GenericChart = <T extends keyof ChartTypeRegistry>(props: ChartProp
 
   return (
     <Root>
+      {/* For some reason a fix to allow chart js charts to resize is to add this element https://github.com/chartjs/Chart.js/issues/11005#issuecomment-1433478026 */}
       <div>&nbsp;</div>
       <Chart width={`100%`} height={375} {...props}/>
     </Root>
