@@ -23,6 +23,21 @@ export type TicketInfo = Omit<Ticket, `history` | `companyId`> & {
 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate` | `isClosed`>
 
+type TicketGroupByFields = {
+  id: 'id',
+  projectId: 'projectId',
+  companyId: 'companyId',
+  title: 'title',
+  priority: 'priority',
+  status: 'status',
+};
+
+type TicketGroupByFieldKeys = TicketGroupByFields[keyof TicketGroupByFields]
+
+type TicketGroupByKeys = Omit<Ticket, `createdDate` | `dueDate` | `history` | `content` | `isClosed`>
+// type TicketGroupByKeys = Prisma.PickEnumerable<Prisma.TicketScalarFieldEnum, []>
+type Test = Prisma.GetScalarType<Prisma.TicketScalarFieldEnum, `id`>
+
 export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
   projectId: true,
@@ -102,25 +117,23 @@ export const findTicketPreviews = async (filter: Prisma.TicketWhereInput, orderB
   return tickets
 }
 
-export const getTicketCounts = async (filter: Prisma.TicketWhereInput) => {
+export const getTicketCountsByField = async <T extends TicketGroupByFieldKeys>(field: T, filter: Prisma.TicketWhereInput): Promise<Record<TicketGroupByKeys[T], number>> => {
   const countsData = await db.ticket.groupBy({
-    by: `priority`,
+    by: field,
     _count: true,
     where: {
       ...filter,
-      priority: undefined,
     },
   })
-  const priorityCounts: Record<Priority, number> = {
-    low: 0,
-    medium: 0,
-    high: 0,
-  }
-  countsData.forEach(count => {
-    priorityCounts[count.priority] = count._count
+  if (!Array.isArray(countsData)) throw new Error(`Unexpected failed to retrieve group by counts data from ticket field: ${field}`)
+  const counts = {} as Record<TicketGroupByKeys[T], number>;
+  countsData.forEach((count: Record<string, TicketGroupByKeys[T]> & {_count: number}) => {
+    const key = count[field] as TicketGroupByKeys[T]
+    counts[key] = count._count
   })
-  return priorityCounts
+  return counts
 }
+getTicketCountsByField(`priority`, {})
 
 export const serializedTicketToTicketPreview = (jsonTicket: SerializeFrom<TicketPreview>): TicketPreview => {
   return {

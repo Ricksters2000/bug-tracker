@@ -2,7 +2,7 @@ import React from "react"
 import {ActionFunction, json} from "@remix-run/node"
 import {useFetcher} from "@remix-run/react"
 import {Breadcrumbs} from "~/components/Breadcrumbs"
-import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
+import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCountsByField, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
 import {H1} from "~/typography"
 import {TicketFilter} from "../../components/TicketFilter"
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide"
@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({request}) => {
   const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide(filter)
   const paginationOptions = filter.pagination
   const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
-  const ticketCounts = await getTicketCounts(ticketFilterInput.filter)
+  const ticketCounts = await getTicketCountsByField(`priority`, ticketFilterInput.filter)
   const projectOptions = await findProjectOptionsByCompanyId(filter.companyId)
   const data: ActionData = {
     tickets,

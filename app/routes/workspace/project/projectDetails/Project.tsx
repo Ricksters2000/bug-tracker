@@ -8,8 +8,8 @@ import {Breadcrumbs} from '~/components/Breadcrumbs';
 import {Box, Chip, Grid, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
-import {Priority, TicketStatus} from '@prisma/client';
-import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCounts, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
+import {Priority, Prisma, TicketStatus} from '@prisma/client';
+import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCountsByField, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {useAppContext} from '../../AppContext';
 import {UserList} from '../../components/UserList';
@@ -24,11 +24,8 @@ type ActionData = {
 }
 
 type LoaderData = {
-  ticketPriorityCounts: {
-    high: number;
-    medium: number;
-    low: number;
-  }
+  ticketPriorityCounts: Record<Priority, number>;
+  ticketStatusCounts: Record<TicketStatus, number>;
   totalTicketCount: number;
 }
 
@@ -44,11 +41,11 @@ export const action: ActionFunction = async ({request, params}) => {
   })
   const paginationOptions = filter.pagination
   const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
-  const ticketCounts = await getTicketCounts(ticketFilterInput.filter)
+  const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilterInput.filter)
   const data: ActionData = {
     tickets,
-    ticketPriorityCounts: ticketCounts,
-    ticketCount: ticketCounts.low + ticketCounts.medium + ticketCounts.high,
+    ticketPriorityCounts: ticketPriorityCounts,
+    ticketCount: ticketPriorityCounts.low + ticketPriorityCounts.medium + ticketPriorityCounts.high,
   }
   return json(data)
 }
@@ -58,17 +55,16 @@ export const loader: LoaderFunction = async ({params}) => {
   if (!projectId) {
     return json(`Error`)
   }
-  const ticketCounts = await getTicketCounts({
+  const ticketFilter: Prisma.TicketWhereInput = {
     projectId,
     isClosed: false,
-  })
+  }
+  const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilter)
+  const ticketStatusCounts = await getTicketCountsByField(`status`, ticketFilter)
   const data: LoaderData = {
-    ticketPriorityCounts: {
-      high: ticketCounts.high,
-      medium: ticketCounts.medium,
-      low: ticketCounts.low,
-    },
-    totalTicketCount: ticketCounts.high + ticketCounts.medium + ticketCounts.low,
+    ticketPriorityCounts,
+    ticketStatusCounts,
+    totalTicketCount: ticketPriorityCounts.high + ticketPriorityCounts.medium + ticketPriorityCounts.low,
   }
   return json(data)
 }
@@ -91,7 +87,7 @@ export default function Project() {
 
   if (!fetcher.data) return null
   const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
-  const {ticketPriorityCounts, totalTicketCount} = ticketCounts
+  const {ticketPriorityCounts, ticketStatusCounts, totalTicketCount} = ticketCounts
   return (
     <div>
       <H1>{project.title}</H1>
@@ -110,15 +106,29 @@ export default function Project() {
           </ProjectMetadataInfoContainer>
         </Box>
       </Paper>
-      <Grid container marginTop={`1.5rem`}>
-        <Grid item xs={4}>
-          <DefaultCard label='Open Tickets'>
+      <Grid container marginTop={`1.5rem`} spacing={2}>
+        <Grid item xs={3}>
+          <DefaultCard label='Tickets by Priority'>
             <PieChart
               label='Open Tickets'
               data={[
                 {value: ticketPriorityCounts.high, label: `High`, color: `rgb(255, 99, 132)`},
                 {value: ticketPriorityCounts.medium, label: `Medium`, color: `rgb(255, 205, 86)`},
                 {value: ticketPriorityCounts.low, label: `Low`, color: `rgb(54, 162, 235)`},
+              ]}
+              centerNumber={totalTicketCount}
+            />
+          </DefaultCard>
+        </Grid>
+        <Grid item xs={3}>
+          <DefaultCard label='Tickets by Status'>
+            <PieChart
+              label='Open Tickets'
+              data={[
+                {value: ticketStatusCounts.new, label: `New`, color: `rgb(255, 99, 132)`},
+                {value: ticketStatusCounts.development, label: `Development`, color: `rgb(255, 205, 86)`},
+                {value: ticketStatusCounts.testing, label: `Testing`, color: `rgb(54, 162, 235)`},
+                {value: ticketStatusCounts.reviewed, label: `Reviewed`, color: `rgb(54, 162, 235)`},
               ]}
               centerNumber={totalTicketCount}
             />
