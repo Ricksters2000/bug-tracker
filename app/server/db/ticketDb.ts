@@ -1,10 +1,10 @@
-import {Priority, Prisma, Ticket} from "@prisma/client";
+import {Prisma, Ticket} from "@prisma/client";
 import {db} from "./db";
 import {CommentPublic, commentSelectInput, serializedCommentToCommentPublic} from "./commentDb";
 import {SerializeFrom} from "@remix-run/node";
 import {TicketFilterClientSide} from "~/utils/defaultTicketFilterClientSide";
 import {allFilter} from "~/types/FilterWithAllOption";
-import {UpdateTicketAction, FullUpdateTicketAction, convertUpdateTicketActionToUpdateInput, TicketPreviousValue, UpdateTicketActionAndSaveToHistory, createTicketUpdateInputAndSaveHistoryFromUpdateAction} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
+import {FullUpdateTicketAction, TicketPreviousValue, UpdateTicketActionAndSaveToHistory, createTicketUpdateInputAndSaveHistoryFromUpdateAction} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
 import {JSONR} from "~/utils/JSONR";
 import {UserPublic, userPublicSelectInput} from "./userDb";
 
@@ -23,20 +23,7 @@ export type TicketInfo = Omit<Ticket, `history` | `companyId`> & {
 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate` | `isClosed`>
 
-type TicketGroupByFields = {
-  id: 'id',
-  projectId: 'projectId',
-  companyId: 'companyId',
-  title: 'title',
-  priority: 'priority',
-  status: 'status',
-};
-
-type TicketGroupByFieldKeys = TicketGroupByFields[keyof TicketGroupByFields]
-
 type TicketGroupByKeys = Omit<Ticket, `createdDate` | `dueDate` | `history` | `content` | `isClosed`>
-// type TicketGroupByKeys = Prisma.PickEnumerable<Prisma.TicketScalarFieldEnum, []>
-type Test = Prisma.GetScalarType<Prisma.TicketScalarFieldEnum, `id`>
 
 export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
@@ -117,7 +104,7 @@ export const findTicketPreviews = async (filter: Prisma.TicketWhereInput, orderB
   return tickets
 }
 
-export const getTicketCountsByField = async <T extends TicketGroupByFieldKeys>(field: T, filter: Prisma.TicketWhereInput): Promise<Record<TicketGroupByKeys[T], number>> => {
+export const getTicketCountsByField = async <T extends keyof TicketGroupByKeys>(field: T, filter: Prisma.TicketWhereInput): Promise<Record<TicketGroupByKeys[T], number>> => {
   const countsData = await db.ticket.groupBy({
     by: field,
     _count: true,

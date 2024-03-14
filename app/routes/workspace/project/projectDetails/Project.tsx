@@ -16,6 +16,7 @@ import {UserList} from '../../components/UserList';
 import {PriorityTag} from '../../components/tags/PriorityTag';
 import {DefaultCard} from '~/components/cards/DefaultCard';
 import {PieChart} from '~/components/charts/PieChart';
+import {statusLightColors} from '../../utils/statusColors';
 
 type ActionData = {
   tickets: Array<TicketPreview>;
@@ -125,10 +126,10 @@ export default function Project() {
             <PieChart
               label='Open Tickets'
               data={[
-                {value: ticketStatusCounts.new, label: `New`, color: `rgb(255, 99, 132)`},
-                {value: ticketStatusCounts.development, label: `Development`, color: `rgb(255, 205, 86)`},
-                {value: ticketStatusCounts.testing, label: `Testing`, color: `rgb(54, 162, 235)`},
-                {value: ticketStatusCounts.reviewed, label: `Reviewed`, color: `rgb(54, 162, 235)`},
+                {value: ticketStatusCounts.new, label: `New`, color: statusLightColors.new},
+                {value: ticketStatusCounts.development, label: `Development`, color: statusLightColors.development},
+                {value: ticketStatusCounts.testing, label: `Testing`, color: statusLightColors.testing},
+                {value: ticketStatusCounts.reviewed, label: `Reviewed`, color: statusLightColors.reviewed},
               ]}
               centerNumber={totalTicketCount}
             />
