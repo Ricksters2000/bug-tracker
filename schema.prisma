@@ -31,6 +31,7 @@ model Ticket {
   priority Priority
   createdDate DateTime
   dueDate DateTime?
+  closedDate DateTime?
   content String?
   status TicketStatus @default(new)
   history Json[]

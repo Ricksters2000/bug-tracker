@@ -71,6 +71,7 @@ const createServer = async () => {
         history: true,
         comments: true,
         isClosed: true,
+        closedDate: true,
       },
       where: {companyId}
     })

@@ -15,7 +15,7 @@ export type TicketHistory = {
   previousValue: TicketPreviousValue;
 }
 
-export type TicketInfo = Omit<Ticket, `history` | `companyId`> & {
+export type TicketInfo = Omit<Ticket, `history` | `companyId` | `closedDate`> & {
   comments: Array<CommentPublic>;
   history: Array<TicketHistory>;
   assignedUsers: Array<UserPublic>;
@@ -23,7 +23,7 @@ export type TicketInfo = Omit<Ticket, `history` | `companyId`> & {
 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate` | `isClosed`>
 
-type TicketGroupByKeys = Omit<Ticket, `createdDate` | `dueDate` | `history` | `content` | `isClosed`>
+type TicketGroupByKeys = Omit<Ticket, `createdDate` | `dueDate` | `history` | `content` | `isClosed` | `closedDate`>
 
 export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
