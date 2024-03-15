@@ -103,7 +103,10 @@ export const convertUpdateTicketActionToUpdateInput = (action: UpdateTicketActio
       }
     case `isClosed`:
       return {
-        isClosed: action.data
+        isClosed: action.data,
+        ...(action.data ? {
+          closedDate: new Date(),
+        } : {}),
       }
     case `addComment`:
       return {
