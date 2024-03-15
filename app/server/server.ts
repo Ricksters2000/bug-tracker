@@ -10,6 +10,7 @@ import morgan from "morgan";
 import sourceMapSupport from "source-map-support";
 import {db} from "./db/db";
 import {JsonRestoreData, restoreDataFromJson} from "./restoreData/restoreData";
+import {migrateTicketClosedDate} from "./migrations/migrateTicketClosedDate";
 
 sourceMapSupport.install();
 installGlobals();
@@ -29,6 +30,7 @@ const createServer = async () => {
 
   await db.$connect();
   await restoreDataFromJson()
+  await migrateTicketClosedDate()
   const app = express();
 
   app.use(compression());
