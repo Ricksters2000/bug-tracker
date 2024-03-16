@@ -34,4 +34,5 @@ export const GenericChart = <T extends keyof ChartTypeRegistry>(props: ChartProp
 }
 
 const Root = emotionStyled.div({
+  maxHeight: 375
 })

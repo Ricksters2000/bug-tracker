@@ -7,6 +7,9 @@ import {allFilter} from "~/types/FilterWithAllOption";
 import {FullUpdateTicketAction, TicketPreviousValue, UpdateTicketActionAndSaveToHistory, createTicketUpdateInputAndSaveHistoryFromUpdateAction} from "~/routes/workspace/ticket/ticketDetails/updateTicketAction";
 import {JSONR} from "~/utils/JSONR";
 import {UserPublic, userPublicSelectInput} from "./userDb";
+import {GroupByDate} from "./types";
+import {DateRange} from "~/types/DateRange";
+import {convertAndFormatDateToUTC} from "~/utils/convertAndFormatDateToUTC";
 
 export type TicketHistory = {
   userId: number;
@@ -24,6 +27,7 @@ export type TicketInfo = Omit<Ticket, `history` | `companyId` | `closedDate`> & 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate` | `isClosed`>
 
 type TicketGroupByKeys = Omit<Ticket, `createdDate` | `dueDate` | `history` | `content` | `isClosed` | `closedDate`>
+type GroupByDateKeys = keyof Pick<Ticket, `closedDate` | `createdDate` | `dueDate`>
 
 export const ticketPreviewSelectInput = Prisma.validator<Prisma.TicketSelect>()({
   id: true,
@@ -120,7 +124,30 @@ export const getTicketCountsByField = async <T extends keyof TicketGroupByKeys>(
   })
   return counts
 }
-getTicketCountsByField(`priority`, {})
+
+export const getTicketCountsByDateField = async (field: GroupByDateKeys, projectId: string, dateRange: DateRange, isClosed?: boolean): Promise<Array<GroupByDate>> => {
+  const {from, to} = dateRange
+  if (!from || !to) {
+    throw new Error(`Date range must have both from and to properties set when retrieving ticket counts data by date field`)
+  }
+  const dateField = `DATE("${field}")`
+  const countsData = await db.$queryRawUnsafe<Array<GroupByDate>>(`
+    SELECT ${dateField} as "date", count(*)
+    FROM public."Ticket"
+    WHERE ${dateField} BETWEEN DATE('${convertAndFormatDateToUTC(from)}') AND DATE('${convertAndFormatDateToUTC(to)}')
+    AND "projectId"='${projectId}'
+    ${
+      isClosed === undefined ? `` :
+      `AND "isClosed"=${isClosed}`
+    }
+    GROUP BY "date"
+    ORDER BY "date" ASC;
+  `)
+  return countsData.map(countData => ({
+    date: countData.date,
+    count: parseInt(countData.count.toString()),
+  }))
+}
 
 export const serializedTicketToTicketPreview = (jsonTicket: SerializeFrom<TicketPreview>): TicketPreview => {
   return {

@@ -9,7 +9,7 @@ import {Box, Chip, Grid, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
 import {Priority, Prisma, TicketStatus} from '@prisma/client';
-import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCountsByField, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
+import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCountsByDateField, getTicketCountsByField, serializedTicketToTicketPreview} from '~/server/db/ticketDb';
 import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {useAppContext} from '../../AppContext';
 import {UserList} from '../../components/UserList';
@@ -17,6 +17,12 @@ import {PriorityTag} from '../../components/tags/PriorityTag';
 import {DefaultCard} from '~/components/cards/DefaultCard';
 import {PieChart} from '~/components/charts/PieChart';
 import {statusLightColors} from '../../utils/statusColors';
+import {GroupByDate} from '~/server/db/types';
+import {DateRange} from '~/types/DateRange';
+import dayjs from 'dayjs';
+import {LineChart} from '~/components/charts/LineChart';
+import {ChartDataRaw} from '~/components/charts/utils/convertDataToChartData';
+import {fillRawChartDataWithDateLabels} from '~/components/charts/utils/fillRawChartDataWithDateLabels';
 
 type ActionData = {
   tickets: Array<TicketPreview>;
@@ -28,6 +34,7 @@ type LoaderData = {
   ticketPriorityCounts: Record<Priority, number>;
   ticketStatusCounts: Record<TicketStatus, number>;
   totalTicketCount: number;
+  closedTicketDateCounts: Array<GroupByDate>
 }
 
 export const action: ActionFunction = async ({request, params}) => {
@@ -60,11 +67,18 @@ export const loader: LoaderFunction = async ({params}) => {
     projectId,
     isClosed: false,
   }
+  const currentDate = new Date()
+  const dateRange: DateRange = {
+    from: dayjs(currentDate).subtract(7, `days`).toDate(),
+    to: currentDate,
+  }
   const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilter)
   const ticketStatusCounts = await getTicketCountsByField(`status`, ticketFilter)
+  const closedTicketDateCounts = await getTicketCountsByDateField(`closedDate`, projectId, dateRange, true)
   const data: LoaderData = {
     ticketPriorityCounts,
     ticketStatusCounts,
+    closedTicketDateCounts,
     totalTicketCount: ticketPriorityCounts.high + ticketPriorityCounts.medium + ticketPriorityCounts.low,
   }
   return json(data)
@@ -88,7 +102,14 @@ export default function Project() {
 
   if (!fetcher.data) return null
   const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
-  const {ticketPriorityCounts, ticketStatusCounts, totalTicketCount} = ticketCounts
+  const {ticketPriorityCounts, ticketStatusCounts, totalTicketCount, closedTicketDateCounts} = ticketCounts
+  const closedTicketsChartData: Array<ChartDataRaw> = closedTicketDateCounts.map(countData => ({
+    label: countData.date,
+    value: countData.count,
+  }))
+  const currentDate = new Date()
+  const from = dayjs(currentDate).subtract(7, `days`).toDate()
+  const to = currentDate
   return (
     <div>
       <H1>{project.title}</H1>
@@ -132,6 +153,14 @@ export default function Project() {
                 {value: ticketStatusCounts.reviewed, label: `Reviewed`, color: statusLightColors.reviewed},
               ]}
               centerNumber={totalTicketCount}
+            />
+          </DefaultCard>
+        </Grid>
+        <Grid item xs={6}>
+          <DefaultCard label='Tickets Closed Past 7 Days'>
+            <LineChart
+              label='Tickets Closed'
+              data={fillRawChartDataWithDateLabels(closedTicketsChartData, from, to)}
             />
           </DefaultCard>
         </Grid>

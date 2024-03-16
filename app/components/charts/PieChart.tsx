@@ -1,16 +1,11 @@
 import {ChartData, ChartOptions, Plugin} from 'chart.js';
 import React from 'react';
 import {GenericChart} from './GenericChart';
-
-type Data = {
-  value: number;
-  label: string;
-  color?: string;
-}
+import {ChartDataRaw, convertDataToChartData} from './utils/convertDataToChartData';
 
 type Props = {
   label: string;
-  data: Array<Data>;
+  data: Array<ChartDataRaw>;
   centerNumber?: number;
 }
 
@@ -20,16 +15,7 @@ export const PieChart: React.FC<Props> = (props) => {
   const [colors, setColors] = React.useState<Array<string>>([])
 
   React.useEffect(() => {
-    const values: Array<number> = []
-    const currentLabeles: Array<string> = []
-    const labelColors: Array<string> = []
-    props.data.forEach(data => {
-      values.push(data.value)
-      currentLabeles.push(data.label)
-      if (data.color) {
-        labelColors.push(data.color)
-      }
-    })
+    const {labelColors, currentLabeles, values} = convertDataToChartData(props.data)
     setDataValues(values)
     setLabels(currentLabeles)
     setColors(labelColors)
