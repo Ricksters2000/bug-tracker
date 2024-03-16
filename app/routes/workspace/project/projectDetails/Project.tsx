@@ -23,6 +23,7 @@ import dayjs from 'dayjs';
 import {LineChart} from '~/components/charts/LineChart';
 import {ChartDataRaw} from '~/components/charts/utils/convertDataToChartData';
 import {fillRawChartDataWithDateLabels} from '~/components/charts/utils/fillRawChartDataWithDateLabels';
+import {convertTicketPriorityCountsToChartDataRaw, convertTicketStatusCountsToChartDataRaw} from '~/components/charts/utils/ticketPieChartHelpers';
 
 type ActionData = {
   tickets: Array<TicketPreview>;
@@ -133,11 +134,7 @@ export default function Project() {
           <DefaultCard label='Tickets by Priority'>
             <PieChart
               label='Open Tickets'
-              data={[
-                {value: ticketPriorityCounts.high, label: `High`, color: `rgb(255, 99, 132)`},
-                {value: ticketPriorityCounts.medium, label: `Medium`, color: `rgb(255, 205, 86)`},
-                {value: ticketPriorityCounts.low, label: `Low`, color: `rgb(54, 162, 235)`},
-              ]}
+              data={convertTicketPriorityCountsToChartDataRaw(ticketPriorityCounts)}
               centerNumber={totalTicketCount}
             />
           </DefaultCard>
@@ -146,12 +143,7 @@ export default function Project() {
           <DefaultCard label='Tickets by Status'>
             <PieChart
               label='Open Tickets'
-              data={[
-                {value: ticketStatusCounts.new, label: `New`, color: statusLightColors.new},
-                {value: ticketStatusCounts.development, label: `Development`, color: statusLightColors.development},
-                {value: ticketStatusCounts.testing, label: `Testing`, color: statusLightColors.testing},
-                {value: ticketStatusCounts.reviewed, label: `Reviewed`, color: statusLightColors.reviewed},
-              ]}
+              data={convertTicketStatusCountsToChartDataRaw(ticketStatusCounts)}
               centerNumber={totalTicketCount}
             />
           </DefaultCard>
