@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import {ChartDataRaw} from "./convertDataToChartData";
 
 /** Expects chartData to be sorted by date ascending */
-export const fillRawChartDataWithDateLabels = (chartData: Array<ChartDataRaw>, from: Date, to: Date) => {
+export const fillRawChartDataWithDateLabels = (chartData: ChartDataRaw, from: Date, to: Date): ChartDataRaw => {
   let currentIndex = 0
   const startingDate = dayjs(from)
   const amountOfDays = startingDate.diff(to, `day`) * -1
-  const newChartData: Array<ChartDataRaw> = new Array(amountOfDays).fill(0).map((_, i) => {
+  const newChartData: ChartDataRaw = new Array(amountOfDays).fill(0).map((_, i) => {
     const currentDate = startingDate.add(i, `day`)
     const formattedDate = currentDate.format(`MM/DD`)
     if (currentIndex >= chartData.length) {

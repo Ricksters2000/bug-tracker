@@ -1,10 +1,10 @@
 import React from 'react';
 import {ChartDataRaw, convertDataToChartData} from './utils/convertDataToChartData';
 import {GenericChart} from './GenericChart';
-import {ChartData, ChartOptions} from 'chart.js';
+import {ChartData} from 'chart.js';
 
 type Props = {
-  data: Array<ChartDataRaw>;
+  data: ChartDataRaw;
   label: string;
   backgroundColor?: string;
 }

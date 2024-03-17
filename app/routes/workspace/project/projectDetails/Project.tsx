@@ -104,7 +104,7 @@ export default function Project() {
   if (!fetcher.data) return null
   const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
   const {ticketPriorityCounts, ticketStatusCounts, totalTicketCount, closedTicketDateCounts} = ticketCounts
-  const closedTicketsChartData: Array<ChartDataRaw> = closedTicketDateCounts.map(countData => ({
+  const closedTicketsChartData: ChartDataRaw = closedTicketDateCounts.map(countData => ({
     label: countData.date,
     value: countData.count,
   }))

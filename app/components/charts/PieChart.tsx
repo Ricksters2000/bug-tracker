@@ -5,7 +5,7 @@ import {ChartDataRaw, convertDataToChartData} from './utils/convertDataToChartDa
 
 type Props = {
   label: string;
-  data: Array<ChartDataRaw>;
+  data: ChartDataRaw;
   centerNumber?: number;
 }
 

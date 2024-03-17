@@ -12,6 +12,8 @@ import {H1} from "~/typography";
 import {useAppContext} from "./AppContext";
 import {UserSelect} from "./components/UserSelect";
 import {UserList} from "./components/UserList";
+import {BarChart} from "~/components/charts/BarChart";
+import {convertGenericDataToChartDatasets} from "~/components/charts/utils/convertDataToChartData";
 
 type LoaderData = {
   openTicketCount: number;
@@ -126,6 +128,13 @@ export default function Dashboard() {
         <Grid item xs={12} sm={6} md={3}>
           <DefaultCard label="Tickets">
             {/* <PieChart/> */}
+          </DefaultCard>
+        </Grid>
+        <Grid item xs={12}>
+          <DefaultCard label="Compare Users to Open Tickets per Project">
+            <BarChart
+              datasetsRaw={convertGenericDataToChartDatasets(projectUserToOpenTicketsCounts, `projectTitle`)}
+            />
           </DefaultCard>
         </Grid>
       </Grid>
