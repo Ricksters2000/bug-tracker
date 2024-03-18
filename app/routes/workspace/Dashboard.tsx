@@ -5,7 +5,7 @@ import {json, type LoaderFunction, type MetaFunction} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import {DefaultCard} from "~/components/cards/DefaultCard";
 import {PieChart} from "~/components/charts/PieChart";
-import {convertTicketPriorityCountsToChartDataRaw} from "~/components/charts/utils/ticketPieChartHelpers";
+import {convertTicketPriorityCountsToChartDataRaw, convertTicketStatusCountsToChartDataRaw} from "~/components/charts/utils/ticketPieChartHelpers";
 import {db} from "~/server/db/db";
 import {getTicketCountsByField} from "~/server/db/ticketDb";
 import {H1} from "~/typography";
@@ -14,6 +14,7 @@ import {UserSelect} from "./components/UserSelect";
 import {UserList} from "./components/UserList";
 import {BarChart} from "~/components/charts/BarChart";
 import {convertGenericDataToChartDatasets} from "~/components/charts/utils/convertDataToChartData";
+import {SimpleDataCard} from "~/components/cards/SimpleDataCard";
 
 type LoaderData = {
   openTicketCount: number;
@@ -100,6 +101,20 @@ export default function Dashboard() {
     <Root>
       <H1>Your Dashboard</H1>
       <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <SimpleDataCard label="Total Open Tickets" data={openTicketCount}/>
+        </Grid>
+        <Grid item xs={3}>
+          <SimpleDataCard label="Total Unassigned Tickets" data={unassignedTicketCount}/>
+        </Grid>
+        <Grid item xs={3}>
+          <SimpleDataCard label="Tickets Due Soon" data={openTicketCount}/>
+        </Grid>
+        <Grid item xs={3}>
+          <SimpleDataCard label="Tickets Past Due" data={openTicketCount}/>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <DefaultCard label="Open Tickets By Priority">
             <PieChart
@@ -120,7 +135,7 @@ export default function Dashboard() {
           <DefaultCard label="Open Tickets By Status">
             <PieChart
               label="Open Tickets"
-              data={convertTicketPriorityCountsToChartDataRaw(ticketPriorityCounts)}
+              data={convertTicketStatusCountsToChartDataRaw(ticketStatusCounts)}
               centerNumber={openTicketCount}
             />
           </DefaultCard>
