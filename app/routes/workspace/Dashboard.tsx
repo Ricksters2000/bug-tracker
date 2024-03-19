@@ -15,10 +15,13 @@ import {UserList} from "./components/UserList";
 import {BarChart} from "~/components/charts/BarChart";
 import {convertGenericDataToChartDatasets} from "~/components/charts/utils/convertDataToChartData";
 import {SimpleDataCard} from "~/components/cards/SimpleDataCard";
+import {getEndOfNearDueDate} from "~/utils/dueDateCalculate";
 
 type LoaderData = {
   openTicketCount: number;
   unassignedTicketCount: number;
+  ticketsNearDueDateCount: number;
+  ticketsPastDueDateCount: number;
   ticketPriorityCounts: Record<Priority, number>;
   ticketStatusCounts: Record<TicketStatus, number>;
   projectUserToOpenTicketsCounts: Array<{
@@ -58,6 +61,23 @@ export const loader: LoaderFunction = async ({params}) => {
       assignedUsers: {none: {}}
     },
   })
+  const ticketsNearDueDateCount = await db.ticket.count({
+    where: {
+      ...ticketFilter,
+      dueDate: {
+        gte: new Date(),
+        lte: getEndOfNearDueDate(),
+      },
+    },
+  })
+  const ticketsPastDueDateCount = await db.ticket.count({
+    where: {
+      ...ticketFilter,
+      dueDate: {
+        lte: new Date(),
+      },
+    },
+  })
   const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilter)
   const ticketStatusCounts = await getTicketCountsByField(`status`, ticketFilter)
   const projectUserToOpenTicketsCounts = await db.project.findMany({
@@ -77,6 +97,8 @@ export const loader: LoaderFunction = async ({params}) => {
   const data: LoaderData = {
     openTicketCount,
     unassignedTicketCount,
+    ticketsNearDueDateCount,
+    ticketsPastDueDateCount,
     ticketPriorityCounts,
     ticketStatusCounts,
     projectUserToOpenTicketsCounts: projectUserToOpenTicketsCounts.map(countData => ({
@@ -92,6 +114,8 @@ export default function Dashboard() {
   const {
     openTicketCount,
     unassignedTicketCount,
+    ticketsNearDueDateCount,
+    ticketsPastDueDateCount,
     ticketPriorityCounts,
     ticketStatusCounts,
     projectUserToOpenTicketsCounts
@@ -100,7 +124,7 @@ export default function Dashboard() {
   return (
     <Root>
       <H1>Your Dashboard</H1>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} marginBottom={2}>
         <Grid item xs={3}>
           <SimpleDataCard label="Total Open Tickets" data={openTicketCount}/>
         </Grid>
@@ -108,10 +132,10 @@ export default function Dashboard() {
           <SimpleDataCard label="Total Unassigned Tickets" data={unassignedTicketCount}/>
         </Grid>
         <Grid item xs={3}>
-          <SimpleDataCard label="Tickets Due Soon" data={openTicketCount}/>
+          <SimpleDataCard label="Tickets Due Soon" data={ticketsNearDueDateCount}/>
         </Grid>
         <Grid item xs={3}>
-          <SimpleDataCard label="Tickets Past Due" data={openTicketCount}/>
+          <SimpleDataCard label="Tickets Past Due" data={ticketsPastDueDateCount}/>
         </Grid>
       </Grid>
       <Grid container spacing={2}>

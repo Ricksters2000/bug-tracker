@@ -3,12 +3,12 @@ import {FormControl, FormHelperText, InputLabel} from '@mui/material';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import React from 'react';
-import {DateRange} from '~/types/DateRange';
+import {NullableDateRange} from '~/types/DateRange';
 
 type Props = {
   label: string;
-  dateRange: DateRange;
-  onChange: (newDateRange: DateRange) => void;
+  dateRange: NullableDateRange;
+  onChange: (newDateRange: NullableDateRange) => void;
 }
 
 export const DateRangePicker: React.FC<Props> = (props) => {
@@ -16,7 +16,7 @@ export const DateRangePicker: React.FC<Props> = (props) => {
   const [error, setError] = React.useState<string | null>(null)
   const {from, to} = dateRange
 
-  const checkForError = (newDateRange: DateRange) => {
+  const checkForError = (newDateRange: NullableDateRange) => {
     const {from, to} = newDateRange
     if (!from || !to) return
     if (from > to) {
@@ -35,7 +35,7 @@ export const DateRangePicker: React.FC<Props> = (props) => {
 
   const onChangeStartDate = (date: Date) => {
     console.log(`new date:`, date)
-    const newDateRange: DateRange = {
+    const newDateRange: NullableDateRange = {
       from: date,
       to,
     }
@@ -44,7 +44,7 @@ export const DateRangePicker: React.FC<Props> = (props) => {
   }
 
   const onChangeEndDate = (date: Date) => {
-    const newDateRange: DateRange = {
+    const newDateRange: NullableDateRange = {
       from,
       to: date,
     }

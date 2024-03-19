@@ -127,9 +127,6 @@ export const getTicketCountsByField = async <T extends keyof TicketGroupByKeys>(
 
 export const getTicketCountsByDateField = async (field: GroupByDateKeys, projectId: string, dateRange: DateRange, isClosed?: boolean): Promise<Array<GroupByDate>> => {
   const {from, to} = dateRange
-  if (!from || !to) {
-    throw new Error(`Date range must have both from and to properties set when retrieving ticket counts data by date field`)
-  }
   const dateField = `DATE("${field}")`
   const countsData = await db.$queryRawUnsafe<Array<GroupByDate>>(`
     SELECT ${dateField} as "date", count(*)

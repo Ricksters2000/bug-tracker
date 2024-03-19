@@ -18,7 +18,7 @@ import {DefaultCard} from '~/components/cards/DefaultCard';
 import {PieChart} from '~/components/charts/PieChart';
 import {statusLightColors} from '../../utils/statusColors';
 import {GroupByDate} from '~/server/db/types';
-import {DateRange} from '~/types/DateRange';
+import {NullableDateRange} from '~/types/DateRange';
 import dayjs from 'dayjs';
 import {LineChart} from '~/components/charts/LineChart';
 import {ChartDataRaw} from '~/components/charts/utils/convertDataToChartData';
@@ -69,7 +69,7 @@ export const loader: LoaderFunction = async ({params}) => {
     isClosed: false,
   }
   const currentDate = new Date()
-  const dateRange: DateRange = {
+  const dateRange: NullableDateRange = {
     from: dayjs(currentDate).subtract(7, `days`).toDate(),
     to: currentDate,
   }

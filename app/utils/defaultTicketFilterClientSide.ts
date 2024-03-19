@@ -1,13 +1,13 @@
 import {Priority, Prisma, TicketStatus} from "@prisma/client";
-import {DateRange} from "../types/DateRange";
+import {NullableDateRange} from "../types/DateRange";
 import {FilterWithAllOption, allFilter} from "~/types/FilterWithAllOption";
 import {objectKeys} from "./objectKeys";
 
 export type TicketFilterClientSide = {
   title: string | null;
   companyId: string;
-  createdDateRange: DateRange;
-  dueDateRange: DateRange;
+  createdDateRange: NullableDateRange;
+  dueDateRange: NullableDateRange;
   statuses: Array<TicketStatus>;
   priority: FilterWithAllOption<Priority>;
   projectIds: Array<FilterWithAllOption<string>>;
