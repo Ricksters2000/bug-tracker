@@ -1,11 +1,11 @@
 import React from 'react';
 import emotionStyled from '@emotion/styled';
 import {ActionFunction, LoaderFunction, json} from '@remix-run/node';
-import {A, BodyText, BreadcrumbLink, H1} from '~/typography';
+import {A, BodyText, H1} from '~/typography';
 import {useFetcher, useLoaderData, useOutletContext} from '@remix-run/react';
-import {ProjectInfo, findProjectById, serializedProjectToProjectInfo} from '~/server/db/projectDb';
+import {ProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
-import {Box, Chip, Grid, Paper, Stack} from '@mui/material';
+import {Box, Grid, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
 import {Priority, Prisma, TicketStatus} from '@prisma/client';
@@ -16,9 +16,8 @@ import {UserList} from '../../components/UserList';
 import {PriorityTag} from '../../components/tags/PriorityTag';
 import {DefaultCard} from '~/components/cards/DefaultCard';
 import {PieChart} from '~/components/charts/PieChart';
-import {statusLightColors} from '../../utils/statusColors';
 import {GroupByDate} from '~/server/db/types';
-import {NullableDateRange} from '~/types/DateRange';
+import {DateRange} from '~/types/DateRange';
 import dayjs from 'dayjs';
 import {LineChart} from '~/components/charts/LineChart';
 import {ChartDataRaw} from '~/components/charts/utils/convertDataToChartData';
@@ -50,7 +49,10 @@ export const action: ActionFunction = async ({request, params}) => {
   })
   const paginationOptions = filter.pagination
   const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
-  const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilterInput.filter)
+  const ticketPriorityCounts = await getTicketCountsByField(`priority`, {
+    ...ticketFilterInput.filter,
+    priority: undefined,
+  })
   const data: ActionData = {
     tickets,
     ticketPriorityCounts: ticketPriorityCounts,
@@ -69,7 +71,7 @@ export const loader: LoaderFunction = async ({params}) => {
     isClosed: false,
   }
   const currentDate = new Date()
-  const dateRange: NullableDateRange = {
+  const dateRange: DateRange = {
     from: dayjs(currentDate).subtract(7, `days`).toDate(),
     to: currentDate,
   }

@@ -22,7 +22,10 @@ export const action: ActionFunction = async ({request}) => {
   const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide(filter)
   const paginationOptions = filter.pagination
   const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
-  const ticketCounts = await getTicketCountsByField(`priority`, ticketFilterInput.filter)
+  const ticketCounts = await getTicketCountsByField(`priority`, {
+    ...ticketFilterInput.filter,
+    priority: undefined,
+  })
   const projectOptions = await findProjectOptionsByCompanyId(filter.companyId)
   const data: ActionData = {
     tickets,
