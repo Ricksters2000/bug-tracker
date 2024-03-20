@@ -40,6 +40,7 @@ export default {
         route(`user/roles`, `${userFolder}/roles/UserRoles.tsx`)
       })
       route(`/api/get-project-options`, `${workspaceFolder}/api/getProjectOptions.ts`)
+      route(`/api/close-tickets`, `${workspaceFolder}/api/closeTickets.ts`)
     })
   },
   // assetsBuildDirectory: "public/build",

@@ -19,6 +19,10 @@ import {ProjectOption} from '~/server/db/projectDb';
 import {SelectFilter} from './SelectFilter';
 import {StatusTag} from './tags/StatusTag';
 import {ClosedTicketTag} from './tags/ClosedTicketTag';
+import {DeleteIcon} from '~/assets/icons/DeleteIcon';
+import {useFetcher} from '@remix-run/react';
+import {CloseTicketAction} from '../api/closeTickets';
+import {useAppContext} from '../AppContext';
 
 type Props = {
   tickets: Array<TicketPreview>;
@@ -31,13 +35,28 @@ type Props = {
 }
 
 export const TicketFilter: React.FC<Props> = (props) => {
-  const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions} = props
+  const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions, tickets} = props
   const {title, statuses, priority, dueDateRange, createdDateRange, projectIds, orderBy, pagination} = ticketFilter
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(false)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const [pageNumber, setPageNumber] = React.useState(pagination.offset === 0 ? 0 : pagination.offset / pagination.limit)
-  const {tickets} = props
+  const {currentUser} = useAppContext()
+  const fetcher = useFetcher()
   const workspacePath = useWorkspacePath()
+  const selectedTicketIds = objectKeys(checked)
+
+  const onCloseTickets = () => {
+    const ticketIds = objectKeys(checked)
+    const closeTicketsAction: CloseTicketAction = {
+      userId: currentUser.id,
+      ticketIds,
+    }
+    fetcher.submit(closeTicketsAction, {
+      method: `POST`,
+      encType: `application/json`,
+      action: `/api/close-tickets`,
+    })
+  }
 
   const onFilterChange = <K extends keyof TicketFilterClientSide>(key: K, data: TicketFilterClientSide[K]) => {
     onChange(prev => ({
@@ -214,6 +233,17 @@ export const TicketFilter: React.FC<Props> = (props) => {
             </Stack>
           </Stack>
         </Collapse>
+        {selectedTicketIds.length > 0 && (
+          <Button
+            color='error'
+            size='small'
+            sx={{justifyContent: `flex-start`, width: `fit-content`}}
+            startIcon={<DeleteIcon/>}
+            onClick={onCloseTickets}
+          >
+            {`Close ${selectedTicketIds.length} Ticket${selectedTicketIds.length > 1 ? `s` : ``}`}
+          </Button>
+        )}
       </Stack>
       <TableContainer>
         <Table>
