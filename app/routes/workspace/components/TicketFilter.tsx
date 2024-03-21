@@ -70,6 +70,9 @@ export const TicketFilter: React.FC<Props> = (props) => {
         }
       } : {})
     }))
+    if (key !== `pagination`) {
+      setPageNumber(0)
+    }
   }
 
   const onOrderByChange = (field: TicketFilterClientSide[`orderBy`][`field`]) => {
