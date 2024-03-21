@@ -1,8 +1,9 @@
-import {Project} from "@prisma/client";
+import {Project, UserRole} from "@prisma/client";
 import {db} from "./db";
 import {TicketPreview, serializedTicketToTicketPreview, ticketPreviewSelectInput} from "./ticketDb";
 import {SerializeFrom} from "@remix-run/node";
 import {UserPublic, userPublicSelectInput} from "./userDb";
+import {canViewAllProjects} from "~/routes/workspace/utils/roles/canViewAllProjects";
 
 export type ProjectInfo = Omit<Project, `companyId`> & {
   tickets: Array<TicketPreview>;
@@ -39,7 +40,7 @@ export const findProjectById = async (id: string): Promise<ProjectInfo | null> =
   return project
 }
 
-export const findProjectPreviewsByCompanyId = async (companyId: string): Promise<Array<ProjectPreview>> => {
+export const findProjectPreviewsByCompanyIdWithUserRole = async (companyId: string, userId: number, role: UserRole): Promise<Array<ProjectPreview>> => {
   const projects = await db.project.findMany({
     select: {
       id: true,
@@ -60,6 +61,11 @@ export const findProjectPreviewsByCompanyId = async (companyId: string): Promise
     },
     where: {
       companyId,
+      ...(!canViewAllProjects(role) ? {
+        assignedUsers: {
+          some: {id: userId},
+        }
+      } : {})
     },
     orderBy: {title: `asc`},
   })

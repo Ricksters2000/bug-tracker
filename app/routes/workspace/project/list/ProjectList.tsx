@@ -1,35 +1,34 @@
 import React from "react";
 import emotionStyled from "@emotion/styled";
 import {Box, Card, CardActionArea, CardContent, Chip, Divider, Paper, Stack} from "@mui/material";
-import {ActionFunction, json} from "@remix-run/node";
+import {ActionFunction, LoaderFunction, json} from "@remix-run/node";
 import {Link, useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
-import {ProjectPreview, findProjectPreviewsByCompanyId, serializedProjectToProjectPreview} from "~/server/db/projectDb";
+import {ProjectPreview, findProjectPreviewsByCompanyIdWithUserRole, serializedProjectToProjectPreview} from "~/server/db/projectDb";
 import {ANoTextDecoration, H1, H3, InformationalText, SmallText} from "~/typography";
 import {useAppContext} from "../../AppContext";
 import {PriorityTag} from "../../components/tags/PriorityTag";
+import {db} from "~/server/db/db";
 
-export const action: ActionFunction = async ({request}) => {
-  const {companyId} = await request.json()
-  const projects = await findProjectPreviewsByCompanyId(companyId)
+export const loader: LoaderFunction = async ({request, params}) => {
+  const {userId} = params
+  if (!userId) {
+    throw new Error(`Unexpected userId is not in params`)
+  }
+  const parsedUserId = parseInt(userId)
+  const {role, companyId} = await db.user.findUniqueOrThrow({
+    select: {
+      role: true,
+      companyId: true,
+    },
+    where: {id: parsedUserId}
+  })
+  const projects = await findProjectPreviewsByCompanyIdWithUserRole(companyId, parsedUserId, role)
   return json(projects)
 }
 
 export default function ProjectList() {
-  const {currentUser} = useAppContext()
-  const fetcher = useFetcher<Array<ProjectPreview>>()
-  let projects: Array<ProjectPreview> = []
-
-  React.useEffect(() => {
-    fetcher.submit({companyId: currentUser.company.id}, {
-      method: `post`,
-      encType: `application/json`,
-    })
-  }, [])
-
-  if (fetcher.data) {
-    projects = fetcher.data.map(serializedProjectToProjectPreview)
-  }
+  const projects = useLoaderData<Array<ProjectPreview>>().map(serializedProjectToProjectPreview)
   
   return (
     <div>

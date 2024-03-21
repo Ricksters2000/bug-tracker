@@ -11,6 +11,9 @@ import {useTheme} from '@emotion/react';
 import {UserPublic} from '~/server/db/userDb';
 import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
 import {Footer} from '~/components/Footer';
+import {canCreateAndEditUsers} from '../../utils/roles/canCreateAndEditUsers';
+import {canViewAllProjects} from '../../utils/roles/canViewAllProjects';
+import {canCreateProjects} from '../../utils/roles/canCreateProjects';
 
 type Props = {
   user: UserPublic;
@@ -85,15 +88,19 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
                   Dashboard
                 </NavLink>
                 <SideNavCollapse label='Projects' adornment={<DashboardIcon/>}>
-                  <NavLink to={`./project/create`}>
-                    Create Project
-                  </NavLink>
+                  {canCreateProjects(user.role) &&
+                    <NavLink to={`./project/create`}>
+                      Create Project
+                    </NavLink>
+                  }
                   <NavLink to={`./project`}>
                     All Projects
                   </NavLink>
-                  <NavLink to={`./project`}>
-                    Archived Projects
-                  </NavLink>
+                  {canViewAllProjects(user.role) && 
+                    <NavLink to={`./project`}>
+                      Archived Projects
+                    </NavLink>
+                  }
                 </SideNavCollapse>
                 <SideNavCollapse label='Tickets' adornment={<DashboardIcon/>}>
                   <NavLink to={`./ticket/create`}>
@@ -103,14 +110,16 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
                     All Tickets
                   </NavLink>
                 </SideNavCollapse>
-                <SideNavCollapse label='Users' adornment={<DashboardIcon/>}>
-                  <NavLink to={`./user/create`}>
-                    Create User
-                  </NavLink>
-                  <NavLink to={`./user/roles`}>
-                    Member Roles
-                  </NavLink>
-                </SideNavCollapse>
+                {canCreateAndEditUsers(user.role) &&
+                  <SideNavCollapse label='Users' adornment={<DashboardIcon/>}>
+                    <NavLink to={`./user/create`}>
+                      Create User
+                    </NavLink>
+                    <NavLink to={`./user/roles`}>
+                      Member Roles
+                    </NavLink>
+                  </SideNavCollapse>
+                }
               </SideNavContent>
             </SideNavMenu>
             <SideNavFooter>

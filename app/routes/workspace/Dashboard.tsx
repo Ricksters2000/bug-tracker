@@ -16,6 +16,7 @@ import {BarChart} from "~/components/charts/BarChart";
 import {convertGenericDataToChartDatasets} from "~/components/charts/utils/convertDataToChartData";
 import {SimpleDataCard} from "~/components/cards/SimpleDataCard";
 import {getEndOfNearDueDate} from "~/utils/dueDateCalculate";
+import {canViewAdvancedProjectAnalytics} from "./utils/roles/canViewAdvancedProjectAnalytics";
 
 type LoaderData = {
   openTicketCount: number;
@@ -28,7 +29,7 @@ type LoaderData = {
     projectTitle: string;
     openTicketCount: number;
     assignedUserCount: number;
-  }>;
+  }> | null;
 }
 
 export const meta: MetaFunction = () => {
@@ -80,7 +81,7 @@ export const loader: LoaderFunction = async ({params}) => {
   })
   const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilter)
   const ticketStatusCounts = await getTicketCountsByField(`status`, ticketFilter)
-  const projectUserToOpenTicketsCounts = await db.project.findMany({
+  const projectUserToOpenTicketsCounts = !canViewAdvancedProjectAnalytics(role) ? null : await db.project.findMany({
     select: {
       title: true,
       _count: {
@@ -101,11 +102,11 @@ export const loader: LoaderFunction = async ({params}) => {
     ticketsPastDueDateCount,
     ticketPriorityCounts,
     ticketStatusCounts,
-    projectUserToOpenTicketsCounts: projectUserToOpenTicketsCounts.map(countData => ({
+    projectUserToOpenTicketsCounts: projectUserToOpenTicketsCounts?.map(countData => ({
       projectTitle: countData.title,
       openTicketCount: countData._count.tickets,
       assignedUserCount: countData._count.assignedUsers,
-    })),
+    })) ?? null,
   }
   return json(data)
 }
@@ -169,13 +170,15 @@ export default function Dashboard() {
             {/* <PieChart/> */}
           </DefaultCard>
         </Grid>
-        <Grid item xs={12}>
-          <DefaultCard label="Compare Users to Open Tickets per Project">
-            <BarChart
-              datasetsRaw={convertGenericDataToChartDatasets(projectUserToOpenTicketsCounts, `projectTitle`)}
-            />
-          </DefaultCard>
-        </Grid>
+        {projectUserToOpenTicketsCounts && 
+          <Grid item xs={12}>
+            <DefaultCard label="Compare Users to Open Tickets per Project">
+              <BarChart
+                datasetsRaw={convertGenericDataToChartDatasets(projectUserToOpenTicketsCounts, `projectTitle`)}
+              />
+            </DefaultCard>
+          </Grid>
+        }
       </Grid>
     </Root>
   );
