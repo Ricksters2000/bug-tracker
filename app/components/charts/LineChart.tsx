@@ -1,7 +1,7 @@
 import React from 'react';
 import {ChartDataRaw, convertDataToChartData} from './utils/convertDataToChartData';
 import {GenericChart} from './GenericChart';
-import {ChartData} from 'chart.js';
+import {ChartData, ChartOptions} from 'chart.js';
 
 type Props = {
   data: ChartDataRaw;
@@ -29,7 +29,21 @@ export const LineChart: React.FC<Props> = (props) => {
     ],
     labels: labels,
   }
+
+  const options: ChartOptions<`line`> = {
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        min: 0,
+        suggestedMax: 10,
+        ticks: {
+          stepSize: 1,
+        }
+      }
+    }
+  }
+
   return (
-    <GenericChart type='line' data={data} options={{maintainAspectRatio: false}}/>
+    <GenericChart type='line' data={data} options={options}/>
   )
 }
