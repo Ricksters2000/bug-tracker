@@ -18,6 +18,8 @@ import {objectKeys} from '~/utils/objectKeys';
 import {formatPrismaError} from '~/utils/formatPrismaError';
 import {db} from '~/server/db/db';
 import {RoleSelect} from '../components/RoleSelect';
+import {canCreateAndEditUsers} from '../../utils/roles/canCreateAndEditUsers';
+import {UnauthorizedAccess} from '../../components/UnauthorizedAccess';
 
 const formKeys = {
   companyId: `companyId`,
@@ -88,6 +90,10 @@ export default function CreateUser() {
 
   if (fetcher.data) {
     projects = fetcher.data
+  }
+
+  if (!canCreateAndEditUsers(currentUser.role)) {
+    return <UnauthorizedAccess/>
   }
 
   return (

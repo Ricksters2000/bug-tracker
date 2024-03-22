@@ -13,6 +13,8 @@ import {useFetcher} from '@remix-run/react';
 import {ActionFunction} from '@remix-run/node';
 import {db} from '~/server/db/db';
 import {isEmptyObject} from '~/utils/isEmptyObject';
+import {canCreateAndEditUsers} from '../../utils/roles/canCreateAndEditUsers';
+import {UnauthorizedAccess} from '../../components/UnauthorizedAccess';
 
 export const action: ActionFunction = async ({request}) => {
   const changedRoles = await request.json() as Record<number, UserRole>
@@ -44,6 +46,10 @@ export default function UserRoles() {
       encType: `application/json`,
     })
     setChangedRoles({})
+  }
+
+  if (!canCreateAndEditUsers) {
+    return <UnauthorizedAccess/>
   }
 
   return (

@@ -10,6 +10,8 @@ import {FormErrors, FormResponse} from "~/types/Response";
 import {objectKeys} from "~/utils/objectKeys";
 import {useAppContext} from "../../AppContext";
 import {ProjectForm, ProjectFormKeys, ProjectFormRequiredKeys, projectFormKeys, projectRequiredKeys} from "../components/ProjectForm";
+import {canCreateProjects} from "../../utils/roles/canCreateProjects";
+import {UnauthorizedAccess} from "../../components/UnauthorizedAccess";
 
 export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData()
@@ -44,6 +46,9 @@ export default function CreateProject() {
   let errors: FormErrors<ProjectFormRequiredKeys> | undefined
   if (actionData && !actionData.success) {
     errors = actionData.errors
+  }
+  if (!canCreateProjects(currentUser.role)) {
+    return <UnauthorizedAccess/>
   }
   return (
     <div>

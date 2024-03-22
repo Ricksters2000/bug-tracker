@@ -75,7 +75,6 @@ export default function Ticket() {
   } else {
     ticket = serializedTicketToTicketInfo(initialTicket)
   }
-  console.log(`ticket:`, ticket)
   return (
     <div>
       <EditableText
