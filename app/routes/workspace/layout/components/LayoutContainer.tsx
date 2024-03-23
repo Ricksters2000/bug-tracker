@@ -97,7 +97,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
                     All Projects
                   </NavLink>
                   {canViewAllProjects(user.role) && 
-                    <NavLink to={`./project`}>
+                    <NavLink to={`./project/archived`}>
                       Archived Projects
                     </NavLink>
                   }

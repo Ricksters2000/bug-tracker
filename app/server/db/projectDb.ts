@@ -26,6 +26,7 @@ export const findProjectById = async (id: string): Promise<ProjectInfo | null> =
       description: true,
       dueDate: true,
       title: true,
+      isArchived: true,
       tickets: {
         select: ticketPreviewSelectInput,
       },
@@ -40,7 +41,7 @@ export const findProjectById = async (id: string): Promise<ProjectInfo | null> =
   return project
 }
 
-export const findProjectPreviewsByCompanyIdWithUserRole = async (companyId: string, userId: number, role: UserRole): Promise<Array<ProjectPreview>> => {
+export const findProjectPreviewsByCompanyIdWithUserRole = async (companyId: string, userId: number, role: UserRole, isArchived: boolean): Promise<Array<ProjectPreview>> => {
   const projects = await db.project.findMany({
     select: {
       id: true,
@@ -61,6 +62,7 @@ export const findProjectPreviewsByCompanyIdWithUserRole = async (companyId: stri
     },
     where: {
       companyId,
+      isArchived,
       ...(!canViewAllProjects(role) ? {
         assignedUsers: {
           some: {id: userId},
@@ -96,14 +98,10 @@ export const findProjectOptionsByCompanyId = async (companyId: string): Promise<
 
 export const serializedProjectToProjectInfo = (serializedProject: SerializeFrom<ProjectInfo>): ProjectInfo => {
   return {
-    id: serializedProject.id,
-    title: serializedProject.title,
-    description: serializedProject.description,
-    priority: serializedProject.priority,
+    ...serializedProject,
     createdDate: new Date(serializedProject.createdDate),
     dueDate: serializedProject.dueDate ? new Date(serializedProject.dueDate) : null,
     tickets: serializedProject.tickets.map(serializedTicketToTicketPreview),
-    assignedUsers: serializedProject.assignedUsers,
   }
 }
 

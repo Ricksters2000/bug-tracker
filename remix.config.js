@@ -23,6 +23,7 @@ export default {
         // project routes
         route(`project`, `${projectFolder}/ProjectLayout.tsx`, () => {
           route(``, `${projectFolder}/list/ProjectList.tsx`, {index: true})
+          route(`archived`, `${projectFolder}/archived/ArchivedProjects.tsx`)
           route(`create`, `${projectFolder}/create/CreateProject.tsx`)
           route(`:projectId`, `${projectFolder}/ProjectLoader.tsx`, () => {
             route(``, `${projectFolder}/projectDetails/Project.tsx`, {index: true})

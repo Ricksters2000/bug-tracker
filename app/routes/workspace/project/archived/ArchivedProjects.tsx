@@ -21,17 +21,17 @@ export const loader: LoaderFunction = async ({request, params}) => {
     },
     where: {id: parsedUserId}
   })
-  const projects = await findProjectPreviewsByCompanyIdWithUserRole(companyId, parsedUserId, role, false)
+  const projects = await findProjectPreviewsByCompanyIdWithUserRole(companyId, parsedUserId, role, true)
   return json(projects)
 }
 
-export default function ProjectList() {
+export default function ArchivedProjects() {
   const projects = useLoaderData<Array<ProjectPreview>>().map(serializedProjectToProjectPreview)
   
   return (
     <div>
-      <H1>Projects</H1>
-      <Breadcrumbs currentLinkTitle="List"/>
+      <H1>Archived Projects</H1>
+      <Breadcrumbs currentLinkTitle="Archived Projects"/>
       <ProjectGroup projects={projects}/>
     </div>
   )
