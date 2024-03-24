@@ -13,7 +13,7 @@ import {SearchIcon} from '~/assets/icons/SearchIcon';
 import {FilterIcon} from '~/assets/icons/FilterIcon';
 import {DateRangePicker} from './DateRangePicker';
 import {objectKeys} from '~/utils/objectKeys';
-import {TicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
+import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from '~/utils/defaultTicketFilterClientSide';
 import {allFilter} from '~/types/FilterWithAllOption';
 import {ProjectOption} from '~/server/db/projectDb';
 import {SelectFilter} from './SelectFilter';
@@ -23,27 +23,40 @@ import {DeleteIcon} from '~/assets/icons/DeleteIcon';
 import {useFetcher} from '@remix-run/react';
 import {CloseTicketAction} from '../api/closeTickets';
 import {useAppContext} from '../AppContext';
+import {TicketFilterActionData} from '../api/getTicketsFromFilter';
 
 type Props = {
-  tickets: Array<TicketPreview>;
-  priorityCounts: Record<Priority, number>;
-  ticketCount: number;
-  ticketFilter: TicketFilterClientSide;
-  onChange: React.Dispatch<React.SetStateAction<TicketFilterClientSide>>;
   canChangeProjectId?: boolean;
   projectOptions: Array<ProjectOption>;
+  defualtProjectId?: string;
 }
 
 export const TicketFilter: React.FC<Props> = (props) => {
-  const {ticketFilter, onChange, priorityCounts, ticketCount, canChangeProjectId, projectOptions, tickets} = props
+  const {canChangeProjectId, projectOptions, defualtProjectId} = props
+  const {currentUser} = useAppContext()
+  const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
+    ...createDefaultTicketFilterClientSide(currentUser.company.id),
+    ...(defualtProjectId ? {
+      projectIds: [defualtProjectId],
+    } : {}),
+  })
   const {title, statuses, priority, dueDateRange, createdDateRange, projectIds, orderBy, pagination} = ticketFilter
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(false)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const [pageNumber, setPageNumber] = React.useState(pagination.offset === 0 ? 0 : pagination.offset / pagination.limit)
-  const {currentUser} = useAppContext()
   const fetcher = useFetcher()
+  const filterFetcher = useFetcher<TicketFilterActionData>()
   const workspacePath = useWorkspacePath()
   const selectedTicketIds = objectKeys(checked)
+
+  React.useEffect(() => {
+    const stringifiedData = JSON.stringify(ticketFilter)
+    filterFetcher.submit(stringifiedData, {
+      method: `post`,
+      encType: `application/json`,
+      action: `/api/ticket-filter`,
+    })
+  }, [ticketFilter])
 
   const onCloseTickets = () => {
     const ticketIds = objectKeys(checked)
@@ -59,7 +72,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
   }
 
   const onFilterChange = <K extends keyof TicketFilterClientSide>(key: K, data: TicketFilterClientSide[K]) => {
-    onChange(prev => ({
+    setTicketFilter(prev => ({
       ...prev,
       [key]: data,
       // reset page back to 0 on filter change
@@ -85,6 +98,9 @@ export const TicketFilter: React.FC<Props> = (props) => {
     onFilterChange(`orderBy`, {field, order: newOrder})
   }
 
+  const data = filterFetcher.data
+  if (!data) return null
+  const {ticketPriorityCounts, ticketCount, tickets} = data
   return (
     <Paper>
       <TabsStyled value={priority} onChange={(e, value) => onFilterChange(`priority`, value)}>
@@ -108,7 +124,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={priorityColors.low.foreground} backgroundColor={priorityColors.low.background}>
-              {priorityCounts.low}
+              {ticketPriorityCounts.low}
             </TabIcon>
           }
         />
@@ -120,7 +136,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={priorityColors.medium.foreground} backgroundColor={priorityColors.medium.background}>
-              {priorityCounts.medium}
+              {ticketPriorityCounts.medium}
             </TabIcon>
           }
         />
@@ -132,7 +148,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
           iconPosition='end'
           icon={
             <TabIcon foregroundColor={priorityColors.high.foreground} backgroundColor={priorityColors.high.background}>
-              {priorityCounts.high}
+              {ticketPriorityCounts.high}
             </TabIcon>
           }
         />

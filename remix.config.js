@@ -42,6 +42,7 @@ export default {
       })
       route(`/api/get-project-options`, `${workspaceFolder}/api/getProjectOptions.ts`)
       route(`/api/close-tickets`, `${workspaceFolder}/api/closeTickets.ts`)
+      route(`/api/ticket-filter`, `${workspaceFolder}/api/getTicketsFromFilter.ts`)
     })
   },
   // assetsBuildDirectory: "public/build",

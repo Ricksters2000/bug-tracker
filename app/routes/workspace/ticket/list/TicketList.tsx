@@ -56,14 +56,7 @@ export default function TicketList() {
     <div>
       <H1>Tickets</H1>
       <Breadcrumbs currentLinkTitle="List"/>
-      <TicketFilter
-        tickets={tickets}
-        ticketFilter={ticketFilter}
-        onChange={setTicketFilter}
-        priorityCounts={fetcher.data.ticketPriorityCounts}
-        ticketCount={fetcher.data.ticketCount}
-        projectOptions={fetcher.data.projectOptions}
-        canChangeProjectId/>
+      <TicketFilter projectOptions={fetcher.data.projectOptions} canChangeProjectId/>
     </div>
   )
 }

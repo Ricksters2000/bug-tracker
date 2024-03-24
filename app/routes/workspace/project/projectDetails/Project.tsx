@@ -88,23 +88,8 @@ export const loader: LoaderFunction = async ({params}) => {
 }
 
 export default function Project() {
-  const {currentUser} = useAppContext()
   const project = useOutletContext<ProjectInfo>()
   const ticketCounts = useLoaderData<LoaderData>()
-  const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
-    ...createDefaultTicketFilterClientSide(currentUser.company.id),
-  })  
-  const fetcher = useFetcher<ActionData>()
-  React.useEffect(() => {
-    const stringifiedData = JSON.stringify(ticketFilter)
-    fetcher.submit(stringifiedData, {
-      method: `post`,
-      encType: `application/json`,
-    })
-  }, [ticketFilter])
-
-  if (!fetcher.data) return null
-  const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
   const {ticketPriorityCounts, ticketStatusCounts, totalTicketCount, closedTicketDateCounts} = ticketCounts
   const closedTicketsChartData: ChartDataRaw = closedTicketDateCounts.map(countData => ({
     label: countData.date,
@@ -160,12 +145,8 @@ export default function Project() {
         </Grid>
       </Grid>
       <TicketFilter
-        tickets={tickets}
-        ticketFilter={ticketFilter}
-        onChange={setTicketFilter}
-        priorityCounts={fetcher.data.ticketPriorityCounts}
-        ticketCount={fetcher.data.ticketCount}
         projectOptions={[]}
+        defualtProjectId={project.id}
       />
     </div>
   )
