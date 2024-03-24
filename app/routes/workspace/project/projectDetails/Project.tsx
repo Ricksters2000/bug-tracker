@@ -72,12 +72,13 @@ export const loader: LoaderFunction = async ({params}) => {
   }
   const ticketPriorityCounts = await getTicketCountsByField(`priority`, ticketFilter)
   const ticketStatusCounts = await getTicketCountsByField(`status`, ticketFilter)
+  const totalTicketCount = await db.ticket.count({where: ticketFilter})
   const closedTicketDateCounts = await getTicketCountsByDateField(`closedDate`, projectId, dateRange, true)
   const data: LoaderData = {
     ticketPriorityCounts,
     ticketStatusCounts,
     closedTicketDateCounts,
-    totalTicketCount: ticketPriorityCounts.high + ticketPriorityCounts.medium + ticketPriorityCounts.low,
+    totalTicketCount,
   }
   return json(data)
 }
