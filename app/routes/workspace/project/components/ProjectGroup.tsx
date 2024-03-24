@@ -4,6 +4,7 @@ import {ProjectPreview} from '~/server/db/projectDb';
 import {ANoTextDecoration, SmallText, H3, InformationalText} from '~/typography';
 import {PriorityTag} from '../../components/tags/PriorityTag';
 import emotionStyled from '@emotion/styled';
+import {useWorkspacePath} from '~/utils/route/routePathHelpers';
 
 type Props = {
   projects: Array<ProjectPreview>;
@@ -11,13 +12,14 @@ type Props = {
 
 export const ProjectGroup: React.FC<Props> = (props) => {
   const {projects} = props
+  const workspacePath = useWorkspacePath()
   return (
     <Grid container spacing={2}>
       {projects.map(project => {
         const {id, title, priority, createdDate, dueDate, openTicketCount, assignedUserCount} = project
         return (
           <Grid key={id} item xs={3} component={Card}>
-            <ANoTextDecoration to={`./${id}`}>
+            <ANoTextDecoration to={`${workspacePath}/project/${id}`}>
               <CardActionArea>
                 <CardContent>
                   <Stack>

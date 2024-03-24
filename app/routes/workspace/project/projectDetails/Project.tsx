@@ -5,7 +5,7 @@ import {A, BodyText, H1} from '~/typography';
 import {useFetcher, useLoaderData, useOutletContext} from '@remix-run/react';
 import {ProjectInfo} from '~/server/db/projectDb';
 import {Breadcrumbs} from '~/components/Breadcrumbs';
-import {Box, Grid, Paper, Stack} from '@mui/material';
+import {Box, Button, Grid, Paper, Stack} from '@mui/material';
 import {CardSubInfo} from '../../components/CardSubInfo';
 import {TicketFilter} from '../../components/TicketFilter';
 import {Priority, Prisma, TicketStatus} from '@prisma/client';
@@ -23,11 +23,10 @@ import {LineChart} from '~/components/charts/LineChart';
 import {ChartDataRaw} from '~/components/charts/utils/convertDataToChartData';
 import {fillRawChartDataWithDateLabels} from '~/components/charts/utils/fillRawChartDataWithDateLabels';
 import {convertTicketPriorityCountsToChartDataRaw, convertTicketStatusCountsToChartDataRaw} from '~/components/charts/utils/ticketPieChartHelpers';
+import {db} from '~/server/db/db';
 
-type ActionData = {
-  tickets: Array<TicketPreview>;
-  ticketCount: number;
-  ticketPriorityCounts: Record<Priority, number>;
+type ActionInput = {
+  isArchived: boolean;
 }
 
 type LoaderData = {
@@ -42,23 +41,19 @@ export const action: ActionFunction = async ({request, params}) => {
   if (!projectId) {
     return json(`Error`)
   }
-  const filter = await request.json() as TicketFilterClientSide
-  const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide({
-    ...filter,
-    projectIds: [projectId],
+  const data = await request.json() as ActionInput
+  const newIsArchived = await db.project.update({
+    select: {
+      isArchived: true,
+    },
+    where: {
+      id: projectId
+    },
+    data: {
+      isArchived: data.isArchived,
+    },
   })
-  const paginationOptions = filter.pagination
-  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
-  const ticketPriorityCounts = await getTicketCountsByField(`priority`, {
-    ...ticketFilterInput.filter,
-    priority: undefined,
-  })
-  const data: ActionData = {
-    tickets,
-    ticketPriorityCounts: ticketPriorityCounts,
-    ticketCount: ticketPriorityCounts.low + ticketPriorityCounts.medium + ticketPriorityCounts.high,
-  }
-  return json(data)
+  return json(newIsArchived)
 }
 
 export const loader: LoaderFunction = async ({params}) => {
@@ -90,6 +85,18 @@ export const loader: LoaderFunction = async ({params}) => {
 export default function Project() {
   const project = useOutletContext<ProjectInfo>()
   const ticketCounts = useLoaderData<LoaderData>()
+  const fetcher = useFetcher()
+
+  const onClickArchiveButton = () => {
+    const input: ActionInput = {
+      isArchived: !isArchived,
+    }
+    fetcher.submit(input, {
+      method: `post`,
+      encType: `application/json`,
+    })
+  }
+
   const {ticketPriorityCounts, ticketStatusCounts, totalTicketCount, closedTicketDateCounts} = ticketCounts
   const closedTicketsChartData: ChartDataRaw = closedTicketDateCounts.map(countData => ({
     label: countData.date,
@@ -98,11 +105,17 @@ export default function Project() {
   const currentDate = new Date()
   const from = dayjs(currentDate).subtract(7, `days`).toDate()
   const to = currentDate
+  const isArchived = project.isArchived
   return (
     <div>
       <H1>{project.title}</H1>
       <Breadcrumbs currentLinkTitle={project.title} excludeParentLink/>
-      <A style={{marginBottom: `1rem`, display: `block`}} to={`./edit`}>Edit Project</A>
+      <Box display={`flex`} justifyContent={`space-between`} alignItems={`center`} marginBottom={2}>
+        <A style={{display: `block`}} to={`./edit`}>Edit Project</A>
+        <Button color={isArchived ? `primary` : `error`} onClick={onClickArchiveButton}>
+          {isArchived ? `Unarchive` : `Archive`}
+        </Button>
+      </Box>
       <Paper sx={{padding: `1.5rem`}}>
         <Box display={`flex`}>
           <Description>{project.description}</Description>
