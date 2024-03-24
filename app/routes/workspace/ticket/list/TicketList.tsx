@@ -1,6 +1,6 @@
 import React from "react"
-import {ActionFunction, json} from "@remix-run/node"
-import {useFetcher} from "@remix-run/react"
+import {ActionFunction, LoaderFunction, json} from "@remix-run/node"
+import {useFetcher, useLoaderData} from "@remix-run/react"
 import {Breadcrumbs} from "~/components/Breadcrumbs"
 import {TicketPreview, convertTicketFilterClientSideToTicketFilterServerSide, findTicketPreviews, getTicketCountsByField, serializedTicketToTicketPreview} from "~/server/db/ticketDb"
 import {H1} from "~/typography"
@@ -9,54 +9,31 @@ import {TicketFilterClientSide, createDefaultTicketFilterClientSide} from "~/uti
 import {Priority} from "@prisma/client"
 import {ProjectOption, findProjectOptionsByCompanyId} from "~/server/db/projectDb"
 import {useAppContext} from "../../AppContext"
+import {db} from "~/server/db/db"
 
-type ActionData = {
-  tickets: Array<TicketPreview>;
-  ticketCount: number;
-  ticketPriorityCounts: Record<Priority, number>;
+type LoaderData = {
   projectOptions: Array<ProjectOption>;
 }
 
-export const action: ActionFunction = async ({request}) => {
-  const filter = await request.json() as TicketFilterClientSide
-  const ticketFilterInput = convertTicketFilterClientSideToTicketFilterServerSide(filter)
-  const paginationOptions = filter.pagination
-  const tickets = await findTicketPreviews(ticketFilterInput.filter, ticketFilterInput.orderBy, paginationOptions.limit, paginationOptions.offset)
-  const ticketCounts = await getTicketCountsByField(`priority`, {
-    ...ticketFilterInput.filter,
-    priority: undefined,
-  })
-  const projectOptions = await findProjectOptionsByCompanyId(filter.companyId)
-  const data: ActionData = {
-    tickets,
-    ticketPriorityCounts: ticketCounts,
-    ticketCount: ticketCounts.low + ticketCounts.medium + ticketCounts.high,
+export const loader: LoaderFunction = async ({request, params}) => {
+  const {userId} = params
+  if (!userId) throw new Error(`Unexpected userId not found from params`)
+  const user = await db.user.findUnique({select: {companyId: true}, where: {id: parseInt(userId)}})
+  if (!user) throw new Error(`User with id: ${userId} not found`)
+  const projectOptions = await findProjectOptionsByCompanyId(user.companyId)
+  const data: LoaderData = {
     projectOptions,
   }
   return json(data)
 }
 
 export default function TicketList() {
-  const {currentUser} = useAppContext()
-  const [ticketFilter, setTicketFilter] = React.useState<TicketFilterClientSide>({
-    ...createDefaultTicketFilterClientSide(currentUser.company.id),
-  })  
-  const fetcher = useFetcher<ActionData>()
-  React.useEffect(() => {
-    const stringifiedData = JSON.stringify(ticketFilter)
-    fetcher.submit(stringifiedData, {
-      method: `post`,
-      encType: `application/json`,
-    })
-  }, [ticketFilter])
-
-  if (!fetcher.data) return null
-  const tickets = fetcher.data.tickets.map(serializedTicketToTicketPreview)
+  const data = useLoaderData<LoaderData>()
   return (
     <div>
       <H1>Tickets</H1>
       <Breadcrumbs currentLinkTitle="List"/>
-      <TicketFilter projectOptions={fetcher.data.projectOptions} canChangeProjectId/>
+      <TicketFilter projectOptions={data.projectOptions} canChangeProjectId/>
     </div>
   )
 }
