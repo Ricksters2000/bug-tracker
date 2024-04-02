@@ -6,7 +6,7 @@ import {DashboardIcon} from '~/assets/icons/DashboardIcon';
 import {SideNavCollapse} from './SideNavCollapse';
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover} from '@mui/material';
-import {Link} from '@remix-run/react';
+import {Form, Link} from '@remix-run/react';
 import {useTheme} from '@emotion/react';
 import {UserPublic} from '~/server/db/userDb';
 import {getUserFullNameFromUser} from '~/utils/getUserFullNameFromUser';
@@ -66,9 +66,11 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
               <Divider/>
               <List>
                 <ListItem disablePadding>
-                  <ListItemButton component={Link} to={`/auth`}>
-                    <ListItemText primary='Logout'/>
-                  </ListItemButton>
+                  <Form method='post' style={{width: `100%`}}>
+                    <ListItemButton component={`button`} type='submit' sx={{width: `100%`}}>
+                      <ListItemText primary='Logout'/>
+                    </ListItemButton>
+                  </Form>
                 </ListItem>
               </List>
             </Box>

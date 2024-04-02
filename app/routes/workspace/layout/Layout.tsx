@@ -1,11 +1,11 @@
-import {LoaderFunction, json, redirect} from "@remix-run/node"
+import {ActionFunction, LoaderFunction, json, redirect} from "@remix-run/node"
 import {Outlet, useLoaderData} from "@remix-run/react"
 import {LayoutContainer} from "~/routes/workspace/layout/components/LayoutContainer"
 import {UserPublic, UserPublicWithCompany, authenticateUserWithSessionId, findAllUsersByCompanyId, findUserWithCompany} from "~/server/db/userDb"
 import {AppContextValue, AppContext} from "../AppContext"
 import {CommonHandle} from '~/utils/CommonHandle';
 import {BreadcrumbLink} from "~/typography"
-import {getSession} from "~/sessions"
+import {destroySession, getSession} from "~/sessions"
 
 export const handle: CommonHandle<WorkspaceLoaderData> = {
   breadcrumb: ({params, data}) => {
@@ -17,6 +17,15 @@ export const handle: CommonHandle<WorkspaceLoaderData> = {
 export type WorkspaceLoaderData = {
   currentUser: UserPublicWithCompany;
   allUsers: Array<UserPublic>;
+}
+
+export const action: ActionFunction = async ({request}) => {
+  const session = await getSession(request.headers.get(`Cookie`))
+  return redirect(`/auth/login`, {
+    headers: {
+      "Set-Cookie": await destroySession(session),
+    },
+  })
 }
 
 export const loader: LoaderFunction = async ({request, params}) => {
