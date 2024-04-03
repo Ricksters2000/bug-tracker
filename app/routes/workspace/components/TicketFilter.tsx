@@ -44,19 +44,30 @@ export const TicketFilter: React.FC<Props> = (props) => {
   const [displayAdvancedFilters, setDisplayAdvancedFilters] = React.useState(false)
   const [checked, setChecked] = React.useState<Record<string, true>>({})
   const [pageNumber, setPageNumber] = React.useState(pagination.offset === 0 ? 0 : pagination.offset / pagination.limit)
-  const fetcher = useFetcher()
+  const closeTicketsFetcher = useFetcher()
   const filterFetcher = useFetcher<TicketFilterActionData>()
   const workspacePath = useWorkspacePath()
   const selectedTicketIds = objectKeys(checked)
 
   React.useEffect(() => {
+    fetchTickets()
+  }, [ticketFilter])
+
+  React.useEffect(() => {
+    if (closeTicketsFetcher.state === `idle`) {
+      fetchTickets()
+      setChecked({})
+    }
+  }, [closeTicketsFetcher.state])
+
+  const fetchTickets = () => {
     const stringifiedData = JSON.stringify(ticketFilter)
     filterFetcher.submit(stringifiedData, {
       method: `post`,
       encType: `application/json`,
       action: `/api/ticket-filter`,
     })
-  }, [ticketFilter])
+  }
 
   const onCloseTickets = () => {
     const ticketIds = objectKeys(checked)
@@ -64,7 +75,7 @@ export const TicketFilter: React.FC<Props> = (props) => {
       userId: currentUser.id,
       ticketIds,
     }
-    fetcher.submit(closeTicketsAction, {
+    closeTicketsFetcher.submit(closeTicketsAction, {
       method: `POST`,
       encType: `application/json`,
       action: `/api/close-tickets`,

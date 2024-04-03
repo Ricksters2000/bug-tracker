@@ -170,7 +170,7 @@ export default function Dashboard() {
             {/* <PieChart/> */}
           </DefaultCard>
         </Grid>
-        {projectUserToOpenTicketsCounts && 
+        {projectUserToOpenTicketsCounts &&
           <Grid item xs={12}>
             <DefaultCard label="Compare Users to Open Tickets per Project" height={`100%`}>
               <BarChart
