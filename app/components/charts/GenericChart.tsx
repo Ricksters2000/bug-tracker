@@ -4,7 +4,6 @@ import React from 'react';
 import {Chart, ChartProps} from 'react-chartjs-2';
 import emotionStyled from '@emotion/styled';
 
-
 export const GenericChart = <T extends keyof ChartTypeRegistry>(props: ChartProps<T>) => {
   // const chartRef = React.useRef<ChartJSOrUndefined<`doughnut`, number[]>>(null);
   // const chartId = React.useRef<string | null>(null);
@@ -23,16 +22,19 @@ export const GenericChart = <T extends keyof ChartTypeRegistry>(props: ChartProp
   //   const chart = new Chart(chartRef.current, {type: `doughnut`, data})
   //   chartId.current = chart.id
   // })
-
+  const height = props.height ?? 375
   return (
-    <Root>
+    <Root style={{maxHeight: height}}>
       {/* For some reason a fix to allow chart js charts to resize is to add this element https://github.com/chartjs/Chart.js/issues/11005#issuecomment-1433478026 */}
       <div>&nbsp;</div>
-      <Chart width={`100%`} height={375} {...props}/>
+      <Chart width={`100%`} height={height} {...props}/>
     </Root>
   )
 }
 
 const Root = emotionStyled.div({
-  maxHeight: 375
+  display: `flex`,
+  alignItems: `center`,
+  justifyContent: `center`,
+  flexDirection: `column`,
 })

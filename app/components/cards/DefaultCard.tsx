@@ -4,6 +4,7 @@ import emotionStyled from '@emotion/styled';
 type Props = {
   label: string;
   icon?: React.ReactNode;
+  height?: string | number;
 }
 
 export const DefaultCard: React.FC<React.PropsWithChildren<Props>> = (props) => {
@@ -17,7 +18,7 @@ export const DefaultCard: React.FC<React.PropsWithChildren<Props>> = (props) => 
         )}
         {props.label}
       </Header>
-      <BodyContainer>
+      <BodyContainer style={{height: props.height}}>
         {props.children}
       </BodyContainer>
     </Root>
@@ -49,4 +50,6 @@ const IconWrapper = emotionStyled.div({
 const BodyContainer = emotionStyled.div({
   flex: `1 1 auto`,
   padding: `1rem`,
+  overflowY: `auto`,
+  height: 450,
 })

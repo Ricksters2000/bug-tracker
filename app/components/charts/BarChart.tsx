@@ -32,6 +32,6 @@ export const BarChart = <T extends Record<string, number>, K extends keyof T>(pr
     maintainAspectRatio: false,
   }
   return (
-    <GenericChart type='bar' data={data} options={options}/>
+    <GenericChart type='bar' height={450} data={data} options={options}/>
   )
 }
