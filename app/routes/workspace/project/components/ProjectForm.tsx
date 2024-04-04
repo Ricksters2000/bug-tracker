@@ -63,7 +63,7 @@ export const ProjectForm: React.FC<Props> = (props) => {
                 helperText={errors?.title}/>
               <TextField name={projectFormKeys.description} defaultValue={project?.description} label='Description' multiline rows={5}/>
             </Stack>
-            <ExtraDetailsContainer direction={`row`} spacing={`16px`} padding={`24px`}>
+            <ExtraDetailsContainer direction={`row`} gap={`16px`} padding={`24px`}>
               <DatePicker
                 name={projectFormKeys.dateCreated}
                 fullWidth
@@ -126,4 +126,8 @@ export const ProjectForm: React.FC<Props> = (props) => {
 
 const ExtraDetailsContainer = emotionStyled(Stack)(props => ({
   background: props.theme.color.content.secondaryBackground,
+
+  '@media (max-width: 700px)': {
+    flexDirection: `column`,
+  },
 }))

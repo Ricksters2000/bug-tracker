@@ -1,4 +1,4 @@
-import {Box, Button, ButtonGroup, Checkbox, Collapse, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip} from '@mui/material';
+import {Box, Button, ButtonGroup, Checkbox, Collapse, FormControl, Grid, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TextField, Tooltip, tabsClasses} from '@mui/material';
 import React from 'react';
 import {TicketPreview} from '~/server/db/ticketDb';
 import {ABase} from '~/typography';
@@ -114,7 +114,17 @@ export const TicketFilter: React.FC<Props> = (props) => {
   const {ticketPriorityCounts, ticketCount, tickets} = data
   return (
     <Paper>
-      <TabsStyled value={priority} onChange={(e, value) => onFilterChange(`priority`, value)}>
+      <TabsStyled
+        value={priority}
+        onChange={(e, value) => onFilterChange(`priority`, value)}
+        variant='scrollable'
+        allowScrollButtonsMobile
+        sx={{
+          [`& .${tabsClasses.scrollButtons}`]: {
+            '&.Mui-disabled': {opacity: 0.3},
+          },
+        }}
+      >
         <TabStyled
           disableRipple
           value={allFilter}
@@ -185,58 +195,74 @@ export const TicketFilter: React.FC<Props> = (props) => {
         </Stack>
         <Collapse in={displayAdvancedFilters}>
           <Stack gap={2}>
-            <Stack flexDirection={`row`} gap={1}>
-              <FormControl fullWidth>
-                <InputLabel id="status-label">Status</InputLabel>
-                <Select
-                  labelId='status-label'
-                  multiple
-                  input={<OutlinedInput label={`Status`}/>}
-                  value={statuses}
-                  renderValue={(selected => selected.join(`, `))}
-                  onChange={(evt => {
-                    const value = evt.target.value
-                    if (typeof value === `string`) {
-                      onFilterChange(`statuses`, value.split(`,`) as Array<TicketStatus>)
-                    } else {
-                      onFilterChange(`statuses`, value)
-                    }
-                  })}
-                >
-                  {objectKeys(TicketStatus).map(key => {
-                    const value = TicketStatus[key]
-                    return (
-                      <MenuItem key={key} value={value}>
-                        <Checkbox checked={statuses.indexOf(value) > -1}/>
-                        <ListItemText primary={key}/>
-                      </MenuItem>
-                    )
-                  })}
-                </Select>
-              </FormControl>
+            <Grid container spacing={{xs: 2, lg: 1}}>
+              <Grid
+                item
+                xs={12}
+                md={canChangeProjectId ? 6 : 12}
+                lg={canChangeProjectId ? 2 : 4}
+                xl={canChangeProjectId ? 3 : 6}
+              >
+                <FormControl fullWidth>
+                  <InputLabel id="status-label">Status</InputLabel>
+                  <Select
+                    labelId='status-label'
+                    multiple
+                    input={<OutlinedInput label={`Status`}/>}
+                    value={statuses}
+                    renderValue={(selected => selected.join(`, `))}
+                    onChange={(evt => {
+                      const value = evt.target.value
+                      if (typeof value === `string`) {
+                        onFilterChange(`statuses`, value.split(`,`) as Array<TicketStatus>)
+                      } else {
+                        onFilterChange(`statuses`, value)
+                      }
+                    })}
+                  >
+                    {objectKeys(TicketStatus).map(key => {
+                      const value = TicketStatus[key]
+                      return (
+                        <MenuItem key={key} value={value}>
+                          <Checkbox checked={statuses.indexOf(value) > -1}/>
+                          <ListItemText primary={key}/>
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
               {canChangeProjectId &&
-                <SelectFilter
-                  fullWidth
-                  label='Projects'
-                  value={projectIds}
-                  onChange={(value => onFilterChange(`projectIds`, value))}
-                  options={projectOptions.map(option => ({
-                    value: option.id,
-                    label: option.title,
-                  }))}
-                />
+                <Grid item xs={12} md={6} lg={2} xl={3}>
+                  <SelectFilter
+                    fullWidth
+                    label='Projects'
+                    value={projectIds}
+                    onChange={(value => onFilterChange(`projectIds`, value))}
+                    options={projectOptions.map(option => ({
+                      value: option.id,
+                      label: option.title,
+                    }))}
+                  />
+                </Grid>
               }
-              <DateRangePicker
-                label='Create At Range'
-                dateRange={createdDateRange}
-                onChange={newDateRange => onFilterChange(`createdDateRange`, newDateRange)}
-              />
-              <DateRangePicker
-                label='Due Date Range'
-                dateRange={dueDateRange}
-                onChange={newDateRange => onFilterChange(`dueDateRange`, newDateRange)}
-              />
-            </Stack>
+              <Grid item xs={12} md={6} lg={4} xl={3}>
+                <DateRangePicker
+                  fullWidth
+                  label='Create At Range'
+                  dateRange={createdDateRange}
+                  onChange={newDateRange => onFilterChange(`createdDateRange`, newDateRange)}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={4} xl={3}>
+                <DateRangePicker
+                  fullWidth
+                  label='Due Date Range'
+                  dateRange={dueDateRange}
+                  onChange={newDateRange => onFilterChange(`dueDateRange`, newDateRange)}
+                />
+              </Grid>
+            </Grid>
             <Stack direction={`row`} gap={1}>
               <ButtonGroup aria-label='closed/open filter button group'>
                 <Button

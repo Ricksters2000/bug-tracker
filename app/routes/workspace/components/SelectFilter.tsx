@@ -38,6 +38,7 @@ export const SelectFilter = <T extends string = string>(props: Props<T>) => {
         variant="outlined"
         disabled={props.disabled}
         onClick={handleClick}
+        sx={{height: `100%`}}
       >
         {props.label}
         {props.value.includes(allFilter) ? `` : ` (${props.value.length})`}

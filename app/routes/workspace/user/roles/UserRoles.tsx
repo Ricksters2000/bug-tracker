@@ -64,7 +64,7 @@ export default function UserRoles() {
         {allUsers.map(user => {
           const changedRole = changedRoles[user.id]
           return (
-            <Grid key={user.id} item xs={2}>
+            <Grid key={user.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Paper>
                 <Stack padding={2} gap={2}>
                   <Box display={`flex`} gap={`16px`}>

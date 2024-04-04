@@ -18,7 +18,7 @@ export const ProjectGroup: React.FC<Props> = (props) => {
       {projects.map(project => {
         const {id, title, priority, createdDate, dueDate, openTicketCount, assignedUserCount} = project
         return (
-          <Grid key={id} item xs={3} component={Card}>
+          <Grid key={id} item xs={12} sm={6} lg={4} xl={3} component={Card}>
             <ANoTextDecoration to={`${workspacePath}/project/${id}`}>
               <CardActionArea>
                 <CardContent>

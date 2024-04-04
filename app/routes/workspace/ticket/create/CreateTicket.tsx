@@ -132,7 +132,7 @@ export default function CreateTicket() {
                   multiline
                   rows={8}/>
               </Stack>
-              <ExtraDetailsContainer direction={`row`} spacing={`16px`} padding={`24px`}>
+              <ExtraDetailsContainer direction={`row`} gap={`16px`} padding={`24px`}>
                 <DatePicker
                   name={formKeys.dateCreated}
                   fullWidth
@@ -194,4 +194,8 @@ export default function CreateTicket() {
 
 const ExtraDetailsContainer = emotionStyled(Stack)(props => ({
   background: props.theme.color.content.secondaryBackground,
+  
+  '@media (max-width: 700px)': {
+    flexDirection: `column`,
+  },
 }))

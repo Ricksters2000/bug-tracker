@@ -131,7 +131,7 @@ export default function Project() {
         </Box>
       </Paper>
       <Grid container marginTop={`1.5rem`} spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <DefaultCard label='Tickets by Priority'>
             <PieChart
               label='Open Tickets'
@@ -140,7 +140,7 @@ export default function Project() {
             />
           </DefaultCard>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <DefaultCard label='Tickets by Status'>
             <PieChart
               label='Open Tickets'
@@ -149,7 +149,7 @@ export default function Project() {
             />
           </DefaultCard>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={12} lg={6}>
           <DefaultCard label='Tickets Closed Past 7 Days'>
             <LineChart
               label='Tickets Closed'

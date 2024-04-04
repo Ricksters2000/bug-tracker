@@ -126,21 +126,21 @@ export default function Dashboard() {
     <Root>
       <H1>Your Dashboard</H1>
       <Grid container spacing={2} marginBottom={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <SimpleDataCard label="Total Open Tickets" data={openTicketCount}/>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <SimpleDataCard label="Total Unassigned Tickets" data={unassignedTicketCount}/>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <SimpleDataCard label="Tickets Due Soon" data={ticketsNearDueDateCount}/>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <SimpleDataCard label="Tickets Past Due" data={ticketsPastDueDateCount}/>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <DefaultCard label="Open Tickets By Priority">
             <PieChart
               label="Open Tickets"
@@ -149,14 +149,14 @@ export default function Dashboard() {
             />
           </DefaultCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <DefaultCard label="Members">
             <UserList
               users={allUsers}
             />
           </DefaultCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <DefaultCard label="Open Tickets By Status">
             <PieChart
               label="Open Tickets"
@@ -165,7 +165,7 @@ export default function Dashboard() {
             />
           </DefaultCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <DefaultCard label="Tickets">
             {/* <PieChart/> */}
           </DefaultCard>

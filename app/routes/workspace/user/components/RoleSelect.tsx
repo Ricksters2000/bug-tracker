@@ -106,6 +106,11 @@ export const RoleSelect: React.FC<Props> = (props) => {
 const Root = emotionStyled.div({
   display: `flex`,
   gap: 40,
+
+  '@media (max-width: 600px)': {
+    flexDirection: `column`,
+    gap: 20,
+  }
 })
 
 const TooltipStyled = emotionStyled(({className, ...props}: TooltipProps) => (

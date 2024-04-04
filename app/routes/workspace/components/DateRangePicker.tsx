@@ -8,11 +8,12 @@ import {NullableDateRange} from '~/types/DateRange';
 type Props = {
   label: string;
   dateRange: NullableDateRange;
+  fullWidth?: boolean;
   onChange: (newDateRange: NullableDateRange) => void;
 }
 
 export const DateRangePicker: React.FC<Props> = (props) => {
-  const {label, dateRange, onChange} = props
+  const {label, dateRange, fullWidth, onChange} = props
   const [error, setError] = React.useState<string | null>(null)
   const {from, to} = dateRange
 
@@ -53,7 +54,7 @@ export const DateRangePicker: React.FC<Props> = (props) => {
   }
 
   return (
-    <FormControl error={!!error} sx={{minWidth: `300px`}}>
+    <FormControl fullWidth={fullWidth} error={!!error} sx={{minWidth: `300px`}}>
       <InputLabel shrink>{label}</InputLabel>
       <OutlinedContainer>
         <Input

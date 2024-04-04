@@ -148,7 +148,7 @@ const TopNav = emotionStyled.nav(props => ({
   top: 0,
   right: 0,
   left: 0,
-  zIndex: 1000,
+  zIndex: 1039,
   height: 56,
   background: props.theme.color.nav.background,
   display: `flex`,
@@ -213,17 +213,36 @@ const ContentContainer = emotionStyled.div<{isOpen: boolean}>(props => ({
   minWidth: 0,
   flexGrow: 1,
   minHeight: `calc(100vh - 56px)`,
-  ...(props.isOpen ?
-    {marginLeft: 0}
-    :
-    {marginLeft: -225}  
-  )
+  marginLeft: -225,
+  '::before': {
+    content: '""',
+    display: props.isOpen ? 'block' : `none`,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: '#000',
+    zIndex: 1037,
+    opacity: 0.5,
+    transition: 'opacity 0.3s ease-in-out',
+  },
+  '@media (min-width: 992px)': {
+    ...(props.isOpen ?
+      {marginLeft: 0}
+      :
+      {marginLeft: -225}
+    ),
+    '::before': {
+      display: `none`,
+    },
+  },
 }))
 
 const SideNav = emotionStyled.div<{isOpen: boolean}>(props => ({
   width: 225,
   height: `100vh`,
-  zIndex: 999,
+  zIndex: 1038,
   position: `fixed`,
   top: 0,
   left: 0,
