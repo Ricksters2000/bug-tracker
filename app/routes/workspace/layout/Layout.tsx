@@ -6,6 +6,7 @@ import {AppContextValue, AppContext} from "../AppContext"
 import {CommonHandle} from '~/utils/CommonHandle';
 import {BreadcrumbLink} from "~/typography"
 import {destroySession, getSession} from "~/sessions"
+import {Global} from "@emotion/react"
 
 export const handle: CommonHandle<WorkspaceLoaderData> = {
   breadcrumb: ({params, data}) => {
@@ -54,10 +55,17 @@ export default function Workspace() {
     allUsers: data.allUsers,
   }
   return (
-    <LayoutContainer user={data.currentUser}>
-      <AppContext.Provider value={appContext}>
-        <Outlet/>
-      </AppContext.Provider>
-    </LayoutContainer>
+    <>
+      <Global styles={`
+        body {
+          overflow-y: hidden;
+        }
+      `}/>
+      <LayoutContainer user={data.currentUser}>
+        <AppContext.Provider value={appContext}>
+          <Outlet/>
+        </AppContext.Provider>
+      </LayoutContainer>
+    </>
   )
 }

@@ -224,7 +224,8 @@ const ContentContainer = emotionStyled.div<{desktopMenuOpen: boolean, mobileMenu
   justifyContent: `space-between`,
   minWidth: 0,
   flexGrow: 1,
-  minHeight: `calc(100vh - 56px)`,
+  height: `calc(100vh - 56px)`,
+  overflowY: `auto`,
   marginLeft: -225,
   '::before': {
     content: '""',
