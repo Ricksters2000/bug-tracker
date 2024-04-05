@@ -1,6 +1,6 @@
 import React from "react";
 import emotionStyled from "@emotion/styled";
-import {Box, Button, IconButton, Stack, TextField} from "@mui/material";
+import {Box, Button, Grid, IconButton, Stack, TextField} from "@mui/material";
 import {ActionFunction, LoaderFunction, json} from "@remix-run/node";
 import {useFetcher, useLoaderData} from "@remix-run/react";
 import {Breadcrumbs} from "~/components/Breadcrumbs";
@@ -108,7 +108,7 @@ export default function Ticket() {
       )}
       <Container>
         <ExternalLabelCard label="Details">
-          <Box display={`flex`} gap={`4px`}>
+          <DetailsContainer display={`flex`} gap={`4px`}>
             <EditableDescription
               multilineTextInput
               text={ticket.content}
@@ -156,45 +156,49 @@ export default function Ticket() {
               <CardSubInfo label="Created Date" details={<InformationalText>{ticket.createdDate.toDateString()}</InformationalText>}/>
               {ticket.dueDate && <CardSubInfo label="Due Date" details={<InformationalText>{ticket.dueDate?.toDateString()}</InformationalText>}/>}
             </TicketMetadataInfoContainer>
-          </Box>
+          </DetailsContainer>
         </ExternalLabelCard>
-        <Box display={`flex`} gap={`40px`}>
-          <CommentsCard label="Comments">
-            <Stack spacing={`20px`} height={`100%`}>
-              <ScrollContainer>
-                {ticket.comments.map(comment => {
-                  return (
-                    <Comment key={comment.id} comment={comment}/>
-                  )
-                })}
-              </ScrollContainer>
-              <TextField
-                variant="filled"
-                placeholder="Comment here..."
-                multiline
-                rows={5}
-                value={currentComment}
-                onChange={(evt) => setCurrentComment(evt.target.value)}
-                InputProps={{
-                  onKeyDown: (event) => {
-                    if (event.key === `Enter`) {
-                      event.preventDefault();
-                      addComment();
-                    }
-                  },
-                  endAdornment: (
-                    <IconButton sx={{alignSelf: `flex-end`}} onClick={addComment}>
-                      <SendIcon/>
-                    </IconButton>
-                  )
-                }}
-              />
-            </Stack>
-          </CommentsCard>
-          <HistoryCard label="History">
-            <HistoryScrollableList history={ticket.history}/>
-          </HistoryCard>
-        </Box>
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={6} lg={8} xl={9}>
+            <CommentsCard label="Comments">
+              <Stack spacing={`20px`} height={`100%`}>
+                <ScrollContainer>
+                  {ticket.comments.map(comment => {
+                    return (
+                      <Comment key={comment.id} comment={comment}/>
+                    )
+                  })}
+                </ScrollContainer>
+                <TextField
+                  variant="filled"
+                  placeholder="Comment here..."
+                  multiline
+                  rows={5}
+                  value={currentComment}
+                  onChange={(evt) => setCurrentComment(evt.target.value)}
+                  InputProps={{
+                    onKeyDown: (event) => {
+                      if (event.key === `Enter`) {
+                        event.preventDefault();
+                        addComment();
+                      }
+                    },
+                    endAdornment: (
+                      <IconButton sx={{alignSelf: `flex-end`}} onClick={addComment}>
+                        <SendIcon/>
+                      </IconButton>
+                    )
+                  }}
+                />
+              </Stack>
+            </CommentsCard>
+          </Grid>
+          <Grid item xs={12} sm={6} lg={4} xl={3}>
+            <HistoryCard label="History">
+              <HistoryScrollableList history={ticket.history}/>
+            </HistoryCard>
+          </Grid>
+        </Grid>
       </Container>
     </div>
   )
@@ -206,16 +210,38 @@ const TicketTitle = emotionStyled(H1)({
   gap: 16,
 })
 
+const DetailsContainer = emotionStyled(Box)({
+  '@media (max-width: 768px)': {
+    flexDirection: `column`,
+  },
+})
+
 const EditableDescription = emotionStyled(EditableText)(props => ({
   flex: 2,
   alignItems: `flex-start`,
   paddingRight: 8,
-  borderRight: `1px solid ${props.theme.color.content.divider}`,
+  border: `0px solid ${props.theme.color.content.divider}`,
+  borderRightWidth: 1,
+
+  '@media (max-width: 768px)': {
+    paddingRight: 0,
+    borderRightWidth: 0,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+  },
 }))
 
 const TicketMetadataInfoContainer = emotionStyled(Stack)(props => ({
   paddingLeft: 8,
-  borderLeft: `1px solid ${props.theme.color.content.divider}`,
+  border: `0px solid ${props.theme.color.content.divider}`,
+  borderLeftWidth: 1,
+  
+  '@media (max-width: 768px)': {
+    paddingLeft: 0,
+    borderLeftWidth: 0,
+    paddingTop: 8,
+    borderTopWidth: 1,
+  },
 }))
 
 const Container = emotionStyled.div({
@@ -229,12 +255,11 @@ const LargeLabelCard = emotionStyled(ExternalLabelCard)({
 })
 
 const CommentsCard = emotionStyled(LargeLabelCard)({
-  flex: 3,
 })
 
 const HistoryCard = emotionStyled(LargeLabelCard)({
-  flex: 1,
   padding: `1.5rem 0`,
+  height: `100%`
 })
 
 const ScrollContainer = emotionStyled.div({

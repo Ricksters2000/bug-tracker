@@ -118,7 +118,7 @@ export default function Project() {
         </Button>
       </Box>
       <Paper sx={{padding: `1.5rem`}}>
-        <Box display={`flex`}>
+        <InfoContainer display={`flex`}>
           <Description>{project.description}</Description>
           <Stack flex={1}>
             <UserList users={project.assignedUsers}/>
@@ -128,7 +128,7 @@ export default function Project() {
             <CardSubInfo label="Created Date" details={project.createdDate.toDateString()}/>
             {project.dueDate && <CardSubInfo label="Due Date" details={project.dueDate.toDateString()}/>}
           </ProjectMetadataInfoContainer>
-        </Box>
+        </InfoContainer>
       </Paper>
       <Grid container marginTop={`1.5rem`} spacing={2}>
         <Grid item xs={12} sm={6} lg={3}>
@@ -149,14 +149,14 @@ export default function Project() {
             />
           </DefaultCard>
         </Grid>
-        <Grid item sm={12} lg={6}>
+        <LineChartItem item sm={12} lg={6}>
           <DefaultCard label='Tickets Closed Past 7 Days'>
             <LineChart
               label='Tickets Closed'
               data={fillRawChartDataWithDateLabels(closedTicketsChartData, from, to)}
             />
           </DefaultCard>
-        </Grid>
+        </LineChartItem>
       </Grid>
       <TicketFilter
         projectOptions={[]}
@@ -166,13 +166,41 @@ export default function Project() {
   )
 }
 
+const InfoContainer = emotionStyled(Box)({
+  '@media (max-width: 768px)': {
+    flexDirection: `column`,
+  },
+})
+
 const Description = emotionStyled(BodyText)(props => ({
   flex: 2,
   paddingRight: 8,
-  borderRight: `1px solid ${props.theme.color.content.divider}`,
+  border: `0px solid ${props.theme.color.content.divider}`,
+  borderRightWidth: 1,
+
+  '@media (max-width: 768px)': {
+    paddingRight: 0,
+    borderRightWidth: 0,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+  },
 }))
 
 const ProjectMetadataInfoContainer = emotionStyled(Stack)(props => ({
   paddingLeft: 8,
-  borderLeft: `1px solid ${props.theme.color.content.divider}`,
+  border: `0px solid ${props.theme.color.content.divider}`,
+  borderLeftWidth: 1,
+
+  '@media (max-width: 768px)': {
+    paddingLeft: 0,
+    borderLeftWidth: 0,
+    paddingTop: 8,
+    borderTopWidth: 1,
+  },
 }))
+
+const LineChartItem = emotionStyled(Grid)({
+  '@media (max-width: 600px)': {
+    display: `none`,
+  },
+})

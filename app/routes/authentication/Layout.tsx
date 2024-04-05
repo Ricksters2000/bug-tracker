@@ -40,11 +40,12 @@ const InnerContainer = emotionStyled.div({
   display: `flex`,
   justifyContent: `center`,
   margin: `0 auto`,
+  padding: `0 24px`,
 })
 
 const ContentWrapper = emotionStyled.div({
   marginTop: `3rem`,
   flex: `0 0 auto`,
-  width: `41.66%`,
-  maxWidth: `100%`,
+  maxWidth: `700px`,
+  width: `100%`,
 })

@@ -109,7 +109,7 @@ export default function Register() {
     >
       <Form method="post" encType='multipart/form-data'>
         <Stack spacing={2}>
-          <Stack flexDirection={`row`} gap={3}>
+          <InputGroup flexDirection={`row`} gap={2}>
             <TextField
               fullWidth
               required
@@ -124,7 +124,7 @@ export default function Register() {
               name={formKeys.lastName}
               error={!!errors?.lastName}
               helperText={errors?.lastName}/>
-          </Stack>
+          </InputGroup>
           <TextField
             required
             name={formKeys.emailAddress}
@@ -138,7 +138,7 @@ export default function Register() {
             label='Company Name'
             error={!!errors?.companyName}
             helperText={errors?.companyName}/>
-          <Stack flexDirection={`row`} gap={3}>
+          <InputGroup flexDirection={`row`} gap={2}>
             <PasswordField
               fullWidth
               required
@@ -157,10 +157,16 @@ export default function Register() {
               name={formKeys.confirmPassword}
               label="Confirm Password"
               helperText={passwordError ?? undefined}/>
-          </Stack>
+          </InputGroup>
           <Button type="submit" disabled={!!passwordError}>Create Account</Button>
         </Stack>
       </Form>
     </AuthCard>
   )
 }
+
+const InputGroup = emotionStyled(Stack)({
+  '@media (max-width: 600px)': {
+    flexDirection: `column`,
+  },
+})
