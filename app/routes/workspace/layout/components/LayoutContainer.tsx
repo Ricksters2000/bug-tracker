@@ -5,7 +5,7 @@ import {HamburgerIcon} from '~/assets/icons/HamburgerIcon';
 import {DashboardIcon} from '~/assets/icons/DashboardIcon';
 import {SideNavCollapse} from './SideNavCollapse';
 import {UserIcon} from '~/assets/icons/UserIcon';
-import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover} from '@mui/material';
+import {Box, Divider, List, ListItem, ListItemButton, ListItemText, Popover, useMediaQuery} from '@mui/material';
 import {Form, Link} from '@remix-run/react';
 import {useTheme} from '@emotion/react';
 import {UserPublic} from '~/server/db/userDb';
@@ -21,13 +21,19 @@ type Props = {
 
 export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props) => {
   const {user} = props
-  const [sideNavBarIsOpen, setSideNavBarIsOpen] = React.useState(true);
+  const [desktopMenuIsOpen, setDesktopMenuIsOpen] = React.useState(true);
+  const [mobileMenuIsOpen, setMobileMenuIsOpen] = React.useState(false);
   const [userDropdownIsOpen, setUserDropdownIsOpen] = React.useState(false);
+  const isDesktop = useMediaQuery(`(min-width: 992px)`)
   const dropdownEl = React.useRef<HTMLAnchorElement>(null)
   const theme = useTheme().color.nav
 
   const toggleSideNavBar = () => {
-    setSideNavBarIsOpen(prev => !prev);
+    if (isDesktop) {
+      setDesktopMenuIsOpen(prev => !prev);
+    } else {
+      setMobileMenuIsOpen(prev => !prev)
+    }
   }
 
   return (
@@ -78,7 +84,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
         </UserButtonContainer>
       </TopNav>
       <SideNavContainer>
-        <SideNav isOpen={sideNavBarIsOpen}>
+        <SideNav desktopMenuOpen={desktopMenuIsOpen} mobileMenuOpen={mobileMenuIsOpen}>
           <InnerSideNav>
             <SideNavMenu>
               <SideNavContent>
@@ -130,7 +136,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
             </SideNavFooter>
           </InnerSideNav>
         </SideNav>
-        <ContentContainer isOpen={sideNavBarIsOpen}>
+        <ContentContainer desktopMenuOpen={desktopMenuIsOpen} mobileMenuOpen={mobileMenuIsOpen}>
           <main>
             <ContainerFluid>
               {props.children}
@@ -162,6 +168,11 @@ const SideToggleButton = emotionStyled.button({
   padding: `4px 8px`,
   background: `transparent`,
   border: 0,
+
+  '@media (max-width: 991px)': {
+    order: 1,
+    marginRight: `1.5rem`,
+  },
 })
 
 const UserButtonContainer = emotionStyled.ul({
@@ -169,6 +180,7 @@ const UserButtonContainer = emotionStyled.ul({
   marginRight: `1.5rem`,
   marginTop: 0,
   marginBottom: 0,
+  padding: 0,
   display: `flex`,
 })
 
@@ -178,7 +190,7 @@ const UserDropdownButton = emotionStyled.li({
 })
 
 const UserIconButton = emotionStyled(NavLink)(props => ({
-  display: `block`,
+  display: `flex`,
   padding: `0.5rem`,
 
   ':hover': {
@@ -202,7 +214,7 @@ const SideNavContainer = emotionStyled.div({
   display: `flex`,
 })
 
-const ContentContainer = emotionStyled.div<{isOpen: boolean}>(props => ({
+const ContentContainer = emotionStyled.div<{desktopMenuOpen: boolean, mobileMenuOpen: boolean}>(props => ({
   paddingLeft: 225,
   top: 56,
   transition: `margin 0.15s ease-in-out`,
@@ -216,7 +228,7 @@ const ContentContainer = emotionStyled.div<{isOpen: boolean}>(props => ({
   marginLeft: -225,
   '::before': {
     content: '""',
-    display: props.isOpen ? 'block' : `none`,
+    display: props.mobileMenuOpen ? 'block' : `none`,
     position: 'absolute',
     top: 0,
     left: 0,
@@ -228,7 +240,7 @@ const ContentContainer = emotionStyled.div<{isOpen: boolean}>(props => ({
     transition: 'opacity 0.3s ease-in-out',
   },
   '@media (min-width: 992px)': {
-    ...(props.isOpen ?
+    ...(props.desktopMenuOpen ?
       {marginLeft: 0}
       :
       {marginLeft: -225}
@@ -239,7 +251,7 @@ const ContentContainer = emotionStyled.div<{isOpen: boolean}>(props => ({
   },
 }))
 
-const SideNav = emotionStyled.div<{isOpen: boolean}>(props => ({
+const SideNav = emotionStyled.div<{desktopMenuOpen: boolean, mobileMenuOpen: boolean}>(props => ({
   width: 225,
   height: `100vh`,
   zIndex: 1038,
@@ -250,7 +262,10 @@ const SideNav = emotionStyled.div<{isOpen: boolean}>(props => ({
   flexBasis: 225,
   flexShrink: 0,
   transition: `transform 0.15s ease-in-out`,
-  ...(props.isOpen ? {} : {transform: `translateX(-225px)`}),
+  '@media (min-width: 992px)': {
+    transform: props.desktopMenuOpen ? `translateX(0)` : `translateX(-225px)`,
+  },
+  transform: props.mobileMenuOpen ? `translateX(0)` : `translateX(-225px)`,
 }))
 
 const InnerSideNav = emotionStyled.nav(props => ({
