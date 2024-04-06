@@ -8,22 +8,26 @@ export type RoleDescription = {
 export const roleDescriptions: Array<RoleDescription> = [
   {
     roles: [UserRole.admin],
-    description: `Admin`,
+    description: `Create and edit users`,
   },
   {
     roles: [UserRole.admin, UserRole.projectManager],
-    description: `Admin, project`,
-  },
-  {
-    roles: [UserRole.admin, UserRole.projectManager, UserRole.developer],
-    description: `Admin, project, developer`,
-  },
-  {
-    roles: [UserRole.admin, UserRole.projectManager, UserRole.submitter],
-    description: `Admin, project, submitter`,
+    description: `Create new projects`,
   },
   {
     roles: [UserRole.admin, UserRole.projectManager],
-    description: `Admin, project`,
+    description: `View all created projects (including archived)`,
   },
+  {
+    roles: [UserRole.admin, UserRole.projectManager],
+    description: `View extra analytical data from projects`,
+  },
+  {
+    roles: [UserRole.admin, UserRole.developer, UserRole.projectManager, UserRole.submitter],
+    description: `Create and edit tickets`,
+  },
+  {
+    roles: [UserRole.admin, UserRole.developer, UserRole.projectManager, UserRole.submitter],
+    description: `View all tickets from projects`
+  }
 ]
