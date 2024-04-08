@@ -14,6 +14,7 @@ export default {
     const ticketFolder = `${workspaceFolder}/ticket`
     const userFolder = `${workspaceFolder}/user`
     return defineRoutes(route => {
+      route(``, `${routesFolder}/index/Index.tsx`, {index: true})
       route(`/auth`, `${authenticationFolder}/Layout.tsx`, () => {
         route(`login`, `${authenticationFolder}/login/Login.tsx`)
         route(`register`, `${authenticationFolder}/register/Register.tsx`)
