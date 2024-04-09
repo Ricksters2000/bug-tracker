@@ -3,6 +3,9 @@ import React from 'react';
 import emotionStyled from '@emotion/styled';
 import AOS from 'aos';
 import {Box, Button, Grid, Typography} from '@mui/material';
+import {MainFeatureCard} from './components/MainFeatureCard';
+import {UserIcon} from '~/assets/icons/UserIcon';
+import {SubFeatureCard} from './components/SubFeatureCard';
 
 export default function Index() {
   React.useEffect(() => {
@@ -14,26 +17,116 @@ export default function Index() {
   return (
     <div>
       <main>
-        <Box bgcolor={`rgb(243, 246, 255)`} position={`relative`}>
-          <HeadingContainer>
-            <Grid container marginTop={`-32px`} marginLeft={`-32px`} width={`calc(100% + 32px)`} spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Box data-aos="fade-right">
-                  <Typography marginBottom={`16px`} variant='h2'>Easily manage your projects with Project Flow</Typography>
-                  <Typography marginBottom={`24px`}>Description for thing</Typography>
-                  <Box>
-                    <Button variant='outlined'>Start Now</Button>
+        <Box>
+          <Box bgcolor={`rgb(243, 246, 255)`} position={`relative`}>
+            <HeadingContainer>
+              <Grid container marginTop={`-32px`} marginLeft={`-32px`} width={`calc(100% + 32px)`} spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Box data-aos="fade-right">
+                    <Typography marginBottom={`16px`} variant='h2' fontWeight={700}>Easily manage your projects with Project Flow</Typography>
+                    <Typography marginBottom={`24px`} fontSize={`1.25rem`} lineHeight={1.6}>Description for thing</Typography>
+                    <Box>
+                      <Button variant='outlined'>Start Now</Button>
+                    </Box>
                   </Box>
-                </Box>
+                </Grid>
+                <Grid item container justifyContent={`center`} xs={12} md={6} alignContent={`center`} data-aos="fade-left">
+                  <HeadingImage/>
+                </Grid>
               </Grid>
-              <Grid item container justifyContent={`center`} xs={12} md={6} alignContent={`center`} data-aos="fade-left">
-                <HeadingImage/>
+            </HeadingContainer>
+            <ClipBackground preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' x={`0px`} y={`0px`} viewBox='0 0 1921 273'>
+              <polygon fill='#fff' points='0,273 1921,273 1921,0'/>
+            </ClipBackground>
+          </Box>
+          <LayoutBox>
+            <Box>
+              <Grid container marginTop={`-16px`} marginLeft={`-16px`} width={`calc(100% + 16px)`} spacing={2}>
+                <Grid item xs={12} md={4}>
+                  <MainFeatureCard
+                    icon={<UserIcon/>}
+                    title='Lorum Ipsum'
+                    description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum '
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MainFeatureCard
+                    icon={<UserIcon/>}
+                    title='Lorum Ipsum'
+                    description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum '
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MainFeatureCard
+                    icon={<UserIcon/>}
+                    title='Lorum Ipsum'
+                    description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </HeadingContainer>
-          <ClipBackground>
-            <polygon fill='#fff' points='0,273 1921,273 1921,0'/>
-          </ClipBackground>
+            </Box>
+          </LayoutBox>
+          <LayoutBox>
+            <Box>
+              <Box marginBottom={`32px`}>
+                <Typography fontWeight={500} textTransform={`uppercase`} color={`rgb(86, 89, 115)`} textAlign={`center`} marginBottom={`0.35rem`}>
+                  Features
+                </Typography>
+                <Typography variant='h3' marginBottom={`0.35rem`}>
+                  The powerful and flexible tool for managing projects
+                </Typography>
+                <Typography fontSize={`1.25rem`} textAlign={`center`} color={`rgb(86, 89, 115)`}>
+                  Manage a limitless amount of projects and other stuff
+                </Typography>
+              </Box>
+              <Box marginTop={`48px`}>
+                <Grid container spacing={4}>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <SubFeatureCard
+                      icon={<UserIcon/>}
+                      title='Lorum Ipsum'
+                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <SubFeatureCard
+                      icon={<UserIcon/>}
+                      title='Lorum Ipsum'
+                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <SubFeatureCard
+                      icon={<UserIcon/>}
+                      title='Lorum Ipsum'
+                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <SubFeatureCard
+                      icon={<UserIcon/>}
+                      title='Lorum Ipsum'
+                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <SubFeatureCard
+                      icon={<UserIcon/>}
+                      title='Lorum Ipsum'
+                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <SubFeatureCard
+                      icon={<UserIcon/>}
+                      title='Lorum Ipsum'
+                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </LayoutBox>
         </Box>
       </main>
     </div>
@@ -50,24 +143,32 @@ const ClipBackground = emotionStyled(`svg`)({
   height: `35%`,  
 })
 
-const HeadingContainer = emotionStyled(Box)({
-  width: `100%`,
+const LayoutBox = emotionStyled(Box)({
   margin: `0 auto`,
   padding: `0 16px`,
-  position: `relative`,
-  zIndex: 2,
 
-  '@media (min-width: 900px)': {
-    maxWidth: 1236,
-    paddingTop: 64,
-    paddingBottom: 64,
+  '@media (min-width: 0px)': {
+    paddingTop: 32,
+    paddingBottom: 32,
   },
 
   '@media (min-width: 600px)': {
     maxWidth: 720,
     paddingTop: 48,
     paddingBottom: 48,
-  }
+  },
+  
+  '@media (min-width: 900px)': {
+    maxWidth: 1236,
+    paddingTop: 64,
+    paddingBottom: 64,
+  },
+})
+
+const HeadingContainer = emotionStyled(LayoutBox)({
+  width: `100%`,
+  position: `relative`,
+  zIndex: 2,
 })
 
 const HeadingImage = emotionStyled(`img`)({
