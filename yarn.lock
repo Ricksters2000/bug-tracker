@@ -1119,10 +1119,10 @@
   dependencies:
     "@prisma/debug" "5.7.1"
 
-"@remix-run/css-bundle@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@remix-run/css-bundle/-/css-bundle-2.3.1.tgz#c4827304cbd3bb0e2168d9e31282eb1c2db2d794"
-  integrity sha512-07d40dZz3iS/rm2xyFzmvGylJ5K6vXbb0wCnO+60JBQGlKKZGR4O4u027EmgUT32tJP/Xryf6rpnR3QTjDxozg==
+"@remix-run/css-bundle@^2.8.1":
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@remix-run/css-bundle/-/css-bundle-2.8.1.tgz#46facd9646fc92217aed95220587bc2e9aea6d1f"
+  integrity sha512-rn72xyUJ+rR5I0IxjlDWPPBddV1kpLvOT2FY9SMIUTFqyxq3ZK2W7FCtFzBt2JZQGZ9oDYidXYMWkW6tXY//rg==
 
 "@remix-run/dev@^2.3.1":
   version "2.3.1"

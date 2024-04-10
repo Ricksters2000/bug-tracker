@@ -46,6 +46,9 @@ export default {
       route(`/api/ticket-filter`, `${workspaceFolder}/api/getTicketsFromFilter.ts`)
     })
   },
+  serverDependenciesToBundle: [
+    `aos`,
+  ],
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",

@@ -1,4 +1,4 @@
-import aosCss from 'aos/dist/aos.css';
+import 'aos/dist/aos.css';
 import React from 'react';
 import emotionStyled from '@emotion/styled';
 import AOS from 'aos';
@@ -7,11 +7,24 @@ import {MainFeatureCard} from './components/MainFeatureCard';
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {SubFeatureCard} from './components/SubFeatureCard';
 import {LinksFunction} from '@remix-run/node';
+import {cssBundleHref} from '@remix-run/css-bundle';
+
+export const links: LinksFunction = () => {
+  return [
+    ...(cssBundleHref
+      ? [{rel: `stylesheet`, href: cssBundleHref}]
+      : []
+    )
+  ]
+}
 
 export default function Index() {
   React.useEffect(() => {
     AOS.init({
       once: true,
+      easing: `ease-in-out`,
+      duration: 500,
+      delay: 50,
     })
   }, [])
 
@@ -111,7 +124,7 @@ export default function Index() {
                     <SubFeatureCard
                       icon={<UserIcon/>}
                       title='Advanced Ticket Filter'
-                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                      description='View tickets from all your projects with various filters to easily find that important ticket you want.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
