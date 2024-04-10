@@ -25,6 +25,7 @@ export type TicketInfo = Omit<Ticket, `history` | `companyId` | `closedDate`> & 
 }
 
 export type TicketPreview = Pick<Ticket, `id` | `projectId` | `title` | `priority` | `status` | `dueDate` | `createdDate` | `isClosed`>
+export type TicketMinimalInfo = Pick<Ticket, `id` | `projectId` | `title` | `dueDate` | `priority`>
 
 type TicketGroupByKeys = Omit<Ticket, `createdDate` | `dueDate` | `history` | `content` | `isClosed` | `closedDate`>
 type GroupByDateKeys = keyof Pick<Ticket, `closedDate` | `createdDate` | `dueDate`>
@@ -100,6 +101,23 @@ export const findAllTicketPreviews = async (): Promise<Array<TicketPreview>> => 
 export const findTicketPreviews = async (filter: Prisma.TicketWhereInput, orderBy?: Prisma.TicketOrderByWithRelationInput, limit?: number, offset?: number): Promise<Array<TicketPreview>> => {
   const tickets = await db.ticket.findMany({
     select: ticketPreviewSelectInput,
+    where: filter,
+    orderBy,
+    skip: offset,
+    take: limit,
+  })
+  return tickets
+}
+
+export const findTicketMinimalInfos = async (filter: Prisma.TicketWhereInput, orderBy?: Prisma.TicketOrderByWithRelationInput, limit?: number, offset?: number): Promise<Array<TicketMinimalInfo>> => {
+  const tickets = await db.ticket.findMany({
+    select: {
+      id: true,
+      projectId: true,
+      priority: true,
+      dueDate: true,
+      title: true,
+    },
     where: filter,
     orderBy,
     skip: offset,

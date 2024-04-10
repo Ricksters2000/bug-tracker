@@ -57,7 +57,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
             transformOrigin={{vertical: `top`, horizontal: `right`}}
           >
             <Box minWidth={`10rem`} fontSize={`1rem`}>
-              <List>
+              {/* <List>
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to={`/`}>
                     <ListItemText primary='Settings'/>
@@ -69,7 +69,7 @@ export const LayoutContainer: React.FC<React.PropsWithChildren<Props>> = (props)
                   </ListItemButton>
                 </ListItem>
               </List>
-              <Divider/>
+              <Divider/> */}
               <List>
                 <ListItem disablePadding>
                   <Form method='post' style={{width: `100%`}}>

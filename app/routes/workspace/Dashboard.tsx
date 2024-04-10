@@ -1,13 +1,13 @@
 import emotionStyled from "@emotion/styled";
-import {Grid} from "@mui/material";
+import {Box, Grid, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import {Priority, Prisma, TicketStatus} from "@prisma/client";
 import {json, type LoaderFunction, type MetaFunction} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
+import {Link, useLoaderData} from "@remix-run/react";
 import {DefaultCard} from "~/components/cards/DefaultCard";
 import {PieChart} from "~/components/charts/PieChart";
 import {convertTicketPriorityCountsToChartDataRaw, convertTicketStatusCountsToChartDataRaw} from "~/components/charts/utils/ticketPieChartHelpers";
 import {db} from "~/server/db/db";
-import {getTicketCountsByField} from "~/server/db/ticketDb";
+import {TicketMinimalInfo, findTicketMinimalInfos, getTicketCountsByField} from "~/server/db/ticketDb";
 import {H1} from "~/typography";
 import {useAppContext} from "./AppContext";
 import {UserSelect} from "./components/UserSelect";
@@ -17,6 +17,7 @@ import {convertGenericDataToChartDatasets} from "~/components/charts/utils/conve
 import {SimpleDataCard} from "~/components/cards/SimpleDataCard";
 import {getEndOfNearDueDate} from "~/utils/dueDateCalculate";
 import {canViewAdvancedProjectAnalytics} from "./utils/roles/canViewAdvancedProjectAnalytics";
+import {PriorityTag} from "./components/tags/PriorityTag";
 
 type LoaderData = {
   openTicketCount: number;
@@ -30,6 +31,7 @@ type LoaderData = {
     openTicketCount: number;
     assignedUserCount: number;
   }> | null;
+  ticketsAssignedToUser: Array<TicketMinimalInfo>;
 }
 
 export const meta: MetaFunction = () => {
@@ -95,6 +97,12 @@ export const loader: LoaderFunction = async ({params}) => {
     },
     where: {companyId},
   })
+  const ticketsAssignedToUser = await findTicketMinimalInfos({
+    ...ticketFilter,
+    assignedUsers: {
+      some: {id: parseInt(userId)}
+    }
+  })
   const data: LoaderData = {
     openTicketCount,
     unassignedTicketCount,
@@ -107,6 +115,7 @@ export const loader: LoaderFunction = async ({params}) => {
       openTicketCount: countData._count.tickets,
       assignedUserCount: countData._count.assignedUsers,
     })) ?? null,
+    ticketsAssignedToUser,
   }
   return json(data)
 }
@@ -119,7 +128,8 @@ export default function Dashboard() {
     ticketsPastDueDateCount,
     ticketPriorityCounts,
     ticketStatusCounts,
-    projectUserToOpenTicketsCounts
+    projectUserToOpenTicketsCounts,
+    ticketsAssignedToUser,
   } = useLoaderData<LoaderData>()
   const {allUsers} = useAppContext()
   return (
@@ -166,8 +176,30 @@ export default function Dashboard() {
           </DefaultCard>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <DefaultCard label="Tickets">
-            {/* <PieChart/> */}
+          <DefaultCard label="Tickets Assigned to You">
+            <List>
+              {ticketsAssignedToUser.map(ticket => {
+                return (
+                  <ListItem key={ticket.id} disablePadding>
+                    <ListItemButton component={Link} to={`./project/${ticket.projectId}/ticket/${ticket.id}`}>
+                      <ListItemText
+                        sx={{
+                          display: `flex`,
+                          flexDirection: `column-reverse`,
+                        }}
+                        primary={ticket.title}
+                        secondary={
+                          <Box display={`inline-flex`} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
+                            <span>{ticket.dueDate}</span>
+                            <PriorityTag priority={ticket.priority}/>
+                          </Box>
+                        }
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              })}
+            </List>
           </DefaultCard>
         </Grid>
         {projectUserToOpenTicketsCounts &&
