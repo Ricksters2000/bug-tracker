@@ -2,12 +2,14 @@ import 'aos/dist/aos.css';
 import React from 'react';
 import emotionStyled from '@emotion/styled';
 import AOS from 'aos';
-import {Box, Button, Grid, Typography} from '@mui/material';
+import {Box, Button, ButtonGroup, Grid, Typography} from '@mui/material';
 import {MainFeatureCard} from './components/MainFeatureCard';
 import {UserIcon} from '~/assets/icons/UserIcon';
 import {SubFeatureCard} from './components/SubFeatureCard';
 import {LinksFunction} from '@remix-run/node';
 import {cssBundleHref} from '@remix-run/css-bundle';
+import {Link} from '@remix-run/react';
+import {LandingPageButtonGroup} from './components/buttons/LandingPageButtonGroup';
 
 export const links: LinksFunction = () => {
   return [
@@ -43,9 +45,7 @@ export default function Index() {
                     <Typography marginBottom={`24px`} fontSize={`1.25rem`} lineHeight={1.6}>
                       Easily track all your tasks andbugs between an unlimited amount of projects.
                     </Typography>
-                    <Box>
-                      <Button variant='outlined'>Start Now</Button>
-                    </Box>
+                    <LandingPageButtonGroup/>
                   </Box>
                 </Grid>
                 <Grid item container justifyContent={`center`} xs={12} md={6} alignContent={`center`} data-aos="fade-left">

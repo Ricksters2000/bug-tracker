@@ -6,6 +6,9 @@ export default {
   serverModuleFormat: "esm",
   serverPlatform: `node`,
   appDirectory: "app",
+  serverDependenciesToBundle: [
+    `aos`,
+  ],
   routes: (defineRoutes) => {
     const routesFolder = `routes`
     const authenticationFolder = `${routesFolder}/authentication`
@@ -18,6 +21,7 @@ export default {
       route(`/auth`, `${authenticationFolder}/Layout.tsx`, () => {
         route(`login`, `${authenticationFolder}/login/Login.tsx`)
         route(`register`, `${authenticationFolder}/register/Register.tsx`)
+        route(`preview`, `${authenticationFolder}/previewLogin/PreviewLogin.tsx`)
       })
       route(`/workspace/:userId`, `${workspaceFolder}/layout/Layout.tsx`, {id: workspaceId}, () => {
         route(``, `${workspaceFolder}/Dashboard.tsx`, {index: true, id: dashboardId})
@@ -46,9 +50,6 @@ export default {
       route(`/api/ticket-filter`, `${workspaceFolder}/api/getTicketsFromFilter.ts`)
     })
   },
-  serverDependenciesToBundle: [
-    `aos`,
-  ],
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
