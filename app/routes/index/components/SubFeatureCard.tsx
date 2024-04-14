@@ -9,7 +9,7 @@ type Props = {
 
 export const SubFeatureCard: React.FC<Props> = (props) => {
   return (
-    <Paper data-aos='fade-up' sx={{padding: `32px`}}>
+    <Paper data-aos='fade-up' sx={{padding: `32px`, height: `100%`}}>
       <Box display={`flex`} flexDirection={`column`}>
         <Avatar sx={{
           backgroundColor: `rgb(99, 102, 241)`,

@@ -10,6 +10,7 @@ import {LinksFunction} from '@remix-run/node';
 import {cssBundleHref} from '@remix-run/css-bundle';
 import {Link} from '@remix-run/react';
 import {LandingPageButtonGroup} from './components/buttons/LandingPageButtonGroup';
+import {Footer} from '~/components/Footer';
 
 export const links: LinksFunction = () => {
   return [
@@ -70,15 +71,15 @@ export default function Index() {
                 <Grid item xs={12} md={4}>
                   <MainFeatureCard
                     icon={<UserIcon/>}
-                    title='Lorum Ipsum'
-                    description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum '
+                    title='Develop Together'
+                    description='Manage and coordinate your team to work together and focus on the tasks needed to be done.'
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <MainFeatureCard
                     icon={<UserIcon/>}
-                    title='Lorum Ipsum'
-                    description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                    title='Manage Projects'
+                    description='Create many projects while being able to assign users and create tickets for the projects.'
                   />
                 </Grid>
               </Grid>
@@ -130,21 +131,22 @@ export default function Index() {
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
                       icon={<UserIcon/>}
-                      title='Lorum Ipsum'
-                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                      title='Create Projects'
+                      description='Create many projects while being able to assign users and create tickets for the projects.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
                       icon={<UserIcon/>}
-                      title='Lorum Ipsum'
-                      description='Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum'
+                      title='Create Tickets'
+                      description='Make '
                     />
                   </Grid>
                 </Grid>
               </Box>
             </Box>
           </LayoutBox>
+          <Footer/>
         </Box>
       </main>
     </div>

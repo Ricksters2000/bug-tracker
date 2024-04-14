@@ -5,6 +5,7 @@ import React from 'react';
 import {DemoUserKey, demoUsers} from './demoUsers';
 import {authenticateUserWithEmailAndPassword} from '~/server/db/userDb';
 import {commitSession, getSession} from '~/sessions';
+import {StartNowButton} from '~/routes/index/components/buttons/StartNowButton';
 
 const demoUserKey = `demoUserKey`
 
@@ -38,6 +39,9 @@ export default function PreviewLogin() {
     <Paper sx={{padding: `1.5rem`}}>
       <Typography variant='h4' textAlign={`center`} fontWeight={700} marginBottom={`1rem`}>Login As Demo User</Typography>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <StartNowButton/>
+        </Grid>
         {createButtonItem(`Admin`, `admin`, `error`)}
         {createButtonItem(`Project Manager`, `projectManager`, `info`)}
         {createButtonItem(`Developer`, `developer`, `secondary`)}
