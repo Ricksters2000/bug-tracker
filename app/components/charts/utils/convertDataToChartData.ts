@@ -30,6 +30,7 @@ export const convertDataToChartData = (data: ChartDataRaw) => {
   }
 }
 
+/** @deprecated */
 export const convertGenericDataToChartDatasets = <T extends Record<string, string | number>, K extends keyof T>(data: Array<T>, labelField: K): ChartDatasetsRaw<T, K> => {
   // @ts-ignore
   const chartData: ChartDatasetsRaw<T, K> = {

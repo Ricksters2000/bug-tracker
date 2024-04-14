@@ -1,31 +1,36 @@
 import React from 'react';
 import {GenericChart} from './GenericChart';
 import {ChartData, ChartOptions} from 'chart.js';
-import {ChartDatasetsRaw} from './utils/convertDataToChartData';
-import {objectKeysAndExcludeKey} from '~/utils/objectKeys';
 
-type Props<T extends Record<string, number>, K extends keyof T> = {
-  datasetsRaw: ChartDatasetsRaw<T, K>;
+export type BarChartDataset = {
+  labels: Array<string>;
+  datasets: Array<{
+    label: string;
+    values: Array<number>;
+  }>;
 }
 
-export const BarChart = <T extends Record<string, number>, K extends keyof T>(props: Props<T, K>) => {
+type Props = {
+  datasets: BarChartDataset;
+}
+
+export const BarChart: React.FC<Props> = (props) => {
   const [datasets, setDatasets] = React.useState<ChartData<`bar`, number[]>[`datasets`]>([])
 
   React.useEffect(() => {
-    const datasetsRaw = props.datasetsRaw
-    const keys = objectKeysAndExcludeKey(datasetsRaw, `labels`)
-    const currentDatasets: ChartData<`bar`, number[]>[`datasets`] = keys.map(key => {
-      const data = datasetsRaw[key] as Array<number>
+    const datasetsRaw = props.datasets
+    const currentDatasets: ChartData<`bar`, number[]>[`datasets`] = datasetsRaw.datasets.map(data => {
       return {
-        label: key.toString(),
-        data: data,
+        label: data.label,
+        data: data.values,
       }
     })
     setDatasets(currentDatasets)
   }, [])
+
   const data: ChartData<`bar`, number[], string> = {
     datasets: datasets,
-    labels: props.datasetsRaw.labels,
+    labels: props.datasets.labels,
   }
   const options: ChartOptions<`bar`> = {
     indexAxis: `y`,

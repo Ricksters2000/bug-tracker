@@ -12,7 +12,7 @@ import {H1} from "~/typography";
 import {useAppContext} from "./AppContext";
 import {UserSelect} from "./components/UserSelect";
 import {UserList} from "./components/UserList";
-import {BarChart} from "~/components/charts/BarChart";
+import {BarChart, BarChartDataset} from "~/components/charts/BarChart";
 import {convertGenericDataToChartDatasets} from "~/components/charts/utils/convertDataToChartData";
 import {SimpleDataCard} from "~/components/cards/SimpleDataCard";
 import {getEndOfNearDueDate} from "~/utils/dueDateCalculate";
@@ -26,11 +26,7 @@ type LoaderData = {
   ticketsPastDueDateCount: number;
   ticketPriorityCounts: Record<Priority, number>;
   ticketStatusCounts: Record<TicketStatus, number>;
-  projectUserToOpenTicketsCounts: Array<{
-    projectTitle: string;
-    openTicketCount: number;
-    assignedUserCount: number;
-  }> | null;
+  projectUserToOpenTicketsCounts: BarChartDataset | null;
   ticketsAssignedToUser: Array<TicketMinimalInfo>;
 }
 
@@ -110,11 +106,20 @@ export const loader: LoaderFunction = async ({params}) => {
     ticketsPastDueDateCount,
     ticketPriorityCounts,
     ticketStatusCounts,
-    projectUserToOpenTicketsCounts: projectUserToOpenTicketsCounts?.map(countData => ({
-      projectTitle: countData.title,
-      openTicketCount: countData._count.tickets,
-      assignedUserCount: countData._count.assignedUsers,
-    })) ?? null,
+    // @TODO: improve this so it won't loop through the counts data THREE times, very unoptimized.
+    projectUserToOpenTicketsCounts: projectUserToOpenTicketsCounts ? {
+      labels: projectUserToOpenTicketsCounts.map(count => count.title),
+      datasets: [
+        {
+          label: `Open Tickets`,
+          values: projectUserToOpenTicketsCounts.map(count => count._count.tickets),
+        },
+        {
+          label: `Assigned Users`,
+          values: projectUserToOpenTicketsCounts.map(count => count._count.assignedUsers),
+        },
+      ],
+    } : null,
     ticketsAssignedToUser,
   }
   return json(data)
@@ -189,7 +194,7 @@ export default function Dashboard() {
                         }}
                         primary={ticket.title}
                         secondary={
-                          <Box display={`inline-flex`} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
+                          <Box component={`span`} display={`inline-flex`} alignItems={`center`} justifyContent={`space-between`} width={`100%`}>
                             <span>{ticket.dueDate}</span>
                             <PriorityTag priority={ticket.priority}/>
                           </Box>
@@ -205,9 +210,7 @@ export default function Dashboard() {
         {projectUserToOpenTicketsCounts &&
           <Grid item xs={12}>
             <DefaultCard label="Compare Users to Open Tickets per Project" height={`100%`}>
-              <BarChart
-                datasetsRaw={convertGenericDataToChartDatasets(projectUserToOpenTicketsCounts, `projectTitle`)}
-              />
+              <BarChart datasets={projectUserToOpenTicketsCounts}/>
             </DefaultCard>
           </Grid>
         }
