@@ -2,22 +2,21 @@ import 'aos/dist/aos.css';
 import React from 'react';
 import emotionStyled from '@emotion/styled';
 import AOS from 'aos';
-import {Box, Button, ButtonGroup, Grid, Typography} from '@mui/material';
+import {Box, Grid, Typography} from '@mui/material';
 import {MainFeatureCard} from './components/MainFeatureCard';
-import {UserIcon} from '~/assets/icons/UserIcon';
 import {SubFeatureCard} from './components/SubFeatureCard';
 import {LinksFunction} from '@remix-run/node';
 import {cssBundleHref} from '@remix-run/css-bundle';
-import {Link} from '@remix-run/react';
 import {LandingPageButtonGroup} from './components/buttons/LandingPageButtonGroup';
 import {Footer} from '~/components/Footer';
 import {PeopleIcon} from '~/assets/icons/PeopleIcon';
 import {AccountTreeIcon} from '~/assets/icons/AccountTreeIcon';
 import {AnalyticsIcon} from '~/assets/icons/AnalyticsIcon';
 import {EngineeringIcon} from '~/assets/icons/EngineeringIcon';
-import {FilterIcon} from '~/assets/icons/FilterIcon';
 import {BugReportIcon} from '~/assets/icons/BugReportIcon';
 import {InterfaceIcon} from '~/assets/icons/InterfaceIcon';
+import backgroundUrl from '~/assets/bg.jpeg';
+import {FilterAltIcon} from '~/assets/icons/FilterAltIcon';
 
 export const links: LinksFunction = () => {
   return [
@@ -42,29 +41,26 @@ export default function Index() {
     <div>
       <main>
         <Box>
-          <Box bgcolor={`rgb(243, 246, 255)`} position={`relative`}>
+          <LandingPageBackground>
             <HeadingContainer>
               <Grid container marginTop={`-32px`} marginLeft={`-32px`} width={`calc(100% + 32px)`} spacing={4}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} height={`100vh`} display={`flex`} flexDirection={`column`} justifyContent={`center`}>
                   <Box data-aos="fade-right">
-                    <Typography marginBottom={`16px`} variant='h2' fontWeight={700}>
+                    <Typography marginBottom={`16px`} variant='h2' fontWeight={700} color={`#fff`}>
                       The bug tracker tool to manage all your projects
                     </Typography>
-                    <Typography marginBottom={`24px`} fontSize={`1.25rem`} lineHeight={1.6}>
+                    <Typography marginBottom={`24px`} fontSize={`1.25rem`} lineHeight={1.6} color={`#fff`}>
                       Easily track all your tasks andbugs between an unlimited amount of projects.
                     </Typography>
                     <LandingPageButtonGroup/>
                   </Box>
                 </Grid>
-                <Grid item container justifyContent={`center`} xs={12} md={6} alignContent={`center`} data-aos="fade-left">
+                <Grid item container justifyContent={`center`} xs={12} md={8} alignContent={`center`}>
                   <HeadingImage/>
                 </Grid>
               </Grid>
             </HeadingContainer>
-            <ClipBackground preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' x={`0px`} y={`0px`} viewBox='0 0 1921 273'>
-              <polygon fill='#fff' points='0,273 1921,273 1921,0'/>
-            </ClipBackground>
-          </Box>
+          </LandingPageBackground>
           <LayoutBox>
             <Box>
               <Grid container marginTop={`-16px`} marginLeft={`-16px`} width={`calc(100% + 16px)`} spacing={2}>
@@ -130,7 +126,7 @@ export default function Index() {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<FilterIcon/>}
+                      icon={<FilterAltIcon/>}
                       title='Advanced Ticket Filter'
                       description='View tickets from all your projects with various filters to easily find that important ticket you want.'
                     />
@@ -159,6 +155,14 @@ export default function Index() {
     </div>
   )
 }
+
+const LandingPageBackground = emotionStyled(Box)({
+  backgroundImage: `url(${backgroundUrl})`,
+  backgroundSize: `cover`,
+  overflow: `hidden`,
+  height: `100vh`,
+  position: `relative`,
+})
 
 const ClipBackground = emotionStyled(`svg`)({
   position: `absolute`,
@@ -195,7 +199,10 @@ const LayoutBox = emotionStyled(Box)({
 const HeadingContainer = emotionStyled(LayoutBox)({
   width: `100%`,
   position: `relative`,
+  height: `100vh`,
   zIndex: 2,
+  paddingTop: `0 !important`,
+  paddingBottom: `0 !important`,
 })
 
 const HeadingImage = emotionStyled(`img`)({
