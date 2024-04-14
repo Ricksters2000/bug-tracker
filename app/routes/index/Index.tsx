@@ -11,6 +11,13 @@ import {cssBundleHref} from '@remix-run/css-bundle';
 import {Link} from '@remix-run/react';
 import {LandingPageButtonGroup} from './components/buttons/LandingPageButtonGroup';
 import {Footer} from '~/components/Footer';
+import {PeopleIcon} from '~/assets/icons/PeopleIcon';
+import {AccountTreeIcon} from '~/assets/icons/AccountTreeIcon';
+import {AnalyticsIcon} from '~/assets/icons/AnalyticsIcon';
+import {EngineeringIcon} from '~/assets/icons/EngineeringIcon';
+import {FilterIcon} from '~/assets/icons/FilterIcon';
+import {BugReportIcon} from '~/assets/icons/BugReportIcon';
+import {InterfaceIcon} from '~/assets/icons/InterfaceIcon';
 
 export const links: LinksFunction = () => {
   return [
@@ -63,21 +70,21 @@ export default function Index() {
               <Grid container marginTop={`-16px`} marginLeft={`-16px`} width={`calc(100% + 16px)`} spacing={2}>
                 <Grid item xs={12} md={4}>
                   <MainFeatureCard
-                    icon={<UserIcon/>}
+                    icon={<InterfaceIcon/>}
                     title='Responsive user-friendly UI'
                     description='Simple and easy to understand user-interface which is also responsive to be used on any screen size.'
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <MainFeatureCard
-                    icon={<UserIcon/>}
+                    icon={<PeopleIcon/>}
                     title='Develop Together'
                     description='Manage and coordinate your team to work together and focus on the tasks needed to be done.'
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <MainFeatureCard
-                    icon={<UserIcon/>}
+                    icon={<AccountTreeIcon/>}
                     title='Manage Projects'
                     description='Create many projects while being able to assign users and create tickets for the projects.'
                   />
@@ -102,44 +109,44 @@ export default function Index() {
                 <Grid container spacing={4}>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<UserIcon/>}
+                      icon={<AnalyticsIcon/>}
                       title='Analytics'
                       description='View analytics for all your projects at the same time and get an understanding as to which ones need more focus on.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<UserIcon/>}
+                      icon={<PeopleIcon/>}
                       title='Assigning Users'
                       description='Assign users to tickets and projects to simply allow them to focus on specific task needed to be done.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<UserIcon/>}
+                      icon={<EngineeringIcon/>}
                       title='Manage User Roles'
                       description='Give users their own roles to limit the features they have access to in the team.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<UserIcon/>}
+                      icon={<FilterIcon/>}
                       title='Advanced Ticket Filter'
                       description='View tickets from all your projects with various filters to easily find that important ticket you want.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<UserIcon/>}
+                      icon={<AccountTreeIcon/>}
                       title='Create Projects'
                       description='Create many projects while being able to assign users and create tickets for the projects.'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <SubFeatureCard
-                      icon={<UserIcon/>}
+                      icon={<BugReportIcon/>}
                       title='Create Tickets'
-                      description='Make '
+                      description='Make and assign tickets to devs while being able to track unassigned tickets for projects.'
                     />
                   </Grid>
                 </Grid>
