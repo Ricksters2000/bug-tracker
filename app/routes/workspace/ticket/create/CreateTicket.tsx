@@ -5,7 +5,7 @@ import {Breadcrumbs} from "~/components/Breadcrumbs";
 import {H1} from "~/typography";
 import {$Enums} from "@prisma/client";
 import {ActionFunction, json, redirect} from "@remix-run/node";
-import {Alert, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
+import {Alert, Button, CircularProgress, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, TextField} from "@mui/material";
 import {DatePicker} from "~/components/input/DatePicker";
 import {getDataFromFormAsObject} from "~/utils/getDataFromFormAsObject";
 import {createFormResponseFromData} from "~/utils/createFormResponseFromData";
@@ -72,7 +72,7 @@ export default function CreateTicket() {
   const fetcher = useFetcher<Array<ProjectOption>>()
   const [searchParams, setSearchParams] = useSearchParams()
   const [selectedUserIds, setSelectedUserIds] = React.useState<Array<number>>([])
-  let projects: Array<ProjectOption> = []
+  let projects: Array<ProjectOption> | null = null
   let errors: FormErrors<RequiredKeys> | undefined
 
   React.useEffect(() => {
@@ -101,7 +101,9 @@ export default function CreateTicket() {
             <Stack direction={`column`} spacing={`16px`}>
               <Stack direction={`column`} gap={`16px`} padding={`24px`}>
                 <input type="hidden" name={formKeys.companyId} value={currentUser.company.id}/>
-                {projects.length === 0 ?
+                {!projects ? 
+                  <Alert color="info" icon={<CircularProgress size={20}/>}>Loading Projects...</Alert>
+                  : projects.length === 0 ?
                   <Alert color="error">No Projects Found! Create a project before creating a ticket.</Alert>
                   :
                   <FormControl fullWidth>
@@ -184,7 +186,7 @@ export default function CreateTicket() {
             </Stack>
           </Paper>
           <Stack direction={`row`} spacing={`16px`} justifyContent={`flex-end`}>
-            <Button type="submit" disabled={projects.length === 0}>Create</Button>
+            <Button type="submit" disabled={!projects || projects.length === 0}>Create</Button>
           </Stack>
         </Stack>
       </Form>
