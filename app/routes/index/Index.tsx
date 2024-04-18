@@ -15,8 +15,14 @@ import {AnalyticsIcon} from '~/assets/icons/AnalyticsIcon';
 import {EngineeringIcon} from '~/assets/icons/EngineeringIcon';
 import {BugReportIcon} from '~/assets/icons/BugReportIcon';
 import {InterfaceIcon} from '~/assets/icons/InterfaceIcon';
-import backgroundUrl from '~/assets/bg.jpeg';
 import {FilterAltIcon} from '~/assets/icons/FilterAltIcon';
+import {ImageList} from './components/ImageList';
+import backgroundUrl from '~/assets/bg.jpeg';
+import dashboardUrl from '~/assets/previewWorkspaceImages/dashboard.png';
+import projectListUrl from '~/assets/previewWorkspaceImages/projectList.png';
+import projectPageUrl from '~/assets/previewWorkspaceImages/projectPage.png'
+import ticketListUrl from '~/assets/previewWorkspaceImages/ticketList.png';
+import userListUrl from '~/assets/previewWorkspaceImages/userList.png';
 
 export const links: LinksFunction = () => {
   return [
@@ -44,7 +50,7 @@ export default function Index() {
           <LandingPageBackground>
             <HeadingContainer>
               <Grid container marginTop={`-32px`} marginLeft={`-32px`} width={`calc(100% + 32px)`} spacing={4}>
-                <Grid item xs={12} md={6} height={`100vh`} display={`flex`} flexDirection={`column`} justifyContent={`center`}>
+                <Grid item xs={12} md={4} height={`100vh`} display={`flex`} flexDirection={`column`} justifyContent={`center`}>
                   <Box data-aos="fade-right">
                     <Typography marginBottom={`16px`} variant='h2' fontWeight={700} color={`#fff`}>
                       The bug tracker tool to manage all your projects
@@ -55,8 +61,10 @@ export default function Index() {
                     <LandingPageButtonGroup/>
                   </Box>
                 </Grid>
-                <Grid item container justifyContent={`center`} xs={12} md={8} alignContent={`center`}>
-                  <HeadingImage/>
+                <Grid item xs={12} md={8} display={`flex`} flexWrap={`nowrap`}>
+                  <ImageList urls={[dashboardUrl, userListUrl]}/>
+                  <ImageList urls={[projectPageUrl, projectListUrl]}/>
+                  <ImageList urls={[ticketListUrl]}/>
                 </Grid>
               </Grid>
             </HeadingContainer>
@@ -164,16 +172,6 @@ const LandingPageBackground = emotionStyled(Box)({
   position: `relative`,
 })
 
-const ClipBackground = emotionStyled(`svg`)({
-  position: `absolute`,
-  width: `100%`,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  zIndex: 1,
-  height: `35%`,  
-})
-
 const LayoutBox = emotionStyled(Box)({
   margin: `0 auto`,
   padding: `0 16px`,
@@ -203,12 +201,4 @@ const HeadingContainer = emotionStyled(LayoutBox)({
   zIndex: 2,
   paddingTop: `0 !important`,
   paddingBottom: `0 !important`,
-})
-
-const HeadingImage = emotionStyled(`img`)({
-  height: '100%',
-  width: '100%',
-  boxShadow: 'rgba(140, 152, 164, 0.125) 0px 6px 24px 0px',
-  borderRadius: '16px',
-  maxWidth: '600px',
 })
