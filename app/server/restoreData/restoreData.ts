@@ -20,8 +20,11 @@ export const restoreDataFromJson = async () => {
   const data = JSON.parse(dataRaw) as JsonRestoreData
   const company = await db.company.findUnique({where: {id: data.company.id}})
   if (company) {
-    console.log(`Company with id: ${data.company.id} already exists, cancel restore data`)
-    return
+    const companyProjectsCount = await db.project.count({where: {companyId: company.id}})
+    if (companyProjectsCount > 0) {
+      console.log(`Company with id: ${data.company.id} already exists with ${companyProjectsCount} projects, cancel restore data`)
+      return
+    }
   }
   console.log(`Restoring data from company: ${data.company.id}`)
   await db.$transaction(async tsx => {
