@@ -23,6 +23,9 @@ import projectListUrl from '~/assets/previewWorkspaceImages/projectList.png';
 import projectPageUrl from '~/assets/previewWorkspaceImages/projectPage.png'
 import ticketListUrl from '~/assets/previewWorkspaceImages/ticketList.png';
 import userListUrl from '~/assets/previewWorkspaceImages/userList.png';
+import createUserUrl from '~/assets/previewWorkspaceImages/createUser.png';
+import createTicketUrl from '~/assets/previewWorkspaceImages/createTicket.png';
+import createProjectUrl from '~/assets/previewWorkspaceImages/createProject.png';
 
 export const links: LinksFunction = () => {
   return [
@@ -61,11 +64,22 @@ export default function Index() {
                     <LandingPageButtonGroup/>
                   </Box>
                 </Grid>
-                <Grid item xs={12} md={8} display={`flex`} flexWrap={`nowrap`}>
-                  <ImageList urls={[dashboardUrl, userListUrl]}/>
-                  <ImageList urls={[projectPageUrl, projectListUrl]}/>
-                  <ImageList urls={[ticketListUrl]}/>
-                </Grid>
+                <ImagesContainer item xs={12} md={8} display={`flex`} flexWrap={`nowrap`} alignItems={`center`}>
+                  <ImageList urls={[
+                    dashboardUrl,
+                    userListUrl,
+                    createUserUrl,
+                  ]}/>
+                  <ImageList urls={[
+                    projectPageUrl,
+                    projectListUrl,
+                    createProjectUrl,
+                  ]}/>
+                  <ImageList urls={[
+                    ticketListUrl,
+                    createTicketUrl
+                  ]}/>
+                </ImagesContainer>
               </Grid>
             </HeadingContainer>
           </LandingPageBackground>
@@ -201,4 +215,11 @@ const HeadingContainer = emotionStyled(LayoutBox)({
   zIndex: 2,
   paddingTop: `0 !important`,
   paddingBottom: `0 !important`,
+})
+
+const ImagesContainer = emotionStyled(Grid)({
+  display: `none`,
+  '@media (min-width: 900px)': {
+    display: `flex`,
+  }
 })
