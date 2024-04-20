@@ -28,12 +28,14 @@ export const restoreDataFromJson = async () => {
   }
   console.log(`Restoring data from company: ${data.company.id}`)
   await db.$transaction(async tsx => {
-    await tsx.company.create({
-      data: {
-        id: data.company.id,
-        name: data.company.name,
-      }
-    })
+    if (!company) {
+      await tsx.company.create({
+        data: {
+          id: data.company.id,
+          name: data.company.name,
+        }
+      })
+    }
     await tsx.user.createMany({
       data: data.users,
     })
