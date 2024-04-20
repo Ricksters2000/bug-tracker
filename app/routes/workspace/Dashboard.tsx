@@ -91,7 +91,10 @@ export const loader: LoaderFunction = async ({params}) => {
         },
       },
     },
-    where: {companyId},
+    where: {
+      companyId,
+      isArchived: false,
+    },
   })
   const ticketsAssignedToUser = await findTicketMinimalInfos({
     ...ticketFilter,
