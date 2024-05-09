@@ -1,36 +1,26 @@
-# Welcome to Remix!
+# Get Started
 
-- [Remix Docs](https://remix.run/docs)
+## Setup
+
+Create a .env file and add the variable ```DATABASE_URL``` to store the postgres database url. Then run:
+
+```sh
+yarn prisma migrate
+```
 
 ## Development
 
-Start the Remix development asset server and the Express server by running:
+Start the development server by running:
 
 ```sh
-npm run dev
+yarn dev
 ```
 
-This starts your app in development mode, which will purge the server require cache when Remix rebuilds assets so you don't need a process manager restarting the express server.
+## Production
 
-## Deployment
-
-First, build your app for production:
+To run the app in production mode:
 
 ```sh
-npm run build
+yarn build
+yarn start
 ```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying express applications you should be right at home just make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
