@@ -1,1 +1,1817 @@
-{"company":{"id":"dummy","name":"Dummy inc."},"users":[{"id":13,"companyId":"dummy","firstName":"Airi","lastName":"Satou","email":"asbeans@gmail.com","password":"123","bio":null,"sessionIds":["f269775c-ed48-4202-8883-325c579c9e78","91db6360-6570-4f2c-921d-3a97ec122732","01269716-e3da-4ab3-a9a4-0ff889c5c9fd","852c70dd-401d-455f-9626-abd590c932be","01cc6c12-b279-416b-96ee-bbcdbd6b584f","79f2bf61-b509-4b27-b8ea-31f12387bd38","90bb3a7c-389b-42b6-8ea4-16294588b207","3cb1f2c1-667e-4950-90de-60865e74cfbb","259105c0-9b9e-46fb-83c6-53a19c5d67cb","f2ee9a52-27b9-4173-a2f6-0247eda5e300"],"role":"projectManager"},{"id":16,"companyId":"dummy","firstName":"Sonya","lastName":"Frost","email":"sf@demo.com","password":"123","bio":null,"sessionIds":["11a6e4bc-2615-4e48-8388-286339d1f40c","527630cc-1839-4b2b-8fed-d68a83378baf","c72937ae-7f5e-4b3b-a9cc-d701fd7ecf78","7f53acc8-a853-41c6-a0ff-6db463d0caaa","9b99b91c-4594-48b6-bfb3-e209a586d5be"],"role":"developer"},{"id":15,"companyId":"dummy","firstName":"Ariana","lastName":"Lang","email":"b@demo.com","password":"123","bio":null,"sessionIds":["4161dd47-0c22-4f42-9341-c511867790b2"],"role":"submitter"},{"id":14,"companyId":"dummy","firstName":"Aspen","lastName":"Schmitt","email":"a@demo.com","password":"123","bio":null,"sessionIds":["221e6c04-c105-40af-a874-45186fc0d65e","fe520a2c-73c6-49a1-9267-b1e66de406b4","655a8b0a-b93a-4fe3-b582-32bac3b8e703","7eb3d311-7866-4e9c-8100-fe302f2c8355","7ce040d0-d732-4df2-8825-15a16bf4cf9f","a60990c2-75a6-4ca1-8e62-7b690432f621"],"role":"admin"},{"id":1,"companyId":"dummy","firstName":"demo-user","lastName":"1","email":"demo-user-1@demo.com","password":"123","bio":null,"sessionIds":["79ad0f27-c667-4f8d-ae34-ca30ae251097"],"role":"admin"}],"projects":[{"id":"1","companyId":"dummy","title":"Bug Tracker","description":"An app used for creating tickets and managing projects and users working on those projects.","createdDate":"2024-01-15T20:57:00.000Z","dueDate":"2024-02-29T20:57:00.000Z","isArchived":false,"priority":"high"},{"id":"d63a7b5d-dbb4-4763-b188-953536e4b17c","companyId":"dummy","title":"Cms","description":"A content management system for creating journaling websites.","createdDate":"2024-04-16T00:03:00.000Z","dueDate":null,"isArchived":false,"priority":"medium"},{"id":"89cf5428-205b-4fd2-96e0-057fd1ae4821","companyId":"dummy","title":"Smart Brain","description":"A project with its main functionality is to detect people's faces and display a border around them","createdDate":"2024-04-17T23:55:00.000Z","dueDate":"2024-10-23T23:55:00.000Z","isArchived":false,"priority":"low"},{"id":"10f31173-0c12-4993-8b14-1dcb4461eb02","companyId":"dummy","title":"Test","description":"This is a project meant for testing purposes","createdDate":"2024-04-18T00:00:00.000Z","dueDate":null,"isArchived":true,"priority":"low"}],"tickets":[{"id":"4e9d0b9c-b8f0-4234-8cca-090df8a017c3","projectId":"1","priority":"medium","companyId":"dummy","title":"Have a link to create tickets from the project page","createdDate":"2024-03-03T13:16:00.000Z","dueDate":null,"content":"This should also set the project Id to already be set from the project it was just previously on. For an example when creating a ticket from the project with name \"A\" it should set that ticket's project Id to \"A\" in the create form by default.","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"dda65940-9253-4430-b3bb-31776035cb97","projectId":"1","priority":"low","companyId":"dummy","title":"Display warning when due date is passed current date","createdDate":"2024-03-09T04:12:00.000Z","dueDate":null,"content":"This can possible display a warning when the current date is near the due date as well","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"b4601206-eed5-41a7-ae48-7920158985fb","projectId":"1","priority":"low","companyId":"dummy","title":"Allow to order by columns in ticket filter","createdDate":"2024-03-09T04:11:00.000Z","dueDate":null,"content":"","status":"reviewed","history":[{"date":"2024-03-09T18:17:55.325Z","action":{"data":"completed","type":"status"},"userId":13,"previousValue":"new"}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:42:26.938Z"},{"id":"25db7fce-1dc0-43cf-a255-d49bf1fc6a88","projectId":"1","priority":"low","companyId":"dummy","title":"Highlight the nav link that page is currently on","createdDate":"2024-03-10T01:17:00.000Z","dueDate":"2024-04-01T01:42:26.938Z","content":"Have the nav link in the side nav to be highlighted depending on the page its on. Remix has a component for this called NavLink which could be useful for this. Try to get the dropdowns to be highlighted depending on the current page too.","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"c5bdcca2-05d6-498d-9504-b742d72bf6ab","projectId":"1","priority":"medium","companyId":"dummy","title":"Add pagination to ticket filter","createdDate":"2024-03-09T04:10:00.000Z","dueDate":null,"content":"","status":"reviewed","history":[{"date":"2024-03-09T21:40:24.786Z","action":{"data":"completed","type":"status"},"userId":13,"previousValue":"new"}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:42:26.938Z"},{"id":"9455cd8d-58a1-4ddd-b320-8d3ffae824c7","projectId":"1","priority":"medium","companyId":"dummy","title":"Migrate completed ticket status to be closed","createdDate":"2024-03-10T17:27:00.000Z","dueDate":null,"content":"Instead of the completed ticket status, have a boolean of isClosed for tickets","status":"reviewed","history":[{"date":"2024-03-10T18:48:31.679Z","action":{"data":"reviewed","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-03-10T22:25:02.773Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-10T22:25:02.773Z"},{"id":"1ba4f57a-0c1d-4162-b6a1-833bcdef899b","projectId":"1","priority":"low","companyId":"dummy","title":"By default do not show completed tickets in ticket filter","createdDate":"2024-03-03T13:15:00.000Z","dueDate":null,"content":"","status":"reviewed","history":[{"date":"2024-03-09T21:41:16.122Z","action":{"data":"completed","type":"status"},"userId":13,"previousValue":"new"}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:42:26.938Z"},{"id":"f71a7953-3ad3-45f4-bbf6-1edc88b00997","projectId":"1","priority":"high","companyId":"dummy","title":"Improve security for sign in","createdDate":"2024-03-09T17:08:00.000Z","dueDate":null,"content":"Should have a session or something similar on signing in so this can be checked and will prevent being able to sign through the url params.","status":"reviewed","history":[{"date":"2024-03-10T01:10:24.326Z","action":{"data":"completed","type":"status"},"userId":13,"previousValue":"new"}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:42:26.939Z"},{"id":"04fd6a10-63fd-427b-b7c8-a3d226e7ecd0","projectId":"1","priority":"medium","companyId":"dummy","title":"Allow to set tickets as completed from ticket filter","createdDate":"2024-03-09T04:08:00.000Z","dueDate":"2024-03-18T01:42:26.938Z","content":"","status":"reviewed","history":[{"date":"2024-03-09T18:53:21.587Z","action":{"data":"completed","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-03-10T23:02:33.629Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-20T04:40:29.648Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-20T04:40:29.648Z"},{"id":"98bf54de-3269-459a-baf4-a39e1de79468","projectId":"1","priority":"high","companyId":"dummy","title":"Implement archived projects page","createdDate":"2024-03-23T00:21:00.000Z","dueDate":"2024-04-05T00:22:00.000Z","content":"Projects should have a property for isArchived and projects that have this set to true will be displayed in the archived projects page instead of the all projects page","status":"reviewed","history":[{"date":"2024-03-23T16:25:07.767Z","action":{"data":"development","type":"status"},"userId":1,"previousValue":"new"},{"date":"2024-03-24T16:10:18.688Z","action":{"data":true,"type":"isClosed"},"userId":1,"previousValue":null},{"date":"2024-03-24T16:10:46.665Z","action":{"data":false,"type":"isClosed"},"userId":1,"previousValue":null},{"date":"2024-03-24T16:11:27.762Z","action":{"data":"reviewed","type":"status"},"userId":1,"previousValue":"development"},{"date":"2024-03-24T16:11:29.423Z","action":{"data":true,"type":"isClosed"},"userId":1,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-24T16:11:29.423Z"},{"id":"c6f05198-9310-4f2a-8837-3f6f90c4bfb2","projectId":"1","priority":"medium","companyId":"dummy","title":"Improve heights for default cards","createdDate":"2024-03-20T02:15:00.000Z","dueDate":"2024-03-27T02:16:00.000Z","content":"Some heights don't match with others in the same row which makes it look weird. Cards in the same row should have the same height","status":"reviewed","history":[{"date":"2024-04-03T18:54:43.734Z","action":{"data":"reviewed","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-04-03T20:31:49.700Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-04-03T20:32:16.972Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-03T20:32:16.972Z"},{"id":"22ecca6e-ec45-4ff9-9ead-e4d76ebbd48c","projectId":"1","priority":"medium","companyId":"dummy","title":"Remove userId param from workspace url","createdDate":"2024-03-10T01:10:00.000Z","dueDate":"2024-03-22T01:42:26.938Z","content":"This isn't needed anymore since sessions can be used for getting the user id with session id","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"c33d1d63-7a89-4526-a0bc-42e125d7b4bd","projectId":"1","priority":"medium","companyId":"dummy","title":"Display popup when creating/updating data","createdDate":"2024-03-09T04:14:00.000Z","dueDate":"2024-03-17T01:42:26.938Z","content":"This can be like a popup that is displayed somewhere at the top of the screen to let the user know that the data has been successfully updated","status":"new","history":[{"date":"2024-03-09T15:28:16.822Z","action":{"data":"medium","type":"priority"},"userId":13,"previousValue":"low"}],"comments":[],"isClosed":false,"closedDate":null},{"id":"bf175d5c-ef64-4981-b9d4-bb2f3d463a94","projectId":"1","priority":"medium","companyId":"dummy","title":"Fix ticket counts disappear on priority filter","createdDate":"2024-03-15T01:13:00.000Z","dueDate":null,"content":"For some reason the numbers on the priority filter buttons disappear when filtering by any priority","status":"reviewed","history":[{"date":"2024-03-20T04:37:01.363Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-20T04:38:52.420Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-20T04:39:09.384Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-20T04:40:10.088Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-20T04:40:11.865Z","action":{"data":"reviewed","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-03-20T04:40:29.649Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-20T04:40:29.649Z"},{"id":"721e632c-0f89-4888-9fe5-f323b4971702","projectId":"1","priority":"low","companyId":"dummy","title":"Have ticket filter options stored as search params in url","createdDate":"2024-03-10T23:11:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"bef42e43-4e3b-4b0a-8bad-e88d0b73335f","projectId":"1","priority":"high","companyId":"dummy","title":"Display tag for closed tickets and allow to display closed tickets in ticket filter","createdDate":"2024-03-10T19:21:00.000Z","dueDate":null,"content":"In ticket filter display a tag next to the title to show that it is closed","status":"development","history":[{"date":"2024-03-10T22:29:59.982Z","action":{"data":"development","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-03-14T01:52:14.309Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-14T01:52:14.309Z"},{"id":"e243bb86-5f23-4036-8668-6065436f11bc","projectId":"1","priority":"high","companyId":"dummy","title":"Fix signout","createdDate":"2024-03-21T00:40:00.000Z","dueDate":"2024-04-07T00:40:00.000Z","content":"Signing out from the workspace top nav bar should bring user to the login page AND destroy the session","status":"reviewed","history":[{"date":"2024-04-02T17:39:48.133Z","action":{"data":"reviewed","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-04-02T17:39:51.847Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-02T17:39:51.847Z"},{"id":"1cc52d2a-4203-40c8-9ec6-2e71010ea72d","projectId":"1","priority":"high","companyId":"dummy","title":"Add closedDate property for tickets","createdDate":"2024-03-15T00:41:00.000Z","dueDate":null,"content":"When tickets are closed, this will set the closedDate","status":"reviewed","history":[{"date":"2024-03-15T01:01:38.546Z","action":{"data":"reviewed","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-03-15T01:01:40.376Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:01:40.376Z"},{"id":"3ea7f039-4efd-42f1-a955-c546f8c84a6d","projectId":"1","priority":"high","companyId":"dummy","title":"Display charts with stats in project details page","createdDate":"2024-03-03T13:05:00.000Z","dueDate":null,"content":"Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority\n- A line chart to display the amount of tickets closed each day throughout the last 7 or 14 days","status":"reviewed","history":[{"date":"2024-03-03T18:12:12.720Z","action":{"data":1,"type":"assignUser"},"userId":1,"previousValue":null},{"date":"2024-03-03T18:14:50.146Z","action":{"data":"high","type":"priority"},"userId":1,"previousValue":"low"},{"date":"2024-03-09T04:12:09.234Z","action":{"data":"development","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-03-10T19:29:33.511Z","action":{"data":"Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority","type":"content"},"userId":13,"previousValue":"Have some charts that display:\r\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets"},{"date":"2024-03-15T01:07:50.640Z","action":{"data":"Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority\n- A line chart to display the amount of tickets closed each day throughout the last 7 or 14 days","type":"content"},"userId":13,"previousValue":"Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority"},{"date":"2024-03-16T05:08:06.303Z","action":{"data":"reviewed","type":"status"},"userId":13,"previousValue":"development"},{"date":"2024-03-16T05:08:08.277Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-16T05:08:08.277Z"},{"id":"0d20b5a5-d9e3-4374-ae00-fa2669dd8945","projectId":"1","priority":"high","companyId":"dummy","title":"Allow to close tickets in ticket page","createdDate":"2024-03-10T19:22:00.000Z","dueDate":null,"content":"","status":"new","history":[{"date":"2024-03-10T19:40:53.629Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":false},{"date":"2024-03-10T19:46:48.542Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":true},{"date":"2024-03-10T19:46:52.834Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":false},{"date":"2024-03-10T19:47:04.807Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":true},{"date":"2024-03-10T19:48:34.274Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":false},{"date":"2024-03-10T19:50:10.017Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-10T19:50:11.800Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-10T19:51:34.312Z","action":{"data":13,"type":"assignUser"},"userId":13,"previousValue":null},{"date":"2024-03-10T20:38:22.133Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-10T20:38:22.984Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-10T20:49:33.930Z","action":{"data":false,"type":"isClosed"},"userId":13,"previousValue":null},{"date":"2024-03-10T20:49:34.491Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-03-10T20:49:34.491Z"},{"id":"1","projectId":"1","priority":"high","companyId":"dummy","title":"Fix error when opening create ticket page when no projects are available.","createdDate":"2024-01-15T20:58:00.000Z","dueDate":"2024-01-15T22:00:00.000Z","content":"When opening the create ticket page when there are no projects, it would throw an error of getting undefined when accessing id.","status":"reviewed","history":[{"date":"2024-03-03T18:14:12.563Z","action":{"data":"completed","type":"status"},"userId":1,"previousValue":"new"}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:42:26.939Z"},{"id":"2bf8b5fa-59fb-45b7-b87a-740d54bf408d","projectId":"1","priority":"medium","companyId":"dummy","title":"Display a footer in the workspace layout","createdDate":"2024-03-03T13:58:00.000Z","dueDate":null,"content":"","status":"reviewed","history":[{"date":"2024-03-09T03:35:40.001Z","action":{"data":"completed","type":"status"},"userId":1,"previousValue":"new"}],"comments":[],"isClosed":true,"closedDate":"2024-03-15T01:42:26.939Z"},{"id":"d82ed106-7130-45bb-9fef-20151f65c976","projectId":"1","priority":"low","companyId":"dummy","title":"Improve label names in dashboard bar chart","createdDate":"2024-03-20T02:16:00.000Z","dueDate":"2024-03-27T02:17:00.000Z","content":"In the dashboard the bar chart labels are in camel case which should be changed to be more readable ","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"ab0eaa75-e1c7-4805-980f-33c1c9780b55","projectId":"1","priority":"low","companyId":"dummy","title":"Display icons to default cards","createdDate":"2024-03-20T02:28:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"6fdb6b51-d523-482d-bb83-3a103fcc2a94","projectId":"1","priority":"low","companyId":"dummy","title":"Display visual indicator for empty lists","createdDate":"2024-03-20T02:30:00.000Z","dueDate":null,"content":"When there is nothing from a list, it can show something that would tell the user nothing was found so it won't just look like an empty page. Places that would need to show this:\r\n- Project list (All Projects)\r\n- Ticket list (All Tickets)","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"4645ffa0-0bce-4b71-b97f-4700be86bb3f","projectId":"1","priority":"low","companyId":"dummy","title":"Make it so closed tickets can't be checked in ticket filter","createdDate":"2024-03-20T04:41:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"38dc6d82-c2cd-40d5-ab48-95f4c0b95aba","projectId":"1","priority":"high","companyId":"dummy","title":"Fix tickets not updating state when closing them from ticket filter","createdDate":"2024-03-20T04:42:00.000Z","dueDate":null,"content":"","status":"new","history":[{"date":"2024-04-03T21:06:51.846Z","action":{"data":true,"type":"isClosed"},"userId":13,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-03T21:06:51.846Z"},{"id":"ac672d7d-c843-4812-95a0-3fdfc17a8260","projectId":"1","priority":"low","companyId":"dummy","title":"Add eslint options to improve code","createdDate":"2024-04-03T20:22:00.000Z","dueDate":null,"content":"Add options so:\r\n- semi colons for every line possible\r\n- leading commas in object fields","status":"new","history":[{"date":"2024-04-05T02:06:55.002Z","action":{"data":13,"type":"assignUser"},"userId":14,"previousValue":null}],"comments":[],"isClosed":false,"closedDate":null},{"id":"c766b36b-fe2d-43e5-9b15-d1a258655eba","projectId":"1","priority":"high","companyId":"dummy","title":"Display charts and other stats in dashboard","createdDate":"2024-03-11T23:17:00.000Z","dueDate":null,"content":"Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date\n- A card to display total of open tickets not assigned to any users","status":"development","history":[{"date":"2024-03-16T16:48:15.203Z","action":{"data":"Display charts and other stats in dashboard","type":"title"},"userId":13,"previousValue":"Display charts with stats in dashboard"},{"date":"2024-03-16T17:12:11.572Z","action":{"data":"Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date","type":"content"},"userId":13,"previousValue":"Charts to have:\r\n- A pie chart for all open tickets by priority\r\n- A pie chart for all open tickets by ticket status\r\n- A bar graph to display users to open tickets ratio per project"},{"date":"2024-03-16T17:19:55.357Z","action":{"data":"Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date\n- A card to display total of open tickets not assigned to any users","type":"content"},"userId":13,"previousValue":"Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date"},{"date":"2024-03-16T17:29:12.735Z","action":{"data":"development","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-04-10T03:59:54.500Z","action":{"data":true,"type":"isClosed"},"userId":14,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-10T03:59:54.500Z"},{"id":"13a24340-4e9a-4b0e-9e7d-30eb55c85326","projectId":"1","priority":"low","companyId":"dummy","title":"Change icons for side nav links","createdDate":"2024-03-10T01:14:00.000Z","dueDate":null,"content":"All the icons in the side nav bar are the same when that same icon should only be used for the Dashboard while the rest of the dropdown texts should have their own icon","status":"new","history":[{"date":"2024-03-14T02:00:36.687Z","action":{"data":"testing","type":"status"},"userId":13,"previousValue":"new"},{"date":"2024-04-12T15:47:27.183Z","action":{"data":"new","type":"status"},"userId":15,"previousValue":"testing"}],"comments":[],"isClosed":false,"closedDate":null},{"id":"0dd439a3-cdcb-4b6b-8a0a-2097d625a086","projectId":"1","priority":"high","companyId":"dummy","title":"Make pages responsive","createdDate":"2024-03-23T00:23:00.000Z","dueDate":null,"content":"","status":"reviewed","history":[{"date":"2024-04-05T03:04:25.776Z","action":{"data":"reviewed","type":"status"},"userId":14,"previousValue":"new"},{"date":"2024-04-05T03:04:28.815Z","action":{"data":true,"type":"isClosed"},"userId":14,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-05T03:04:28.815Z"},{"id":"a4ea79ba-7040-4ea1-be42-3c57d65ac30a","projectId":"1","priority":"high","companyId":"dummy","title":"Display visual indicators for async loading","createdDate":"2024-04-05T03:06:00.000Z","dueDate":"2024-04-21T03:08:00.000Z","content":"On form submits, or other areas that load async should show a visual indicator/disable buttons when necessary","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"76846f8a-903e-4d22-a81d-07c15e49811b","projectId":"1","priority":"high","companyId":"dummy","title":"Implement role functionality for users","createdDate":"2024-03-09T18:36:00.000Z","dueDate":"2024-03-20T01:42:26.938Z","content":"Roles should remove/add features to users depending on the current role they have like for an example, a developer shouldn't be able to create users but an admin should be able to create users.\n\nAlso make sure for these pages that it should redirect user to dashboard or display an error message when they shouldn't be able to access this page:\n- Create user\n- Member roles\n- Create Project\n- Archived Projects\n- Project page (if user is not assigned to the project)","status":"development","history":[{"date":"2024-03-21T01:49:03.952Z","action":{"data":16,"type":"assignUser"},"userId":16,"previousValue":null},{"date":"2024-03-21T01:49:11.228Z","action":{"data":"development","type":"status"},"userId":16,"previousValue":"new"},{"date":"2024-03-21T01:51:58.917Z","action":{"data":"Roles should remove/add features to users depending on the current role they have like for an example, a developer shouldn't be able to create users but an admin should be able to create users.\n\nAlso make sure for these pages that it should redirect user to dashboard or display an error message when they shouldn't be able to access this page:\n- Create user\n- Member roles\n- Create Project\n- Archived Projects\n- Project page (if user is not assigned to the project)","type":"content"},"userId":16,"previousValue":"Roles should remove/add features to users depending on the current role they have like for an example, a developer shouldn't be able to create users but an admin should be able to create users."},{"date":"2024-04-06T22:18:24.579Z","action":{"data":true,"type":"isClosed"},"userId":14,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-06T22:18:24.579Z"},{"id":"2f21e0fd-b03b-465a-bc24-ecd1bf2cd321","projectId":"1","priority":"medium","companyId":"dummy","title":"Create page for signing into demo users","createdDate":"2024-04-12T15:44:00.000Z","dueDate":null,"content":"","status":"new","history":[{"date":"2024-04-12T15:45:26.670Z","action":{"data":true,"type":"isClosed"},"userId":15,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-12T15:45:26.670Z"},{"id":"6f190763-74fd-46a9-9962-4be121a3c415","projectId":"1","priority":"high","companyId":"dummy","title":"Create landing page for app","createdDate":"2024-04-06T22:21:00.000Z","dueDate":"2024-04-21T22:21:00.000Z","content":"","status":"development","history":[{"date":"2024-04-12T15:47:15.093Z","action":{"data":"development","type":"status"},"userId":15,"previousValue":"new"}],"comments":[],"isClosed":false,"closedDate":null},{"id":"1b4cf177-a934-4444-afc8-58f2a74a9afd","projectId":"d63a7b5d-dbb4-4763-b188-953536e4b17c","priority":"high","companyId":"dummy","title":"Implement news like theme website","createdDate":"2024-04-16T00:05:00.000Z","dueDate":"2024-06-12T00:17:00.000Z","content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"07ae73c0-174f-40f7-8e6b-c1bec0ddf374","projectId":"d63a7b5d-dbb4-4763-b188-953536e4b17c","priority":"high","companyId":"dummy","title":"Create website selector input","createdDate":"2024-04-17T02:31:00.000Z","dueDate":"2024-06-14T02:31:00.000Z","content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"5e0c1635-0153-4393-baa7-0ba4c350627d","projectId":"1","priority":"high","companyId":"dummy","title":"Create page for searching and filtering articles","createdDate":"2024-04-17T02:32:00.000Z","dueDate":"2024-08-25T02:32:00.000Z","content":"","status":"new","history":[{"date":"2024-04-17T02:32:48.034Z","action":{"data":true,"type":"isClosed"},"userId":14,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-17T02:32:48.034Z"},{"id":"6304dc8d-3922-4a1e-a9ff-963148bfe890","projectId":"d63a7b5d-dbb4-4763-b188-953536e4b17c","priority":"high","companyId":"dummy","title":"Create page for searching and filtering articles","createdDate":"2024-04-17T02:32:00.000Z","dueDate":"2024-06-13T02:32:00.000Z","content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"2e093413-b742-416d-8348-9a8dcc2fed64","projectId":"1","priority":"low","companyId":"dummy","title":"Fix ui in website template","createdDate":"2024-04-17T02:33:00.000Z","dueDate":"2024-05-31T02:34:00.000Z","content":"Text and other elements appear to be broken in article pages","status":"new","history":[{"date":"2024-04-17T02:34:22.557Z","action":{"data":true,"type":"isClosed"},"userId":14,"previousValue":null}],"comments":[],"isClosed":true,"closedDate":"2024-04-17T02:34:22.557Z"},{"id":"481a23d9-ef95-4bef-9b63-c257c2aed0b8","projectId":"d63a7b5d-dbb4-4763-b188-953536e4b17c","priority":"medium","companyId":"dummy","title":"Fix ui in website template","createdDate":"2024-04-17T02:34:00.000Z","dueDate":"2024-05-24T02:34:00.000Z","content":"Text and other elements appear to be broken in article pages","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"6ecc1eea-c918-4b38-987c-31a20e8af195","projectId":"d63a7b5d-dbb4-4763-b188-953536e4b17c","priority":"medium","companyId":"dummy","title":"Create page for displaying website information","createdDate":"2024-04-17T02:34:00.000Z","dueDate":"2024-05-23T02:37:00.000Z","content":"This should show the important data for websites and progress publishing in here","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"3e75619a-de32-4467-a3a4-8f64f80b392d","projectId":"89cf5428-205b-4fd2-96e0-057fd1ae4821","priority":"high","companyId":"dummy","title":"Implement face detection api","createdDate":"2024-04-17T23:57:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"6ebf0c8d-843c-4f55-9c41-387607902a5c","projectId":"89cf5428-205b-4fd2-96e0-057fd1ae4821","priority":"medium","companyId":"dummy","title":"Improve ui responsiveness","createdDate":"2024-04-17T23:57:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"2e0aea68-62ca-4519-9b92-7fd11088c0c7","projectId":"89cf5428-205b-4fd2-96e0-057fd1ae4821","priority":"high","companyId":"dummy","title":"Allow to create account in home page","createdDate":"2024-04-17T23:57:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null},{"id":"0d3b0ec7-1823-4032-b99e-a73cdb6d3080","projectId":"89cf5428-205b-4fd2-96e0-057fd1ae4821","priority":"medium","companyId":"dummy","title":"Save past detected faces with image into user account","createdDate":"2024-04-17T23:58:00.000Z","dueDate":null,"content":"","status":"new","history":[],"comments":[],"isClosed":false,"closedDate":null}]}
+{
+  "company": {
+    "id": "dummy",
+    "name": "Dummy inc."
+  },
+  "users": [
+    {
+      "id": 13,
+      "companyId": "dummy",
+      "firstName": "Airi",
+      "lastName": "Satou",
+      "email": "asbeans@gmail.com",
+      "password": "123",
+      "bio": null,
+      "sessionIds": [
+        "f269775c-ed48-4202-8883-325c579c9e78",
+        "91db6360-6570-4f2c-921d-3a97ec122732",
+        "01269716-e3da-4ab3-a9a4-0ff889c5c9fd",
+        "852c70dd-401d-455f-9626-abd590c932be",
+        "01cc6c12-b279-416b-96ee-bbcdbd6b584f",
+        "79f2bf61-b509-4b27-b8ea-31f12387bd38",
+        "90bb3a7c-389b-42b6-8ea4-16294588b207",
+        "3cb1f2c1-667e-4950-90de-60865e74cfbb",
+        "259105c0-9b9e-46fb-83c6-53a19c5d67cb",
+        "f2ee9a52-27b9-4173-a2f6-0247eda5e300"
+      ],
+      "role": "projectManager"
+    },
+    {
+      "id": 16,
+      "companyId": "dummy",
+      "firstName": "Sonya",
+      "lastName": "Frost",
+      "email": "sf@demo.com",
+      "password": "123",
+      "bio": null,
+      "sessionIds": [
+        "11a6e4bc-2615-4e48-8388-286339d1f40c",
+        "527630cc-1839-4b2b-8fed-d68a83378baf",
+        "c72937ae-7f5e-4b3b-a9cc-d701fd7ecf78",
+        "7f53acc8-a853-41c6-a0ff-6db463d0caaa",
+        "9b99b91c-4594-48b6-bfb3-e209a586d5be"
+      ],
+      "role": "developer"
+    },
+    {
+      "id": 15,
+      "companyId": "dummy",
+      "firstName": "Ariana",
+      "lastName": "Lang",
+      "email": "b@demo.com",
+      "password": "123",
+      "bio": null,
+      "sessionIds": [
+        "4161dd47-0c22-4f42-9341-c511867790b2"
+      ],
+      "role": "submitter"
+    },
+    {
+      "id": 14,
+      "companyId": "dummy",
+      "firstName": "Aspen",
+      "lastName": "Schmitt",
+      "email": "a@demo.com",
+      "password": "123",
+      "bio": null,
+      "sessionIds": [
+        "221e6c04-c105-40af-a874-45186fc0d65e",
+        "fe520a2c-73c6-49a1-9267-b1e66de406b4",
+        "655a8b0a-b93a-4fe3-b582-32bac3b8e703",
+        "7eb3d311-7866-4e9c-8100-fe302f2c8355",
+        "7ce040d0-d732-4df2-8825-15a16bf4cf9f",
+        "a60990c2-75a6-4ca1-8e62-7b690432f621",
+        "59ed49cb-f444-4cda-9a9f-d063a3ae9126",
+        "9657c563-160e-4f73-bbf1-1e014c6fe659",
+        "7b855f8b-211e-4eba-9fdf-0d69fe287961"
+      ],
+      "role": "admin"
+    },
+    {
+      "id": 1,
+      "companyId": "dummy",
+      "firstName": "demo-user",
+      "lastName": "1",
+      "email": "demo-user-1@demo.com",
+      "password": "123",
+      "bio": null,
+      "sessionIds": [
+        "79ad0f27-c667-4f8d-ae34-ca30ae251097",
+        "1bd7cf10-d191-4109-a9b4-b8c71a38b267",
+        "4eeb27ea-7ad6-4b32-b56a-bba468cfd5ba",
+        "1ab3dcd7-8d74-470b-99c9-905b17218828",
+        "f0bb1aef-656d-4a0b-b733-04db0339fc49",
+        "015b13e2-0c53-451e-a79c-1cf46cb0cc0e"
+      ],
+      "role": "admin"
+    }
+  ],
+  "projects": [
+    {
+      "id": "10f31173-0c12-4993-8b14-1dcb4461eb02",
+      "companyId": "dummy",
+      "title": "Test",
+      "description": "This is a project meant for testing purposes",
+      "createdDate": "2024-04-18T00:00:00.000Z",
+      "dueDate": null,
+      "isArchived": true,
+      "priority": "low"
+    },
+    {
+      "id": "1",
+      "companyId": "dummy",
+      "title": "Bug Tracker",
+      "description": "An app used for creating tickets and managing projects and users working on those projects.",
+      "createdDate": "2024-01-15T15:57:00.000Z",
+      "dueDate": "2024-02-29T15:57:00.000Z",
+      "isArchived": false,
+      "priority": "high"
+    },
+    {
+      "id": "d63a7b5d-dbb4-4763-b188-953536e4b17c",
+      "companyId": "dummy",
+      "title": "Cms",
+      "description": "A content management system for creating journaling websites.",
+      "createdDate": "2024-04-15T20:03:00.000Z",
+      "dueDate": null,
+      "isArchived": false,
+      "priority": "medium"
+    },
+    {
+      "id": "89cf5428-205b-4fd2-96e0-057fd1ae4821",
+      "companyId": "dummy",
+      "title": "Smart Brain",
+      "description": "A project with its main functionality is to detect people's faces and display a border around them",
+      "createdDate": "2024-04-17T19:55:00.000Z",
+      "dueDate": "2024-10-23T19:55:00.000Z",
+      "isArchived": false,
+      "priority": "low"
+    },
+    {
+      "id": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "companyId": "dummy",
+      "title": "Summit",
+      "description": "",
+      "createdDate": "2024-06-25T20:23:00.000Z",
+      "dueDate": null,
+      "isArchived": false,
+      "priority": "high"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "4e9d0b9c-b8f0-4234-8cca-090df8a017c3",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Have a link to create tickets from the project page",
+      "createdDate": "2024-03-03T13:16:00.000Z",
+      "dueDate": null,
+      "content": "This should also set the project Id to already be set from the project it was just previously on. For an example when creating a ticket from the project with name \"A\" it should set that ticket's project Id to \"A\" in the create form by default.",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "dda65940-9253-4430-b3bb-31776035cb97",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Display warning when due date is passed current date",
+      "createdDate": "2024-03-09T04:12:00.000Z",
+      "dueDate": null,
+      "content": "This can possible display a warning when the current date is near the due date as well",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "b4601206-eed5-41a7-ae48-7920158985fb",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Allow to order by columns in ticket filter",
+      "createdDate": "2024-03-09T04:11:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-09T18:17:55.325Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:42:26.938Z"
+    },
+    {
+      "id": "25db7fce-1dc0-43cf-a255-d49bf1fc6a88",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Highlight the nav link that page is currently on",
+      "createdDate": "2024-03-10T01:17:00.000Z",
+      "dueDate": "2024-04-01T01:42:26.938Z",
+      "content": "Have the nav link in the side nav to be highlighted depending on the page its on. Remix has a component for this called NavLink which could be useful for this. Try to get the dropdowns to be highlighted depending on the current page too.",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "c5bdcca2-05d6-498d-9504-b742d72bf6ab",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Add pagination to ticket filter",
+      "createdDate": "2024-03-09T04:10:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-09T21:40:24.786Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:42:26.938Z"
+    },
+    {
+      "id": "9455cd8d-58a1-4ddd-b320-8d3ffae824c7",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Migrate completed ticket status to be closed",
+      "createdDate": "2024-03-10T17:27:00.000Z",
+      "dueDate": null,
+      "content": "Instead of the completed ticket status, have a boolean of isClosed for tickets",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-10T18:48:31.679Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-10T22:25:02.773Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-10T22:25:02.773Z"
+    },
+    {
+      "id": "1ba4f57a-0c1d-4162-b6a1-833bcdef899b",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "By default do not show completed tickets in ticket filter",
+      "createdDate": "2024-03-03T13:15:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-09T21:41:16.122Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:42:26.938Z"
+    },
+    {
+      "id": "f71a7953-3ad3-45f4-bbf6-1edc88b00997",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Improve security for sign in",
+      "createdDate": "2024-03-09T17:08:00.000Z",
+      "dueDate": null,
+      "content": "Should have a session or something similar on signing in so this can be checked and will prevent being able to sign through the url params.",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-10T01:10:24.326Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:42:26.939Z"
+    },
+    {
+      "id": "04fd6a10-63fd-427b-b7c8-a3d226e7ecd0",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Allow to set tickets as completed from ticket filter",
+      "createdDate": "2024-03-09T04:08:00.000Z",
+      "dueDate": "2024-03-18T01:42:26.938Z",
+      "content": "",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-09T18:53:21.587Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-10T23:02:33.629Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-20T04:40:29.648Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-20T04:40:29.648Z"
+    },
+    {
+      "id": "98bf54de-3269-459a-baf4-a39e1de79468",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Implement archived projects page",
+      "createdDate": "2024-03-23T00:21:00.000Z",
+      "dueDate": "2024-04-05T00:22:00.000Z",
+      "content": "Projects should have a property for isArchived and projects that have this set to true will be displayed in the archived projects page instead of the all projects page",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-23T16:25:07.767Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-24T16:10:18.688Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-24T16:10:46.665Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-24T16:11:27.762Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "development"
+        },
+        {
+          "date": "2024-03-24T16:11:29.423Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-24T16:11:29.423Z"
+    },
+    {
+      "id": "c6f05198-9310-4f2a-8837-3f6f90c4bfb2",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Improve heights for default cards",
+      "createdDate": "2024-03-20T02:15:00.000Z",
+      "dueDate": "2024-03-27T02:16:00.000Z",
+      "content": "Some heights don't match with others in the same row which makes it look weird. Cards in the same row should have the same height",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-04-03T18:54:43.734Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-04-03T20:31:49.700Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-04-03T20:32:16.972Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-03T20:32:16.972Z"
+    },
+    {
+      "id": "22ecca6e-ec45-4ff9-9ead-e4d76ebbd48c",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Remove userId param from workspace url",
+      "createdDate": "2024-03-10T01:10:00.000Z",
+      "dueDate": "2024-03-22T01:42:26.938Z",
+      "content": "This isn't needed anymore since sessions can be used for getting the user id with session id",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "c33d1d63-7a89-4526-a0bc-42e125d7b4bd",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Display popup when creating/updating data",
+      "createdDate": "2024-03-09T04:14:00.000Z",
+      "dueDate": "2024-03-17T01:42:26.938Z",
+      "content": "This can be like a popup that is displayed somewhere at the top of the screen to let the user know that the data has been successfully updated",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-03-09T15:28:16.822Z",
+          "action": {
+            "data": "medium",
+            "type": "priority"
+          },
+          "userId": 13,
+          "previousValue": "low"
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "bf175d5c-ef64-4981-b9d4-bb2f3d463a94",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Fix ticket counts disappear on priority filter",
+      "createdDate": "2024-03-15T01:13:00.000Z",
+      "dueDate": null,
+      "content": "For some reason the numbers on the priority filter buttons disappear when filtering by any priority",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-20T04:37:01.363Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-20T04:38:52.420Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-20T04:39:09.384Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-20T04:40:10.088Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-20T04:40:11.865Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-20T04:40:29.649Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-20T04:40:29.649Z"
+    },
+    {
+      "id": "721e632c-0f89-4888-9fe5-f323b4971702",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Have ticket filter options stored as search params in url",
+      "createdDate": "2024-03-10T23:11:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "6f190763-74fd-46a9-9962-4be121a3c415",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Create landing page for app",
+      "createdDate": "2024-04-06T22:21:00.000Z",
+      "dueDate": "2024-04-21T22:21:00.000Z",
+      "content": "",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-04-12T15:47:15.093Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 15,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-04-20T23:55:38.099Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-20T23:55:38.099Z"
+    },
+    {
+      "id": "bef42e43-4e3b-4b0a-8bad-e88d0b73335f",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Display tag for closed tickets and allow to display closed tickets in ticket filter",
+      "createdDate": "2024-03-10T19:21:00.000Z",
+      "dueDate": null,
+      "content": "In ticket filter display a tag next to the title to show that it is closed",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-03-10T22:29:59.982Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-14T01:52:14.309Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-14T01:52:14.309Z"
+    },
+    {
+      "id": "e243bb86-5f23-4036-8668-6065436f11bc",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Fix signout",
+      "createdDate": "2024-03-21T00:40:00.000Z",
+      "dueDate": "2024-04-07T00:40:00.000Z",
+      "content": "Signing out from the workspace top nav bar should bring user to the login page AND destroy the session",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-04-02T17:39:48.133Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-04-02T17:39:51.847Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-02T17:39:51.847Z"
+    },
+    {
+      "id": "1cc52d2a-4203-40c8-9ec6-2e71010ea72d",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Add closedDate property for tickets",
+      "createdDate": "2024-03-15T00:41:00.000Z",
+      "dueDate": null,
+      "content": "When tickets are closed, this will set the closedDate",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-15T01:01:38.546Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-15T01:01:40.376Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:01:40.376Z"
+    },
+    {
+      "id": "3ea7f039-4efd-42f1-a955-c546f8c84a6d",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Display charts with stats in project details page",
+      "createdDate": "2024-03-03T13:05:00.000Z",
+      "dueDate": null,
+      "content": "Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority\n- A line chart to display the amount of tickets closed each day throughout the last 7 or 14 days",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-03T18:12:12.720Z",
+          "action": {
+            "data": 1,
+            "type": "assignUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-03T18:14:50.146Z",
+          "action": {
+            "data": "high",
+            "type": "priority"
+          },
+          "userId": 1,
+          "previousValue": "low"
+        },
+        {
+          "date": "2024-03-09T04:12:09.234Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-10T19:29:33.511Z",
+          "action": {
+            "data": "Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority",
+            "type": "content"
+          },
+          "userId": 13,
+          "previousValue": "Have some charts that display:\r\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets"
+        },
+        {
+          "date": "2024-03-15T01:07:50.640Z",
+          "action": {
+            "data": "Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority\n- A line chart to display the amount of tickets closed each day throughout the last 7 or 14 days",
+            "type": "content"
+          },
+          "userId": 13,
+          "previousValue": "Have some charts that display:\n- A donut chart to display amount of total open tickets and tickets for each priority level and possibly another for status of tickets\n- Another donut chart for displaying total open tickets but instead for ticket statuses instead of priority"
+        },
+        {
+          "date": "2024-03-16T05:08:06.303Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "development"
+        },
+        {
+          "date": "2024-03-16T05:08:08.277Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-16T05:08:08.277Z"
+    },
+    {
+      "id": "0d20b5a5-d9e3-4374-ae00-fa2669dd8945",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Allow to close tickets in ticket page",
+      "createdDate": "2024-03-10T19:22:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-03-10T19:40:53.629Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": false
+        },
+        {
+          "date": "2024-03-10T19:46:48.542Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": true
+        },
+        {
+          "date": "2024-03-10T19:46:52.834Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": false
+        },
+        {
+          "date": "2024-03-10T19:47:04.807Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": true
+        },
+        {
+          "date": "2024-03-10T19:48:34.274Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": false
+        },
+        {
+          "date": "2024-03-10T19:50:10.017Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-10T19:50:11.800Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-10T19:51:34.312Z",
+          "action": {
+            "data": 13,
+            "type": "assignUser"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-10T20:38:22.133Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-10T20:38:22.984Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-10T20:49:33.930Z",
+          "action": {
+            "data": false,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-10T20:49:34.491Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-10T20:49:34.491Z"
+    },
+    {
+      "id": "1",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Fix error when opening create ticket page when no projects are available.",
+      "createdDate": "2024-01-15T20:58:00.000Z",
+      "dueDate": "2024-01-15T22:00:00.000Z",
+      "content": "When opening the create ticket page when there are no projects, it would throw an error of getting undefined when accessing id.",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-03T18:14:12.563Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:42:26.939Z"
+    },
+    {
+      "id": "2bf8b5fa-59fb-45b7-b87a-740d54bf408d",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Display a footer in the workspace layout",
+      "createdDate": "2024-03-03T13:58:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-03-09T03:35:40.001Z",
+          "action": {
+            "data": "completed",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-03-15T01:42:26.939Z"
+    },
+    {
+      "id": "ab0eaa75-e1c7-4805-980f-33c1c9780b55",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Display icons to default cards",
+      "createdDate": "2024-03-20T02:28:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "4645ffa0-0bce-4b71-b97f-4700be86bb3f",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Make it so closed tickets can't be checked in ticket filter",
+      "createdDate": "2024-03-20T04:41:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "38dc6d82-c2cd-40d5-ab48-95f4c0b95aba",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Fix tickets not updating state when closing them from ticket filter",
+      "createdDate": "2024-03-20T04:42:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-04-03T21:06:51.846Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 13,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-03T21:06:51.846Z"
+    },
+    {
+      "id": "ac672d7d-c843-4812-95a0-3fdfc17a8260",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Add eslint options to improve code",
+      "createdDate": "2024-04-03T20:22:00.000Z",
+      "dueDate": null,
+      "content": "Add options so:\r\n- semi colons for every line possible\r\n- leading commas in object fields",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-04-05T02:06:55.002Z",
+          "action": {
+            "data": 13,
+            "type": "assignUser"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "d82ed106-7130-45bb-9fef-20151f65c976",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Improve label names in dashboard bar chart",
+      "createdDate": "2024-03-20T02:16:00.000Z",
+      "dueDate": "2024-03-27T02:17:00.000Z",
+      "content": "In the dashboard the bar chart labels are in camel case which should be changed to be more readable ",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-05-07T23:26:39.272Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-05-07T23:26:39.272Z"
+    },
+    {
+      "id": "6fdb6b51-d523-482d-bb83-3a103fcc2a94",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Display visual indicator for empty lists",
+      "createdDate": "2024-03-20T02:30:00.000Z",
+      "dueDate": null,
+      "content": "When there is nothing from a list, it can show something that would tell the user nothing was found so it won't just look like an empty page. Places that would need to show this:\r\n- Project list (All Projects)\r\n- Ticket list (All Tickets)",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-05-07T23:26:43.912Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-05-07T23:26:43.912Z"
+    },
+    {
+      "id": "c766b36b-fe2d-43e5-9b15-d1a258655eba",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Display charts and other stats in dashboard",
+      "createdDate": "2024-03-11T23:17:00.000Z",
+      "dueDate": null,
+      "content": "Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date\n- A card to display total of open tickets not assigned to any users",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-03-16T16:48:15.203Z",
+          "action": {
+            "data": "Display charts and other stats in dashboard",
+            "type": "title"
+          },
+          "userId": 13,
+          "previousValue": "Display charts with stats in dashboard"
+        },
+        {
+          "date": "2024-03-16T17:12:11.572Z",
+          "action": {
+            "data": "Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date",
+            "type": "content"
+          },
+          "userId": 13,
+          "previousValue": "Charts to have:\r\n- A pie chart for all open tickets by priority\r\n- A pie chart for all open tickets by ticket status\r\n- A bar graph to display users to open tickets ratio per project"
+        },
+        {
+          "date": "2024-03-16T17:19:55.357Z",
+          "action": {
+            "data": "Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date\n- A card to display total of open tickets not assigned to any users",
+            "type": "content"
+          },
+          "userId": 13,
+          "previousValue": "Charts to have:\n- A pie chart for all open tickets by priority\n- A pie chart for all open tickets by ticket status\n- A bar graph to display users to open tickets ratio per project\nOther data to include:\n- A list of all users\n- A card to display total of open tickets\n- A card to display open tickets near due date"
+        },
+        {
+          "date": "2024-03-16T17:29:12.735Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-04-10T03:59:54.500Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-10T03:59:54.500Z"
+    },
+    {
+      "id": "0dd439a3-cdcb-4b6b-8a0a-2097d625a086",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Make pages responsive",
+      "createdDate": "2024-03-23T00:23:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "reviewed",
+      "history": [
+        {
+          "date": "2024-04-05T03:04:25.776Z",
+          "action": {
+            "data": "reviewed",
+            "type": "status"
+          },
+          "userId": 14,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-04-05T03:04:28.815Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-05T03:04:28.815Z"
+    },
+    {
+      "id": "a4ea79ba-7040-4ea1-be42-3c57d65ac30a",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Display visual indicators for async loading",
+      "createdDate": "2024-04-05T03:06:00.000Z",
+      "dueDate": "2024-04-21T03:08:00.000Z",
+      "content": "On form submits, or other areas that load async should show a visual indicator/disable buttons when necessary",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "76846f8a-903e-4d22-a81d-07c15e49811b",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Implement role functionality for users",
+      "createdDate": "2024-03-09T18:36:00.000Z",
+      "dueDate": "2024-03-20T01:42:26.938Z",
+      "content": "Roles should remove/add features to users depending on the current role they have like for an example, a developer shouldn't be able to create users but an admin should be able to create users.\n\nAlso make sure for these pages that it should redirect user to dashboard or display an error message when they shouldn't be able to access this page:\n- Create user\n- Member roles\n- Create Project\n- Archived Projects\n- Project page (if user is not assigned to the project)",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-03-21T01:49:03.952Z",
+          "action": {
+            "data": 16,
+            "type": "assignUser"
+          },
+          "userId": 16,
+          "previousValue": null
+        },
+        {
+          "date": "2024-03-21T01:49:11.228Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 16,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-03-21T01:51:58.917Z",
+          "action": {
+            "data": "Roles should remove/add features to users depending on the current role they have like for an example, a developer shouldn't be able to create users but an admin should be able to create users.\n\nAlso make sure for these pages that it should redirect user to dashboard or display an error message when they shouldn't be able to access this page:\n- Create user\n- Member roles\n- Create Project\n- Archived Projects\n- Project page (if user is not assigned to the project)",
+            "type": "content"
+          },
+          "userId": 16,
+          "previousValue": "Roles should remove/add features to users depending on the current role they have like for an example, a developer shouldn't be able to create users but an admin should be able to create users."
+        },
+        {
+          "date": "2024-04-06T22:18:24.579Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-06T22:18:24.579Z"
+    },
+    {
+      "id": "2f21e0fd-b03b-465a-bc24-ecd1bf2cd321",
+      "projectId": "1",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Create page for signing into demo users",
+      "createdDate": "2024-04-12T15:44:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-04-12T15:45:26.670Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 15,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-12T15:45:26.670Z"
+    },
+    {
+      "id": "1b4cf177-a934-4444-afc8-58f2a74a9afd",
+      "projectId": "d63a7b5d-dbb4-4763-b188-953536e4b17c",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Implement news like theme website",
+      "createdDate": "2024-04-16T00:05:00.000Z",
+      "dueDate": "2024-06-12T00:17:00.000Z",
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "07ae73c0-174f-40f7-8e6b-c1bec0ddf374",
+      "projectId": "d63a7b5d-dbb4-4763-b188-953536e4b17c",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Create website selector input",
+      "createdDate": "2024-04-17T02:31:00.000Z",
+      "dueDate": "2024-06-14T02:31:00.000Z",
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "5e0c1635-0153-4393-baa7-0ba4c350627d",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Create page for searching and filtering articles",
+      "createdDate": "2024-04-17T02:32:00.000Z",
+      "dueDate": "2024-08-25T02:32:00.000Z",
+      "content": "",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-04-17T02:32:48.034Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-17T02:32:48.034Z"
+    },
+    {
+      "id": "6304dc8d-3922-4a1e-a9ff-963148bfe890",
+      "projectId": "d63a7b5d-dbb4-4763-b188-953536e4b17c",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Create page for searching and filtering articles",
+      "createdDate": "2024-04-17T02:32:00.000Z",
+      "dueDate": "2024-06-13T02:32:00.000Z",
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "2e093413-b742-416d-8348-9a8dcc2fed64",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Fix ui in website template",
+      "createdDate": "2024-04-17T02:33:00.000Z",
+      "dueDate": "2024-05-31T02:34:00.000Z",
+      "content": "Text and other elements appear to be broken in article pages",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-04-17T02:34:22.557Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-04-17T02:34:22.557Z"
+    },
+    {
+      "id": "481a23d9-ef95-4bef-9b63-c257c2aed0b8",
+      "projectId": "d63a7b5d-dbb4-4763-b188-953536e4b17c",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Fix ui in website template",
+      "createdDate": "2024-04-17T02:34:00.000Z",
+      "dueDate": "2024-05-24T02:34:00.000Z",
+      "content": "Text and other elements appear to be broken in article pages",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "6ecc1eea-c918-4b38-987c-31a20e8af195",
+      "projectId": "d63a7b5d-dbb4-4763-b188-953536e4b17c",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Create page for displaying website information",
+      "createdDate": "2024-04-17T02:34:00.000Z",
+      "dueDate": "2024-05-23T02:37:00.000Z",
+      "content": "This should show the important data for websites and progress publishing in here",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "3e75619a-de32-4467-a3a4-8f64f80b392d",
+      "projectId": "89cf5428-205b-4fd2-96e0-057fd1ae4821",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Implement face detection api",
+      "createdDate": "2024-04-17T23:57:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "6ebf0c8d-843c-4f55-9c41-387607902a5c",
+      "projectId": "89cf5428-205b-4fd2-96e0-057fd1ae4821",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Improve ui responsiveness",
+      "createdDate": "2024-04-17T23:57:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "2e0aea68-62ca-4519-9b92-7fd11088c0c7",
+      "projectId": "89cf5428-205b-4fd2-96e0-057fd1ae4821",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Allow to create account in home page",
+      "createdDate": "2024-04-17T23:57:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "0d3b0ec7-1823-4032-b99e-a73cdb6d3080",
+      "projectId": "89cf5428-205b-4fd2-96e0-057fd1ae4821",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Save past detected faces with image into user account",
+      "createdDate": "2024-04-17T23:58:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "13a24340-4e9a-4b0e-9e7d-30eb55c85326",
+      "projectId": "1",
+      "priority": "low",
+      "companyId": "dummy",
+      "title": "Change icons for side nav links",
+      "createdDate": "2024-03-10T01:14:00.000Z",
+      "dueDate": null,
+      "content": "All the icons in the side nav bar are the same when that same icon should only be used for the Dashboard while the rest of the dropdown texts should have their own icon",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-03-14T02:00:36.687Z",
+          "action": {
+            "data": "testing",
+            "type": "status"
+          },
+          "userId": 13,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-04-12T15:47:27.183Z",
+          "action": {
+            "data": "new",
+            "type": "status"
+          },
+          "userId": 15,
+          "previousValue": "testing"
+        },
+        {
+          "date": "2024-05-19T20:12:44.894Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 14,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-05-19T20:12:44.894Z"
+    },
+    {
+      "id": "819aefb3-c95a-4788-8d14-79767dd92f6c",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Decrease fall speed when sliding down a wall",
+      "createdDate": "2024-06-25T20:25:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-06-26T00:29:57.995Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-06-26T00:29:57.995Z"
+    },
+    {
+      "id": "283fde58-d43b-4528-b98a-2f83da2e6d54",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Prevent knockback on player when bonking",
+      "createdDate": "2024-06-25T20:30:00.000Z",
+      "dueDate": null,
+      "content": "When player dashes or jumps into a wall, they get knocked back which prevents them from dashing into and climbing on a wall consecutively.",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-06-26T00:32:47.825Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-06-26T00:32:47.825Z"
+    },
+    {
+      "id": "b1e92f4a-accd-4edc-89a3-1cf5bd475bf6",
+      "projectId": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Prevent knockback on player when bonking",
+      "createdDate": "2024-06-25T20:32:00.000Z",
+      "dueDate": null,
+      "content": "When player dashes or jumps into a wall, they get knocked back which prevents them from dashing into and climbing on a wall consecutively.",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-06-27T23:32:05.363Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-06-27T23:32:05.363Z"
+    },
+    {
+      "id": "78decbea-e24a-4ebc-9058-84e078c42f5c",
+      "projectId": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Decrease fall speed when sliding down a wall",
+      "createdDate": "2024-06-25T20:30:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-06-29T20:01:59.938Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "1682b707-f46b-43c3-9f14-6ab675b6da56",
+      "projectId": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "priority": "medium",
+      "companyId": "dummy",
+      "title": "Make wall sliding and climbing be determined based on moving direction instead of player looking direction",
+      "createdDate": "2024-06-25T20:24:00.000Z",
+      "dueDate": null,
+      "content": "This can also be done using both movement and looking direction, like if there is no movement input then use look direction.",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-06-29T20:03:54.766Z",
+          "action": {
+            "data": "This can also be done using both movement and looking direction, like if there is no movement input then use look direction.",
+            "type": "content"
+          },
+          "userId": 1,
+          "previousValue": ""
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "8d956fe7-288c-4fec-b40b-f7f396344f88",
+      "projectId": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Add dash crystal",
+      "createdDate": "2024-06-29T15:59:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-06-29T20:02:04.595Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "new"
+        },
+        {
+          "date": "2024-06-29T20:09:45.226Z",
+          "action": {
+            "data": 1,
+            "type": "assignUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-06-29T20:10:04.984Z",
+          "action": {
+            "data": 1,
+            "type": "removeUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "0cb404c1-acbe-4bfa-940c-2b15b65dcf33",
+      "projectId": "1",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Add traffic block",
+      "createdDate": "2024-06-29T16:04:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-06-29T20:04:31.701Z",
+          "action": {
+            "data": 15,
+            "type": "assignUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-06-29T20:04:34.713Z",
+          "action": {
+            "data": 15,
+            "type": "removeUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-06-29T20:04:36.052Z",
+          "action": {
+            "data": 13,
+            "type": "assignUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-06-29T20:04:40.319Z",
+          "action": {
+            "data": true,
+            "type": "isClosed"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": true,
+      "closedDate": "2024-06-29T20:04:40.319Z"
+    },
+    {
+      "id": "c6a4a279-dc89-413b-a77d-02c30db9f697",
+      "projectId": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Add traffic block",
+      "createdDate": "2024-06-29T16:04:00.000Z",
+      "dueDate": null,
+      "content": "",
+      "status": "development",
+      "history": [
+        {
+          "date": "2024-06-29T20:05:14.092Z",
+          "action": {
+            "data": "development",
+            "type": "status"
+          },
+          "userId": 1,
+          "previousValue": "new"
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    },
+    {
+      "id": "614ced03-a926-4855-a926-5db6a7993a42",
+      "projectId": "b9a7b40f-4c35-4644-9019-d5b3cce79404",
+      "priority": "high",
+      "companyId": "dummy",
+      "title": "Improve wall jumping",
+      "createdDate": "2024-06-29T16:41:00.000Z",
+      "dueDate": null,
+      "content": "This should improve both jumping off a wall and when jumping while climbing. Jumping off a wall doesn't give much horizontal distance and jumping while climbing doesn't work as expected and sometimes gets stuck on the wall",
+      "status": "new",
+      "history": [
+        {
+          "date": "2024-06-29T20:42:55.756Z",
+          "action": {
+            "data": 16,
+            "type": "assignUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        },
+        {
+          "date": "2024-06-29T20:42:56.273Z",
+          "action": {
+            "data": 13,
+            "type": "assignUser"
+          },
+          "userId": 1,
+          "previousValue": null
+        }
+      ],
+      "comments": [],
+      "isClosed": false,
+      "closedDate": null
+    }
+  ]
+}
